@@ -89,7 +89,9 @@ module.exports = async function getProperty(IDs) {
 			await page.close()
 
 			console.log(`${i} of ${ids.length} finished! ${ids.length - (i + 1)} properties to go.`)
-			arr.push({ id: ids[i], ...propertyInfo })
+			const urlMap = `https://propaccess.trueautomation.com/mapSearch/?cid=71&p=${ids[i]}`
+
+			arr.push({ id: ids[i], ...propertyInfo, url, urlMap })
 		} // end for loop
 		return arr
 	} // end function.
