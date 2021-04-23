@@ -1,28 +1,32 @@
 const initModel = {
-	model: "model preview",
+	cards: [],
 	owners: [
 		{
-			id: '139122',
-			address: '710',
-			deed: 'ATTN:  GARY EARLS',
-			name: 'HOODS DONE RIGHT',
-			mailingAddress: 'ATTN:  GARY EARLS',
-			city: 'LUFKIN',
-			state: 'TX',
+			id: '23645',
+			name: 'COOK STACY RANDALL',
+			deed: 'COOK STACY RANDALL',
+			address: '1071 BOX CAR RD',
 			zip: '75904',
-			ownership: '100.0000000000%'
+			state: 'TX',
+			city: 'LUFKIN',
+			mailingAddress: '1071 BOX CAR RD',
+			ownership: '100.0000000000%',
+			url: 'https://propaccess.trueautomation.com/clientdb/Property.aspx?cid=71&prop_id=23645&year=2020',
+			urlMap: 'https://propaccess.trueautomation.com/mapSearch/?cid=71&p=23645'
 		},
 		{
-			id: '23596',
-			address: '710',
-			deed: 'Bobby GARY EARLS',
-			name: 'Bobby GARY EARLS',
-			mailingAddress: '1234 Jury Lane',
-			city: 'LUFKIN',
-			state: 'TX',
+			id: '23651',
+			name: 'MAYO DON ETUX LINDA',
+			deed: 'RAY JESSE J ETAL',
+			address: '1031 BOX CAR RD',
 			zip: '75904',
-			ownership: '100.0000000000%'
-		},
+			state: 'TX',
+			city: 'LUFKIN',
+			mailingAddress: '1031 BOX CAR RD',
+			ownership: '100.0000000000%',
+			url: 'https://propaccess.trueautomation.com/clientdb/Property.aspx?cid=71&prop_id=23651&year=2020',
+			urlMap: 'https://propaccess.trueautomation.com/mapSearch/?cid=71&p=23651'
+		}
 	],
 }
 

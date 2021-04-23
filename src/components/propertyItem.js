@@ -96,6 +96,9 @@ module.exports = async function getProperty(IDs) {
 		return arr
 	} // end function.
 
+	const IDTest = [
+		'18782', '23643', '23645', '23651'
+	]
 	try {
 		return await getPage(IDs)
 	} catch (e) {
