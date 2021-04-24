@@ -1,4 +1,5 @@
 const initModel = {
+	road: '',
 	cards: [],
 	owners: [
 		{
