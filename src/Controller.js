@@ -1,20 +1,14 @@
 const MSG = {
-	CARD: "CARD",
+	ROAD: "ROAD",
 }
 
-export function newCard(cardData) {
-	return {
-		type: MSG.CARD,
-		cardData,
-	}
-}
+export function getRoad(road) {return {type: MSG.ROAD,	road,}}
 
 function update(msg, model) {
 	switch (msg.type) {
-		case MSG.CARD: {
-			const {
-				cardData: { id, question, answer, score },
-			} = msg
+		case MSG.ROAD: {
+			const { road } = msg
+			console.log(road)
 			return { ...model }
 		}
 	}

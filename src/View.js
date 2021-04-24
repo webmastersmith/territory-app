@@ -1,21 +1,23 @@
 import hh from "hyperscript-helpers"
 import { h } from "virtual-dom"
-import './styles/index.css'
-// import { showFormMsg } from "./Controller"
-
 const { pre, div, h1, p } = hh(h)
+import './styles/index.css'
+import Card from './components/Card'
+import InputBox from './components/InputBox'
 
-
-
-
+// import { showFormMsg } from "./Controller"
 
 
 
 // total page view
 function view(dispatch, model) {
-	return div({ className: `bg-blue-200 h-100%` }, [
-		h1({ className: `` }, 'hello world!'),
-		p({ className: `bg-red-100` }, 'hello vite'),
+	const d = dispatch
+	const m = model
+	return div({ className: `h-100% pt-10` }, [
+		h1({ className: `text-3xl font-bold border-b-2 border-black` },
+			'Angelina County Territory Address Finder'),
+		InputBox(d,m),
+		Card(d, m),
 		pre(JSON.stringify(model, null, 2))
 	])
 }
