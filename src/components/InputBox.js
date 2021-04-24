@@ -13,8 +13,10 @@ export default function InputBox(d, m) {
 				className: `border-black border block rounded-lg w-100 p-2`,
 				type: 'text'
 			}),
-			button({className: `${btnCSS('bg-blue-500', 'bg-blue-600', 'text-white')}`}, 'find')
-			
+			button({
+				className: `${btnCSS('bg-blue-500', 'bg-blue-600', 'text-white')}`,
+				type='submit'
+			}, 'find')			
 		])
 	])
 }
