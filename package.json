@@ -9,14 +9,14 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.2.5",
+    "hyperscript": "^2.0.2",
+    "hyperscript-helpers": "^3.0.3",
     "postcss": "^8.2.10",
     "tailwindcss": "^2.1.1",
     "virtual-dom": "^2.1.1",
     "vite": "^2.1.5"
   },
   "dependencies": {
-    "hyperscript": "^2.0.2",
-    "hyperscript-helpers": "^3.0.3",
     "puppeteer": "^8.0.0",
     "ramda": "^0.27.1"
   }

@@ -1,6 +1,6 @@
 import hh from "hyperscript-helpers"
 import { h } from "virtual-dom"
-const { pre, div, h1, p } = hh(h)
+const { div, h1, p } = hh(h)
 
 
 export default function card(d, m) {
