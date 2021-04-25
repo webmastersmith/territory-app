@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const R = require('ramda')
-const fs = require('fs')
+// const fs = require('fs')
 
 module.exports = async function propertySearch(roadName) {
 	const resolution = {

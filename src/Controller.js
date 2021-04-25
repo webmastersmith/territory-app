@@ -1,3 +1,5 @@
+// import propertySearch from './components/propertyList'
+
 const MSG = {
 	ROAD: "ROAD",
 	ROAD_ID: "ROAD_ID",
@@ -15,7 +17,7 @@ function update(msg, model) {
 		}
 		case MSG.ROAD_ID: {
 			const { roadName } = msg
-			console.log(roadName)
+			// console.log(propertySearch(roadName))
 			return { ...model }
 		}
 	}
