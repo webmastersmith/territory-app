@@ -1,6 +1,8 @@
 const initModel = {
 	road: '',
 	cards: [],
+	key: '',
+	roadIds: [],
 	owners: [
 		{
 			id: '23645',
