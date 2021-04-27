@@ -1,7 +1,7 @@
 const initModel = {
-	road: '',
+	road: 'box car rd',
 	cards: [],
-	key: '',
+	key: import.meta.env.VITE_KEY,
 	roadIds: [],
 	owners: [
 		{

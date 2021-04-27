@@ -24,12 +24,20 @@ function update(msg, model) {
 		}
 		case MSG.ROAD_ID: {
 			const { roadName } = msg
-			fetch('http://localhost:5500', {
+			fetch(`http://localhost:5500/${model.key}`, {
 				method: 'POST',
-				
+				body: JSON.stringify({road: roadName}),
+				headers: { "Content-Type": "application/json"}
+			})
+			.then(response => response.json())
+			.then(roadIds => {
+				console.log('roadids', roadIds);
+				return { ...model, roadIds }
+			})
+			.catch(err => {
+				console.log('Controller Error!!!!!!!!!', err);
 			})
 			// console.log(roadName)
-			return { ...model }
 		}
 	}
 	return model
