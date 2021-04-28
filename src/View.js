@@ -16,7 +16,7 @@ function view(dispatch, model) {
 			h1({ className: `text-3xl font-bold` },
 				'Angelina County Territory Finder'),
 			input({
-				className: `w-52 border-2 border-black ml-auto rounded-md px-2 border-collapse `,
+				className: `w-52 border-2 border-green-500 mb-1 ml-auto rounded-md px-2 border-collapse `,
 				type: 'text',
 				value: m.key,
 				oninput: (e) => d(updateKey(e.target.value))
