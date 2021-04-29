@@ -15,7 +15,7 @@ function roadListUrl(key) {
 	return `http://localhost:5500/${key}`
 }
 function roadItemUrl(key) {
-	return `http://localhost:5500/lot/${key}`
+	return `http://localhost:5500/lots/${key}`
 }
 // submit button on road name.
 export const getRoadList = { type: MSG.ROAD_LIST }

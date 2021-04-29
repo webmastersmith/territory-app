@@ -7,8 +7,22 @@ const initModel = {
 	roadIds: [],
 	owners: [
 		{
+			landId: '23643',
+			ownerId: '1173',
+			name: 'LAMBERT SCOTT A ETUX RHONDA',
+			deed: 'LAMBERT SCOTT A ETUX RHONDA',
+			address: '1141 BOX CAR RD',
+			zip: '75904',
+			state: 'TX',
+			city: 'LUFKIN',
+			mailingAddress: '1141 BOX CAR RD',
+			ownership: '100.0000000000%',
+			urlOwnerDetails: 'https://propaccess.trueautomation.com/clientdb/Property.aspx?cid=71&prop_id=23643&year=2020',
+			urlLandMap: 'https://propaccess.trueautomation.com/mapSearch/?cid=71&p=23643'
+		  },
+		  {
 			landId: '23645',
-			ownerId: '185670',
+			ownerId: '31362',
 			name: 'COOK STACY RANDALL',
 			deed: 'COOK STACY RANDALL',
 			address: '1071 BOX CAR RD',
@@ -17,24 +31,9 @@ const initModel = {
 			city: 'LUFKIN',
 			mailingAddress: '1071 BOX CAR RD',
 			ownership: '100.0000000000%',
-			url: 'https://propaccess.trueautomation.com/clientdb/Property.aspx?cid=71&prop_id=23645&year=2020',
-			urlMap: 'https://propaccess.trueautomation.com/mapSearch/?cid=71&p=23645'
-		},
-		{
-			landId: '23651',
-			ownerId: '185634',
-			name: 'MAYO DON ETUX LINDA',
-			deed: 'RAY JESSE J ETAL',
-			address: '1031 BOX CAR RD',
-			zip: '75904',
-			state: 'TX',
-			city: 'LUFKIN',
-			mailingAddress: '1031 BOX CAR RD',
-			ownership: '100.0000000000%',
-			url: 'https://propaccess.trueautomation.com/clientdb/Property.aspx?cid=71&prop_id=23651&year=2020',
-			urlMap: 'https://propaccess.trueautomation.com/mapSearch/?cid=71&p=23651'
-		}
-	],
+			urlOwnerDetails: 'https://propaccess.trueautomation.com/clientdb/Property.aspx?cid=71&prop_id=23645&year=2020',
+			urlLandMap: 'https://propaccess.trueautomation.com/mapSearch/?cid=71&p=23645'
+		  }	],
 }
 
 export default initModel
