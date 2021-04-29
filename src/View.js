@@ -5,11 +5,11 @@ import Card from './components/Card'
 import InputBox from './components/InputBox'
 import {updateKey} from './Controller'
 
-const { pre, div, h1, span, input } = hh(h)
+const { pre, div, p, h1, span, input } = hh(h)
 
 function error(dispatch, model) { if (!model.error) {  return null;  }
-	  return div({ className: 'p-2 mx-2 bg-red-500 text-white' }, [
-	    model.error, 
+	  return div({ className: 'p-2 mx-2 bg-red-500' }, [
+	    p({className: `text-white text-xl`}, model.error) 
  	  ]);
 }
 
