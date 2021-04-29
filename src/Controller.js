@@ -80,7 +80,7 @@ function update(msg, model) {
 		case MSG.HTTP_SUCCESS_ITEM: {
 			const { response } = msg
 			const owner = response.data
-			const owners = R.append(owner, model.owners)
+			const owners = [ ...model.owners, ...owner ]
 			return { ...model, waiting: false, owners }
 		}
 		case MSG.HTTP_ERROR: {

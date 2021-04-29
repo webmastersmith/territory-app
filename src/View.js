@@ -16,8 +16,6 @@ function error(dispatch, model) { if (!model.error) {  return null;  }
 
 // total page view
 function view(dispatch, model) {
-	const d = dispatch
-	const m = model
 	return div({ className: `h-100% pt-10` }, [
 		div({className: `flex border-b-2 border-black`}, [
 			h1({ className: `text-3xl font-bold` },
@@ -25,13 +23,13 @@ function view(dispatch, model) {
 			input({
 				className: `w-52 border-2 border-green-500 mb-1 ml-auto rounded-md px-2 border-collapse `,
 				type: 'text',
-				value: m.key,
+				value: model.key,
 				oninput: (e) => d(updateKey(e.target.value))
 			},)
 		]),
-		InputBox(d,m),
-		error(d,m),
-		Card(d, m),
+		InputBox(dispatch, model),
+		error(dispatch, model),
+		Card(dispatch, model,  model.owner),
 		pre(JSON.stringify(model, null, 2))
 	])
 }
