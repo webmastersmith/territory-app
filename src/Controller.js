@@ -55,7 +55,7 @@ function update(msg, model) {
 						method: 'post'
 					},
 					successMsg: httpSuccessListMsg(model.road),
-					errorMsg: httpErrorMsg(model.error)
+					errorMsg: httpErrorMsg
 				}
 			]
 		}
@@ -69,7 +69,7 @@ function update(msg, model) {
 						method: 'post'
 					},
 					successMsg: httpSuccessItemMsg,
-					errorMsg: httpErrorMsg(model.error)
+					errorMsg: httpErrorMsg
 				}
 			]
 		}
@@ -85,7 +85,6 @@ function update(msg, model) {
 		}
 		case MSG.HTTP_ERROR: {
 			const { error } = msg
-			console.log('error msg', error)
 			return {...model, waiting: false, error}
 		}
 		case MSG.CLEAR_ERROR: {

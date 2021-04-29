@@ -28,8 +28,20 @@ function app(initModel, update, view, node) {
 
 function httpEffects(dispatch, command) {
 	if (command === null) { return; }
-	const { request, successMsg } = command;
-	axios(request).then(response => dispatch(successMsg(response)));
+	
+	const { request, successMsg, errorMsg } = command;	
+	axios(request)
+		.then(response => dispatch(successMsg(response)))
+		.catch(err => {
+			if (err.response) {
+				// console.log(`axios response error: ${err.response.data} ${err.response.status} ${JSON.stringify(err.response.headers)}`);
+				dispatch(errorMsg(err.response.data))
+			} else if (err.request) {
+				console.log('axios request error', err);
+				dispatch(errorMsg(err))
+			}
+		})
+		
 }
 
 export default app

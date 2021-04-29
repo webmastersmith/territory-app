@@ -7,6 +7,13 @@ import {updateKey} from './Controller'
 
 const { pre, div, h1, span, input } = hh(h)
 
+function error(dispatch, model) { if (!model.error) {  return null;  }
+	  return div({ className: 'p-2 mx-2 bg-red-500 text-white' }, [
+	    model.error, 
+ 	  ]);
+}
+
+
 // total page view
 function view(dispatch, model) {
 	const d = dispatch
@@ -23,6 +30,7 @@ function view(dispatch, model) {
 			},)
 		]),
 		InputBox(d,m),
+		error(d,m),
 		Card(d, m),
 		pre(JSON.stringify(model, null, 2))
 	])
