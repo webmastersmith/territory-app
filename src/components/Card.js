@@ -6,33 +6,43 @@ import deedSVG from '../images/deed.svg'
 import handSVG from '../images/hand.svg'
 import checkMarkGreenSVG from '../images/checkmark-green.svg'
 import addressSVG from '../images/address.svg'
+import addressBlackSVG from '../images/address-black.svg'
 import homeSVG from '../images/home.svg'
-const { div, h1, p, img, span, object } = hh(h)
+import homeBlackSVG from '../images/home-black.svg'
+import { btnCSS } from './Button'
+import spinner from './spinner'
+const { div, p, img, span, button, a, href} = hh(h)
 
 
 export default function card(dispatch, model, owner) {
-	return div({ className: `relative bg-white py-6 px-6 rounded-3xl my-16 shadow-xl max-w-max` }, [
+    return div({ className: `relative bg-white py-6 px-6 rounded-3xl my-16 shadow-xl max-w-max` }, [
+        // modal
+        div({className: `bg-gray-300 justify-center items-center w-100 h-100 z-10 absolute left-0 top-0 rounded-xl opacity-60 ${owner.waiting ? 'flex' : 'hidden'}`}, [
+            spinner('blue'),
+        ]),
 		// top circle img
 		div({className: `text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-green-500 left-4 -top-6`}, [
 			img({
 				className: `w-6 h-6 fill-current`,
 				src: checkMarkSVG,
-		}), // end img svg
+		    }), // end img svg
 		]), // end img div
+        // closing x
+        button({className: `text-2xl font-bold text-red-500 absolute -top-4 -right-0`}, 'x'),
 		
 		// main content div
 		div({className: `mt-8`},[
 			// name
 			div({className: `has-tooltip relative flex space-x-4 space-x-reverse`}, [
-				span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-12`}, 'Last Name, First Name, Spouse'),
+				span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-16`}, 'Last Name, First Name, Spouse'),
 				img({className: `w-8 h-8`, src: personSVG},),
 				p({className: `text-xl font-semibold relative top-1 whitespace-nowrap`}, owner.name),
 			]),
 			// deed
 			div({className: `flex space-x-4 space-x-reverse my-4 has-tooltip relative`}, [
-                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-12`}, `Deed. ${owner.name} owns ${parseInt(owner.ownership)}% of this property.`),
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `Deed. ${owner.name} owns ${parseInt(owner.ownership)}% of this property.`),
 				img({className: `w-8 h-6`, src: deedSVG},),
-				p({className: `flex-grow flex-shrink-0`}, [
+				p({className: `flex-grow flex-shrink-0 text-gray-500`}, [
                     owner.deed,
 					span({className: `text-green-500 ml-4`}, `${parseInt(owner.ownership)}%`)
 				]),
@@ -40,24 +50,47 @@ export default function card(dispatch, model, owner) {
 			]),
             // Physical Address
 			div({className: `flex space-x-4 space-x-reverse my-4 has-tooltip relative`}, [
-                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-12`}, `Physical address of the property.`),
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-16`}, `Physical address of the property.`),
 				img({className: `w-8 h-6`, src: addressSVG},),
-				p({className: `flex-grow flex-shrink-0`}, [
-                    owner.address,
-                    span({className: `text-sm ml-4 uppercase italic`},`${owner.city} ${owner.state} ${owner.zip}`)
+				p({className: `flex-grow flex-shrink-0 text-gray-500`}, [
+                    owner.physicalAddress,
+                    span({className: `text-sm ml-4 uppercase italic text-gray-400`},`${owner.physicalCity} ${owner.physicalState} ${owner.physicalZip}`)
                 ]),
                 img({className: `w-8 h-4 relative top-1`, src: checkMarkGreenSVG},),
 			]),
             // Mailing Address
 			div({className: `flex space-x-4 space-x-reverse my-4 has-tooltip relative`}, [
-                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-12`}, `Mailing address of ${owner.name}.`),
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `Mailing address of ${owner.name}.`),
 				img({className: `w-8 h-6`, src: homeSVG},),
-				p({className: `flex-grow flex-shrink-0`},[
-                    owner.address,
-                    span({className: `text-sm ml-4 uppercase italic`},`${owner.city} ${owner.state} ${owner.zip}`)
+				p({className: `flex-grow flex-shrink-0 text-gray-500`},[
+                    owner.mailingAddress,
+                    span({className: `text-sm ml-4 uppercase italic text-gray-400`},`${owner.mailingCity} ${owner.mailingState} ${owner.mailingZip}`)
                 ]),
                 img({className: `w-8 h-4 relative top-1`, src: checkMarkGreenSVG},),
 			]),
+            // horizontal rule
+            div({className: `flex justify-center w-100 my-8`}, [
+                div({className: `border-gray-500 border w-90%`},)
+            ]),
+            // buttons color:hover-color:text-color:text-size
+            div({className: `flex justify-around`}, [
+                div({className: `has-tooltip relative w-40%`}, [
+                    span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 text-sm whitespace-nowrap -top-10 left-6`}, `Property Details`),
+                    a({className: ``, href: owner.urlOwnerDetails, target: '_blank' },
+                        button({className: `${btnCSS('bg-blue-500', 'bg-blue-600')} w-100% flex justify-center items-center`}, [
+                            img({className: `w-8 h-8`, src:  homeBlackSVG},)
+                        ]),
+                    ),
+                ]),
+                div({className: `has-tooltip relative w-40%`}, [
+                    span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 text-sm whitespace-nowrap -top-10 left-10`}, `View Map`),
+                    a({className: ``, href: owner.urlLandMap, target: '_blank' },
+                        button({className: `${btnCSS('bg-green-500', 'bg-green-600')} w-100% flex justify-center items-center`}, [
+                            img({className: `w-8 h-8`, src:  addressBlackSVG},)
+                        ]),
+                    ),
+                ]),
+            ]),
 
 		]) // main content
 	])  // end card div

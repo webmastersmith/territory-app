@@ -36,9 +36,8 @@ function httpEffects(dispatch, command) {
 			if (err.response) {
 				// console.log(`axios response error: ${err.response.data} ${err.response.status} ${JSON.stringify(err.response.headers)}`);
 				dispatch(errorMsg(err.response.data))
-			} else if (err.request) {
-				// console.log('axios request error', err);
-				dispatch(errorMsg(err))
+			} else {
+				dispatch(errorMsg(JSON.stringify(err)))
 			}
 		})
 		

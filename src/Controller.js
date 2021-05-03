@@ -39,7 +39,7 @@ function update(msg, model) {
 	switch (msg.type) {
 		case MSG.ROAD: {
 			const { road } = msg
-			return { ...model, road }
+			return { ...model, road: road.toUpperCase() }
 		}
 		case MSG.KEY: {
 			const { key } = msg
