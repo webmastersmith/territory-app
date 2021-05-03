@@ -1,20 +1,18 @@
 import hh from "hyperscript-helpers"
 import { h } from "virtual-dom"
+import flatten from 'ramda/src/flatten'
 import { inputRoadName, getRoadList, getRoadItem } from '../Controller'
 import { btnCSS, btnDisabled } from './Button'
 
 const { div, label, input, form, button, p, span} = hh(h)
 
-function showLots(m) {
-	return span({className: `text-red-500`}, `${m.road} ${m.roadIds.length} LOTS`)
-}
-
 export default function InputBox(d, m) {
+	const roadLength = flatten(m.roadIds).length
 	return div({ className: `my-10` }, [
 		form({className: ``,
 			onsubmit: e => {
 				e.preventDefault()
-				m.roadIds.length ? d(getRoadItem) : d(getRoadList)  
+				roadLength ? d(getRoadItem) : d(getRoadList)  
 			}
 	}, [
 			label({className: `text-gray-600 pl-2`}, 'Road Name'),
@@ -22,15 +20,16 @@ export default function InputBox(d, m) {
 				input({
 					className: `
 					border-black border block rounded-lg w-100 p-2 text-2xl
-					${m.roadIds.length && 'text-green-500'}
+					${roadLength ? 'text-blue-500' : ''}
 					`,
 					type: 'text',
-					value: m.roadIds.length 
-							? `${m.road}: \t ${m.roadIds.length} Lots `
+					value: roadLength 
+							? `${m.road}: \t ${roadLength} Properties `
 							: m.road,
 					oninput: (e) => d(inputRoadName(e.target.value))
 				}),
-				m.roadIds.length 
+				// change button function if have property ids.
+				roadLength 
 					? button({
 					className: `${btnCSS('bg-green-500', 'bg-green-600', 'text-white', 'text-2xl')} absolute top-0 right-0 h-100`,
 					type:'submit'

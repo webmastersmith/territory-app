@@ -39,9 +39,10 @@ module.exports = {
 					'inset -2px -2px 3px rgba(255, 255, 255, .6), inset 2px 2px 3px rgba(0, 0, 0, .6)',
 				'btn': 'inset 2px 2px 3px rgba(255, 255, 255, .6),	inset -2px -2px 3px rgba(0, 0, 0, .6)',
 			},
-			// colors: {
+			colors: {
 			// 	indigo: colors.indigo,
-			// },
+			'yellow-1': '#FFFF00',
+			},
 			container: {
 				center: true,
 				padding: "1.5rem",

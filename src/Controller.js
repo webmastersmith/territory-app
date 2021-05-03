@@ -52,7 +52,7 @@ function update(msg, model) {
 					request: { 
 						url: roadListUrl(model.key),
 						data: { road: model.road },
-						method: 'post'
+						method: 'get'
 					},
 					successMsg: httpSuccessListMsg(model.road),
 					errorMsg: httpErrorMsg
@@ -65,8 +65,8 @@ function update(msg, model) {
 				{
 					request: { 
 						url: roadItemUrl(model.key),
-						data: { roadIds: model.roadIds },
-						method: 'post'
+						params: { roadIds: model.roadIds },
+						method: 'get'
 					},
 					successMsg: httpSuccessItemMsg,
 					errorMsg: httpErrorMsg
