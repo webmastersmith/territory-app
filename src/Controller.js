@@ -92,7 +92,6 @@ function update(msg, model) {
 			return {...model, waiting: false, error}
 		}
 		case MSG.CLEAR_ERROR: {
-			console.log('clear error msg')
 			return {...model, error: null}
 		}
 		case MSG.DELETE_LOT: {
