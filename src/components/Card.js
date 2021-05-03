@@ -1,24 +1,65 @@
 import hh from "hyperscript-helpers"
 import { h } from "virtual-dom"
 import personSVG from '../images/person.svg'
-import checkMark from '../images/checkmark.svg'
-import deed from '../images/deed.svg'
-const { div, h1, p, img } = hh(h)
+import checkMarkSVG from '../images/checkmark.svg'
+import deedSVG from '../images/deed.svg'
+import handSVG from '../images/hand.svg'
+import checkMarkGreenSVG from '../images/checkmark-green.svg'
+import addressSVG from '../images/address.svg'
+import homeSVG from '../images/home.svg'
+const { div, h1, p, img, span, object } = hh(h)
 
 
 export default function card(dispatch, model, owner) {
-	return div({ className: `relative bg-white py-6 px-6 rounded-3xl w-96 my-16 shadow-xl` }, [
+	return div({ className: `relative bg-white py-6 px-6 rounded-3xl my-16 shadow-xl max-w-max` }, [
+		// top circle img
 		div({className: `text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-green-500 left-4 -top-6`}, [
 			img({
 				className: `w-6 h-6 fill-current`,
-				src: checkMark,
-				fill: 'text-blue-500'
-		}), // end top svg
-		]), // top card svg div
-	div({className: `mt-8`},[
-		p({className: `text-xl font-semibold my-2`}, owner.name)
+				src: checkMarkSVG,
+		}), // end img svg
+		]), // end img div
+		
+		// main content div
+		div({className: `mt-8`},[
+			// name
+			div({className: `has-tooltip relative flex space-x-4 space-x-reverse`}, [
+				span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-12`}, 'Last Name, First Name, Spouse'),
+				img({className: `w-8 h-8`, src: personSVG},),
+				p({className: `text-xl font-semibold relative top-1 whitespace-nowrap`}, owner.name),
+			]),
+			// deed
+			div({className: `flex space-x-4 space-x-reverse my-4 has-tooltip relative`}, [
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-12`}, `Deed. ${owner.name} owns ${parseInt(owner.ownership)}% of this property.`),
+				img({className: `w-8 h-6`, src: deedSVG},),
+				p({className: `flex-grow flex-shrink-0`}, [
+                    owner.deed,
+					span({className: `text-green-500 ml-4`}, `${parseInt(owner.ownership)}%`)
+				]),
+                img({className: `w-8 h-4 relative top-1`, src: checkMarkGreenSVG},),
+			]),
+            // Physical Address
+			div({className: `flex space-x-4 space-x-reverse my-4 has-tooltip relative`}, [
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-12`}, `Physical address of the property.`),
+				img({className: `w-8 h-6`, src: addressSVG},),
+				p({className: `flex-grow flex-shrink-0`}, [
+                    owner.address,
+                    span({className: `text-sm ml-4 uppercase italic`},`${owner.city} ${owner.state} ${owner.zip}`)
+                ]),
+                img({className: `w-8 h-4 relative top-1`, src: checkMarkGreenSVG},),
+			]),
+            // Mailing Address
+			div({className: `flex space-x-4 space-x-reverse my-4 has-tooltip relative`}, [
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-12`}, `Mailing address of ${owner.name}.`),
+				img({className: `w-8 h-6`, src: homeSVG},),
+				p({className: `flex-grow flex-shrink-0`},[
+                    owner.address,
+                    span({className: `text-sm ml-4 uppercase italic`},`${owner.city} ${owner.state} ${owner.zip}`)
+                ]),
+                img({className: `w-8 h-4 relative top-1`, src: checkMarkGreenSVG},),
+			]),
 
-	]) // main content
+		]) // main content
 	])  // end card div
 }
 
