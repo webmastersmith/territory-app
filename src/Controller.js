@@ -1,4 +1,4 @@
-import * as R from 'ramda'
+import curry from 'ramda/src/curry'
 
 const MSG = {
 	ROAD: "ROAD",
@@ -8,7 +8,8 @@ const MSG = {
 	HTTP_SUCCESS_LIST: "HTTP_SUCCESS_LIST",
 	HTTP_SUCCESS_ITEM: "HTTP_SUCCESS_ITEM",
 	HTTP_ERROR: "HTTP_ERROR",
-	CLEAR_ERROR: "CLEAR_ERROR"
+	CLEAR_ERROR: "CLEAR_ERROR",
+	DELETE_LOT: "DELETE_LOT"
 }
 
 function roadListUrl(key) {
@@ -23,7 +24,8 @@ export const getRoadItem = { type: MSG.ROAD_ITEM }
 
 export function inputRoadName(road) {return {type: MSG.ROAD, road,}}
 export function updateKey(key) {return {type: MSG.KEY, key,}}
-const httpSuccessListMsg = R.curry((roadName, response) => ({
+export function deleteLot(id) {return {type: MSG.DELETE_LOT, id,}}
+const httpSuccessListMsg = curry((roadName, response) => ({
 	type: MSG.HTTP_SUCCESS_LIST,
 	roadName,
 	response
@@ -33,7 +35,7 @@ const httpSuccessItemMsg = (response) => ({
 	response
 })
 const httpErrorMsg = (error) => ({ type: MSG.HTTP_ERROR, error})
-const clearError = { type: MSG.CLEAR_ERROR }
+export const clearError = { type: MSG.CLEAR_ERROR }
 
 function update(msg, model) {
 	switch (msg.type) {
@@ -51,7 +53,7 @@ function update(msg, model) {
 				{
 					request: { 
 						url: roadListUrl(model.key),
-						data: { road: model.road },
+						params: { road: model.road },
 						method: 'get'
 					},
 					successMsg: httpSuccessListMsg(model.road),
@@ -60,12 +62,13 @@ function update(msg, model) {
 			]
 		}
 		case MSG.ROAD_ITEM: {
+			// model.roadIds
 			return [
-				{...model},
+				{...model, waiting: true},
 				{
 					request: { 
 						url: roadItemUrl(model.key),
-						params: { roadIds: model.roadIds },
+						params: { roadIds: model.roadIds[0] },
 						method: 'get'
 					},
 					successMsg: httpSuccessItemMsg,
@@ -79,9 +82,10 @@ function update(msg, model) {
 		}
 		case MSG.HTTP_SUCCESS_ITEM: {
 			const { response } = msg
-			const owner = response.data
-			const owners = [ ...model.owners, ...owner ]
-			return { ...model, waiting: false, owners }
+			const [removed, ...roadIds] = model.roadIds
+			const ownersArr = response.data // array of owners
+			const owners = [ ...model.owners, ...ownersArr ]
+			return { ...model, waiting: false, owners, roadIds }
 		}
 		case MSG.HTTP_ERROR: {
 			const { error } = msg
@@ -90,6 +94,11 @@ function update(msg, model) {
 		case MSG.CLEAR_ERROR: {
 			console.log('clear error msg')
 			return {...model, error: null}
+		}
+		case MSG.DELETE_LOT: {
+			const id = msg.id
+			const owners = model.owners.filter( owner => id !== owner.landId)
+			return {...model, owners}
 		}
 	}
 	return model

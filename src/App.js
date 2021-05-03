@@ -1,7 +1,8 @@
 import { diff, patch } from "virtual-dom"
 import createElement from "virtual-dom/create-element"
 import axios from 'axios';
-import * as R from 'ramda';	
+import type from 'ramda/src/type'
+
 
 // impure code below
 function app(initModel, update, view, node) {
@@ -13,7 +14,7 @@ function app(initModel, update, view, node) {
 	function dispatch(msg) {
 		// what i added.
 		const updates = update(msg, model);
-		const isArray = R.type(updates) === 'Array';
+		const isArray = type(updates) === 'Array';
 		model = isArray ? updates[0] : updates;
 		const command = isArray ? updates[1] : null;
 		httpEffects(dispatch, command);

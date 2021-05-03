@@ -11,16 +11,12 @@ import homeSVG from '../images/home.svg'
 import homeBlackSVG from '../images/home-black.svg'
 import xSVG from '../images/x.svg'
 import { btnCSS } from './Button'
-import spinner from './spinner'
+import { deleteLot } from "../Controller"
 const { div, p, img, span, button, a, href} = hh(h)
 
 
 export default function card(dispatch, model, owner) {
-    return div({ className: `relative bg-white py-6 px-6 rounded-3xl my-16 shadow-xl max-w-max` }, [
-        // modal
-        div({className: `bg-gray-300 justify-center items-center w-100 h-100 z-10 absolute left-0 top-0 rounded-xl opacity-60 ${owner.waiting ? 'flex' : 'hidden'}`}, [
-            spinner('blue'),
-        ]),
+    return div({ className: `relative bg-white my-6 py-6 px-6 rounded-3xl shadow-xl max-w-max` }, [
 		// top circle img
 		div({className: `text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl ${owner.allTrue ? 'bg-green-500' : 'bg-yellow-1'} left-4 -top-6`}, [
 			img({
@@ -29,7 +25,9 @@ export default function card(dispatch, model, owner) {
 		    }), // end img svg
 		]), // end img div
         // closing x
-        button({className: `absolute -top-1 -right-1`}, [
+        button({className: `absolute -top-1 -right-1`,
+            onclick: e => dispatch(deleteLot(owner.landId)),
+        }, [
             img({className: `w-4 h-4`, src: xSVG})
         ]),
 		
@@ -55,11 +53,11 @@ export default function card(dispatch, model, owner) {
 			]),
             // Physical Address
 			div({className: `flex space-x-4 space-x-reverse my-4 has-tooltip relative`}, [
-                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-16`}, `Physical address of the property.`),
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-16`}, `Physical address of the property. ID: ${owner.landId}`),
 				img({className: `w-8 h-6`, src: addressSVG},),
 				p({className: `flex-grow flex-shrink-0 text-gray-500`}, [
                     owner.physicalAddress,
-                    span({className: `text-sm ml-4 uppercase italic text-gray-400`},`${owner.physicalCity} ${owner.physicalState} ${owner.physicalZip}`)
+                    span({className: `text-sm ml-4 uppercase italic ${owner.physicalCity === "LUFKIN" ? 'text-gray-400' : 'text-red-400'}`}, `${owner.physicalCity} ${owner.physicalState} ${owner.physicalZip}`)
                 ]),
                 img({className: `w-8 h-4 relative top-1`, src: checkMarkGreenSVG},),
 			]),
@@ -69,7 +67,7 @@ export default function card(dispatch, model, owner) {
 				img({className: `w-8 h-6`, src: homeSVG},),
 				p({className: `flex-grow flex-shrink-0 ${owner.addressSame ? 'text-gray-500' : 'text-red-500'}`},[
                     owner.mailingAddress,
-                    span({className: `text-sm ml-4 uppercase italic ${owner.addressSame ? 'text-gray-400' : 'text-red-400'}`},`${owner.mailingCity} ${owner.mailingState} ${owner.mailingZip}`)
+                    span({className: `text-sm ml-4 uppercase italic ${owner.mailingCity === "LUFKIN" ? 'text-gray-400' : 'text-red-400'} ${owner.addressSame ? 'text-gray-400' : 'text-red-400'}`},`${owner.mailingCity} ${owner.mailingState} ${owner.mailingZip}`)
                 ]),
                 img({className: `w-8 h-4 relative top-1`, 
                     src: owner.addressSame ? checkMarkGreenSVG : xSVG

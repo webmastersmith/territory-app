@@ -20,7 +20,7 @@ const widthPercentage = {
 }
 module.exports = {
 	purge: {
-		enabled: false,
+		enabled: true,
 		content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
 		darkMode: false, // or 'media' or 'class'
 	},
@@ -41,7 +41,7 @@ module.exports = {
 			},
 			colors: {
 			// 	indigo: colors.indigo,
-			'yellow-1': '#FFFF00',
+			'yellow-1': '#FFFF00',  //true yellow
 			},
 			container: {
 				center: true,
