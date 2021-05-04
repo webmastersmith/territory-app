@@ -32,12 +32,6 @@ function httpEffects(dispatch, command) {
 	
 	const { request, successMsg, errorMsg } = command;
 	
-	
-	axios.get(`${import.meta.env.VITE_HTTP}`, {timeout: 500})
-		.catch(e => {
-			// do nothing
-		}) 
-			
 	axios(request)
 		.then(response => dispatch(successMsg(response)))
 		.catch(err => {
