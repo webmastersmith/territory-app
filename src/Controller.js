@@ -13,10 +13,10 @@ const MSG = {
 }
 
 function roadListUrl(key) {
-	return `http://localhost:5500/${key}`
+	return `${import.meta.env.VITE_HTTPS}/${key}`
 }
 function roadItemUrl(key) {
-	return `http://localhost:5500/lots/${key}`
+	return `${import.meta.env.VITE_HTTPS}/lots/${key}`
 }
 // submit button on road name.
 export const getRoadList = { type: MSG.ROAD_LIST }

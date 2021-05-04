@@ -30,7 +30,14 @@ function app(initModel, update, view, node) {
 function httpEffects(dispatch, command) {
 	if (command === null) { return; }
 	
-	const { request, successMsg, errorMsg } = command;	
+	const { request, successMsg, errorMsg } = command;
+	
+	
+	axios.get(`${import.meta.env.VITE_HTTP}`, {timeout: 500})
+		.catch(e => {
+			// do nothing
+		}) 
+			
 	axios(request)
 		.then(response => dispatch(successMsg(response)))
 		.catch(err => {
