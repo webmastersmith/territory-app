@@ -1,6 +1,7 @@
 import hh from "hyperscript-helpers"
 import { h } from "virtual-dom"
 import './styles/index.css'
+// import 'virtual:windi.css'
 import Card from './components/Card'
 import InputBox from './components/InputBox'
 import {updateKey} from './Controller'
@@ -37,12 +38,12 @@ function view(dispatch, model) {
 		]),
 
 		// Angelina County Territory
-		div({className: `flex border-b-2 border-black`}, [
-			h1({ className: `text-3xl font-bold` },
+		div({className: `sm:flex border-b-2 border-black`}, [
+			h1({ className: `text-center sm: text-left text-normal sm:text-2xl md:text-3xl font-bold` },
 				'Angelina County Territory Finder'),
 				// key input box
 			input({
-				className: `w-52 border-2 border-green-500 mb-1 ml-auto rounded-md px-2 border-collapse `,
+				className: `w-100 mt-2 sm:mt-auto sm:w-48 md:w-52 border-2 border-green-500 mb-1 ml-auto rounded-md px-2 border-collapse `,
 				type: 'text',
 				value: model.key,
 				oninput: (e) => dispatch(updateKey(e.target.value))
@@ -50,7 +51,8 @@ function view(dispatch, model) {
 		]),
 		InputBox(dispatch, model),
 		error(dispatch, model),
-		div({className: `grid grid-cols-2 gap-6 justify-items-center`}, [
+		// cards
+		div({className: `grid grid-cols-auto gap-6 justify-items-center`}, [
 			getCards(dispatch, model, model.owners),
 		]),
 		// pre(JSON.stringify(model, null, 2))

@@ -19,7 +19,7 @@ export default function InputBox(d, m) {
 			div({className: `relative`}, [
 				input({
 					className: `
-					border-black border block rounded-lg w-100 p-2 text-2xl
+					border-black border block rounded-lg w-100 p-2 sm:text-2xl
 					${roadLength ? 'text-blue-500' : ''}
 					`,
 					type: 'text',
@@ -31,11 +31,11 @@ export default function InputBox(d, m) {
 				// change button function if have property ids.
 				roadLength 
 					? button({
-					className: `${btnCSS('bg-green-500', 'bg-green-600', 'text-white', 'text-2xl')} absolute top-0 right-0 h-100`,
+					className: `${btnCSS('bg-green-500', 'bg-green-600', 'text-white', 'text-2xl')} sm:absolute sm:top-0 sm:right-0 w-100 sm:w-auto mt-6 sm:mt-auto h-100`,
 					type:'submit'
 				}, 'find owners')
 					: button({
-					className: `${btnCSS('bg-blue-500', 'bg-blue-600', 'text-white', 'text-2xl')} absolute top-0 right-0 h-100`,
+					className: `${btnCSS('bg-blue-500', 'bg-blue-600', 'text-white', 'text-2xl')} sm:absolute sm:top-0 sm:right-0 w-100 sm:w-auto mt-6 sm:mt-auto h-100`,
 					type:'submit'
 				}, 'find lots')
 			]), // end input box div

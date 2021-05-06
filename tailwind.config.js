@@ -1,6 +1,10 @@
-// const colors = require("tailwindcss/colors")
+const colors = require("tailwindcss/colors")
 const { boxShadow } = require('tailwindcss/defaultTheme')
 const defaultTheme = require('tailwindcss/defaultTheme')
+
+// const defaultTheme = require('windicss/defaultTheme')
+// const colors = require('windicss/colors')
+// const typography = require('windicss/plugin/typography')
 
 const widthPercentage = {
 	"10%": "10%",
@@ -19,8 +23,9 @@ const widthPercentage = {
 	"100": "100%",
 }
 module.exports = {
+	mode: 'jit',
 	purge: {
-		enabled: true,
+		enabled: false,
 		content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
 		darkMode: false, // or 'media' or 'class'
 	},
@@ -56,6 +61,9 @@ module.exports = {
 				'33': '0 1 33.33333%',
 				'40': '0 1 40%',
 				'20': '0 1 20%',
+			},
+			gridTemplateColumns: {
+				'auto': 'repeat(auto-fill, minmax(415px, 1fr))'
 			},
 			height: widthPercentage,
 			maxWidth: {
