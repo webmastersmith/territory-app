@@ -62,7 +62,6 @@ function update(msg, model) {
 			]
 		}
 		case MSG.ROAD_ITEM: {
-			// model.roadIds
 			return [
 				{...model, waiting: true},
 				{
@@ -78,14 +77,20 @@ function update(msg, model) {
 		}
 		case MSG.HTTP_SUCCESS_LIST: {
 			const { response } = msg
-			return { ...model, waiting: false, roadIds: response.data }
+			const newModel = { ...model, waiting: false, roadIds: response.data } 			
+			localStorage.clear()
+			localStorage.setItem('model', JSON.stringify(newModel))
+			return newModel
 		}
 		case MSG.HTTP_SUCCESS_ITEM: {
 			const { response } = msg
-			const [removed, ...roadIds] = model.roadIds
+			const [removedId, ...roadIds] = model.roadIds // remove 1st block and return.
 			const ownersArr = response.data // array of owners
 			const owners = [ ...model.owners, ...ownersArr ]
-			return { ...model, waiting: false, owners, roadIds }
+			const newModel = { ...model, waiting: false, owners, roadIds }
+			localStorage.clear()
+			localStorage.setItem('model', JSON.stringify(newModel))			
+			return newModel
 		}
 		case MSG.HTTP_ERROR: {
 			const { error } = msg
@@ -97,7 +102,10 @@ function update(msg, model) {
 		case MSG.DELETE_LOT: {
 			const id = msg.id
 			const owners = model.owners.filter( owner => id !== owner.landId)
-			return {...model, owners}
+			const newModel = {...model, owners}
+			localStorage.clear()
+			localStorage.setItem('model', JSON.stringify(newModel))			
+			return newModel
 		}
 	}
 	return model

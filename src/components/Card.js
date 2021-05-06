@@ -16,7 +16,7 @@ const { div, p, img, span, button, a, href} = hh(h)
 
 
 export default function card(dispatch, model, owner) {
-    return div({ className: `relative bg-white my-6 py-6 px-6 rounded-3xl shadow-xl max-w-max` }, [
+    return div({ className: `mx-2 sm:mx-auto relative bg-white my-6 py-6 px-6 rounded-3xl shadow-xl max-w-max` }, [
 		// top circle img
 		div({className: `text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl ${owner.allTrue ? 'bg-green-500' : 'bg-yellow-1'} left-4 -top-6`}, [
 			img({
