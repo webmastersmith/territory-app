@@ -1,9 +1,9 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; */
+@tailwind utilities;
 
 
-/* @layer utilities {
+@layer utilities {
   @variants responsive {
       .text-shadow {
         text-shadow: 2px 2px 4px #000;

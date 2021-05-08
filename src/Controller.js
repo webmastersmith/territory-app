@@ -9,7 +9,10 @@ const MSG = {
 	HTTP_SUCCESS_ITEM: "HTTP_SUCCESS_ITEM",
 	HTTP_ERROR: "HTTP_ERROR",
 	CLEAR_ERROR: "CLEAR_ERROR",
-	DELETE_LOT: "DELETE_LOT"
+	DELETE_LOT: "DELETE_LOT",
+	SAVE: "SAVE",
+	UPLOAD: "UPLOAD",
+	TRASH: "TRASH",
 }
 
 function roadListUrl(key) {
@@ -18,13 +21,19 @@ function roadListUrl(key) {
 function roadItemUrl(key) {
 	return `${import.meta.env.VITE_HTTP}/lots/${key}`
 }
+function dataURI(data) {
+	return "data:text/json;charset=utf-8," + encodeURIComponent(data)
+}
 // submit button on road name.
 export const getRoadList = { type: MSG.ROAD_LIST }
 export const getRoadItem = { type: MSG.ROAD_ITEM }
+export const clearError = { type: MSG.CLEAR_ERROR }
+export const clearStorage = { type: MSG.TRASH }
 
 export function inputRoadName(road) {return {type: MSG.ROAD, road,}}
 export function updateKey(key) {return {type: MSG.KEY, key,}}
 export function deleteLot(id) {return {type: MSG.DELETE_LOT, id,}}
+export function uploadStorage(data, error=null) {return {type: MSG.UPLOAD, data, error}}
 const httpSuccessListMsg = curry((roadName, response) => ({
 	type: MSG.HTTP_SUCCESS_LIST,
 	roadName,
@@ -35,7 +44,7 @@ const httpSuccessItemMsg = (response) => ({
 	response
 })
 const httpErrorMsg = (error) => ({ type: MSG.HTTP_ERROR, error})
-export const clearError = { type: MSG.CLEAR_ERROR }
+
 
 function update(msg, model) {
 	switch (msg.type) {
@@ -77,7 +86,7 @@ function update(msg, model) {
 		}
 		case MSG.HTTP_SUCCESS_LIST: {
 			const { response } = msg
-			const newModel = { ...model, waiting: false, roadIds: response.data } 			
+			const newModel = { ...model, waiting: false, roadIds: response.data} 			
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))
 			return newModel
@@ -89,7 +98,7 @@ function update(msg, model) {
 			const owners = [ ...model.owners, ...ownersArr ]
 			const newModel = { ...model, waiting: false, owners, roadIds }
 			localStorage.clear()
-			localStorage.setItem('model', JSON.stringify(newModel))			
+			localStorage.setItem('model', JSON.stringify(newModel))
 			return newModel
 		}
 		case MSG.HTTP_ERROR: {
@@ -102,10 +111,30 @@ function update(msg, model) {
 		case MSG.DELETE_LOT: {
 			const id = msg.id
 			const owners = model.owners.filter( owner => id !== owner.landId)
-			const newModel = {...model, owners}
+			const newModel = {...model, owners }
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))			
 			return newModel
+
+		}
+		case MSG.TRASH: {
+			const newModel = {
+				road: '',
+				waiting: false,
+				error: null,
+				key: '',
+				roadIds: [],
+				owners: []
+			}
+			localStorage.clear()
+			return newModel
+		}
+		case MSG.UPLOAD: {
+			const { data } = msg
+			localStorage.clear()
+			localStorage.setItem('model', data)
+			return { ...JSON.parse(data)}
+			// JSON.parse(data)
 		}
 	}
 	return model

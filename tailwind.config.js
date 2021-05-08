@@ -1,3 +1,4 @@
+const { all } = require("ramda")
 const colors = require("tailwindcss/colors")
 const { boxShadow } = require('tailwindcss/defaultTheme')
 const defaultTheme = require('tailwindcss/defaultTheme')
@@ -22,19 +23,32 @@ const widthPercentage = {
 	"100%": "100%",
 	"100": "100%",
 }
+
 module.exports = {
-	mode: 'jit',
+	// auto mode, delete index.css
+	// mode: 'jit',
+	// purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+
+	// remove all unused styles manual purge:
+	// mode: 'all',
+	// purge: {
+		// 	enabled: false,
+		// 	content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+		// 	darkMode: false, // or 'media' or 'class'
+		// },
+		// darkMode: false, // or 'media' or 'class'
+		
+	// development
+	mode: 'all',
+	preserveHtmlElements: false,
 	purge: {
-		enabled: false,
+		enabled: true,
 		content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
 		darkMode: false, // or 'media' or 'class'
 	},
-	// purge: {
-	// 	enabled: true,
-	// 	content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-	// 	darkMode: false, // or 'media' or 'class'
-	// },
 	darkMode: false, // or 'media' or 'class'
+
+	// needed
 	theme: {
 		extend: {
 			backgroundImage: {

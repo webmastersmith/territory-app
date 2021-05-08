@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "build:css": "tailwindcss build src/styles/tailwind.css -o src/styles/index.css",
+    "twDev": "NODE_ENV=development postcss ./src/styles/tailwind.css -o ./src/styles/index.css -w",
+    "twBuild": "NODE_ENV=production postcss ./src/styles/tailwind.css -o ./src/styles/index.css",
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview"
@@ -12,11 +14,10 @@
     "hyperscript": "^2.0.2",
     "hyperscript-helpers": "^3.0.3",
     "postcss": "^8.2.14",
+    "postcss-cli": "^8.3.1",
     "tailwindcss": "^2.1.2",
     "virtual-dom": "^2.1.1",
-    "vite": "^2.1.5",
-    "vite-plugin-windicss": "^0.15.10",
-    "windicss": "^2.5.14"
+    "vite": "^2.1.5"
   },
   "dependencies": {
     "axios": "^0.21.1",
