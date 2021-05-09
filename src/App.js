@@ -9,7 +9,11 @@ function app(initModel, update, view, node) {
 	
 	let model;
 	if (!!localStorage.getItem('model')) {
-		model = JSON.parse(localStorage.getItem('model'))
+		try {
+			model = JSON.parse(localStorage.getItem('model'))
+		} catch (e) {
+			model = initModel	
+		}
 	} else {
 		model = initModel
 	}
