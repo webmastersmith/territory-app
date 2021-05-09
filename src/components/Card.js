@@ -10,8 +10,11 @@ import addressBlackSVG from '../images/address-black.svg'
 import homeSVG from '../images/home.svg'
 import homeBlackSVG from '../images/home-black.svg'
 import xSVG from '../images/x.svg'
+import xWhiteSVG from '../images/x-white.svg'
+import eStopSVG from '../images/estop.svg'
 import { btnCSS } from './Button'
 import { deleteLot } from "../Controller"
+import exemptCodes from './exemptionCodes'
 const { div, p, img, span, button, a, href} = hh(h)
 
 
@@ -25,12 +28,14 @@ export default function card(dispatch, owner) {
 		    }), // end img svg
 		]), // end img div
         // closing x
-        button({className: `absolute -top-1 -right-1`,
-            onclick: e => dispatch(deleteLot(owner.landId)),
-        }, [
-            img({className: `w-4 h-4`, src: xSVG})
+        div({className: `absolute has-tooltip -top-0 -right-0 shadow-xl`}, [
+            span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 right-0`}, `Delete property. ID: ${owner.landId}`),
+            button({className: `p-2 bg-red-500 rounded-full`,
+                onclick: e => dispatch(deleteLot(owner.landId)),
+            }, [
+                img({className: `w-3 h-3`, src: xWhiteSVG})
+            ]),          
         ]),
-		
 		// main content div
 		div({className: `mt-8`},[
 			// name
@@ -73,6 +78,16 @@ export default function card(dispatch, owner) {
                     src: owner.addressSame ? checkMarkGreenSVG : xSVG
                 }),
 			]),
+            // exemptions
+            div({className: `space-x-4 space-x-reverse my-4 has-tooltip relative ${owner.exemptions.length === 0 ? 'hidden' : 'flex'}`}, [
+                span({className: `tooltip whitespace-pre-line rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `EXEMPTION CODES:\n${owner.exemptions.map(code => `${code}: ${exemptCodes[code]}\n`).join('')}`
+                ),
+                img({className: `w-8 h-6`, src: eStopSVG},),
+                p({className: `flex-grow flex-shrink-0 text-green-500`},[
+                    owner.exemptions.map(code => code + ' ')
+                ]),
+            ]),    
+
             // horizontal rule
             div({className: `flex justify-center w-100 my-8`}, [
                 div({className: `border-gray-500 border w-90%`},)

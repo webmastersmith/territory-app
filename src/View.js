@@ -88,7 +88,7 @@ function view(dispatch, model) {
 		InputBox(dispatch, model),
 		error(dispatch, model),
 		// cards -check if empty
-		div({className: `grid grid-cols-auto gap-6 justify-items-center`}, [
+		div({className: `grid grid-cols-auto-430 gap-6 justify-items-center`}, [
 				getCards(dispatch, model),
 			]),
 		// pre(JSON.stringify(model, null, 2))

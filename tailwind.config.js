@@ -29,24 +29,22 @@ module.exports = {
 	// mode: 'jit',
 	// purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
 
-	// remove all unused styles manual purge:
-	// mode: 'all',
-	// purge: {
-		// 	enabled: false,
-		// 	content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-		// 	darkMode: false, // or 'media' or 'class'
-		// },
-		// darkMode: false, // or 'media' or 'class'
-		
-	// development
+	// production
 	mode: 'all',
 	preserveHtmlElements: false,
 	purge: {
-		enabled: true,
-		content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-		darkMode: false, // or 'media' or 'class'
-	},
-	darkMode: false, // or 'media' or 'class'
+			enabled: true,
+			content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+			darkMode: false, // or 'media' or 'class'
+		},
+		
+	// development
+	// purge: {
+	// 	enabled: false,
+	// 	content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+	// 	darkMode: false, // or 'media' or 'class'
+	// },
+	// darkMode: false, // or 'media' or 'class'
 
 	// needed
 	theme: {
@@ -77,7 +75,9 @@ module.exports = {
 				'20': '0 1 20%',
 			},
 			gridTemplateColumns: {
-				'auto': 'repeat(auto-fill, minmax(415px, 1fr))'
+				'auto': 'repeat(auto-fill, minmax(0, 1fr))',
+				'auto-415': 'repeat(auto-fill, minmax(415px, 1fr))',
+				'auto-430': 'repeat(auto-fill, minmax(430px, 1fr))'
 			},
 			height: widthPercentage,
 			maxWidth: {
