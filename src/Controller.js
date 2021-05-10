@@ -12,6 +12,7 @@ const MSG = {
 	DELETE_LOT: "DELETE_LOT",
 	SAVE: "SAVE",
 	UPLOAD: "UPLOAD",
+	BULK_UPLOAD: "BULK_UPLOAD",
 	TRASH: "TRASH",
 }
 
@@ -34,6 +35,7 @@ export function inputRoadName(road) {return {type: MSG.ROAD, road,}}
 export function updateKey(key) {return {type: MSG.KEY, key,}}
 export function deleteLot(id) {return {type: MSG.DELETE_LOT, id,}}
 export function uploadStorage(data, error=null) {return {type: MSG.UPLOAD, data, error}}
+export function bulkUpload(data, error=null) {return {type: MSG.BULK_UPLOAD, data, error}}
 const httpSuccessListMsg = curry((roadName, response) => ({
 	type: MSG.HTTP_SUCCESS_LIST,
 	roadName,
@@ -122,6 +124,8 @@ function update(msg, model) {
 				road: '',
 				waiting: false,
 				error: null,
+				bulkUpload: false,
+				bulkIdArray: [],
 				key: '',
 				roadIds: [],
 				owners: []
@@ -134,6 +138,29 @@ function update(msg, model) {
 			localStorage.clear()
 			localStorage.setItem('model', data)
 			return { ...JSON.parse(data)}
+			// JSON.parse(data)
+		}
+		case MSG.BULK_UPLOAD: {
+			const { data } = msg
+			localStorage.clear()
+			const bulkIdArray = data.replace(/\n|\r\n|\r/gi, '').split(',') // remove newlines, convert to array.
+
+			if (Array.isArray(bulkIdArray)) {
+				return [
+					{...model, bulkUpload: true, waiting: true, bulkIdArray, error: null},
+					{
+						request: { 
+							url: roadItemUrl(model.key),
+							params: { roadIds: model.bulkIdArray },
+							method: 'get'
+						},
+						successMsg: httpSuccessItemMsg,
+						errorMsg: httpErrorMsg
+					}
+				]
+			} else {
+				return {...model, error: 'There was a problem with data. Please upload again.'}
+			}
 			// JSON.parse(data)
 		}
 	}

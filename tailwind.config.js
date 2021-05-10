@@ -30,21 +30,21 @@ module.exports = {
 	// purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
 
 	// production
-	mode: 'all',
-	preserveHtmlElements: false,
-	purge: {
-			enabled: true,
-			content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-			darkMode: false, // or 'media' or 'class'
-		},
+	// mode: 'all',
+	// preserveHtmlElements: false,
+	// purge: {
+	// 		enabled: true,
+	// 		content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+	// 		darkMode: false, // or 'media' or 'class'
+	// 	},
 		
 	// development
-	// purge: {
-	// 	enabled: false,
-	// 	content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-	// 	darkMode: false, // or 'media' or 'class'
-	// },
-	// darkMode: false, // or 'media' or 'class'
+	purge: {
+		enabled: false,
+		content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+		darkMode: false, // or 'media' or 'class'
+	},
+	darkMode: false, // or 'media' or 'class'
 
 	// needed
 	theme: {

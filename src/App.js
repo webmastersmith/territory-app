@@ -3,7 +3,6 @@ import createElement from "virtual-dom/create-element"
 import axios from 'axios';
 import type from 'ramda/src/type'
 
-
 // impure code below
 function app(initModel, update, view, node) {
 	

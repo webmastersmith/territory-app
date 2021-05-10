@@ -8,7 +8,7 @@ const { div, label, input, form, button, p, span} = hh(h)
 
 export default function InputBox(d, m) {
 	const roadLength = flatten(m.roadIds).length
-	return div({ className: `my-10` }, [
+	return div({ className: `my-10 ${m.bulkUpload ? 'hidden' : 'block'}` }, [
 		form({className: ``,
 			onsubmit: e => {
 				e.preventDefault()
