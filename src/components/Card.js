@@ -12,7 +12,7 @@ import homeBlackSVG from '../images/home-black.svg'
 import xSVG from '../images/x.svg'
 import xWhiteSVG from '../images/x-white.svg'
 import eStopSVG from '../images/estop.svg'
-import { btnCSS } from './Button'
+import { btnCSS } from './button'
 import { deleteLot } from "../Controller"
 import exemptCodes from './exemptionCodes'
 const { div, p, img, span, button, a, href} = hh(h)

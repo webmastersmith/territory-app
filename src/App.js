@@ -6,17 +6,7 @@ import type from 'ramda/src/type'
 // impure code below
 function app(initModel, update, view, node) {
 	
-	let model;
-	if (!!localStorage.getItem('model')) {
-		try {
-			model = JSON.parse(localStorage.getItem('model'))
-		} catch (e) {
-			model = initModel	
-		}
-	} else {
-		model = initModel
-	}
-	
+	let model = initModel
 	
 	let currentView = view(dispatch, model)
 	let rootNode = createElement(currentView)

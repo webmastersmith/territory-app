@@ -2,7 +2,7 @@ import hh from "hyperscript-helpers"
 import { h } from "virtual-dom"
 import flatten from 'ramda/src/flatten'
 import { inputRoadName, getRoadList, getRoadItem } from '../Controller'
-import { btnCSS } from './Button'
+import { btnCSS } from './button'
 
 const { div, label, input, form, button, p, span} = hh(h)
 

@@ -13,6 +13,8 @@ const MSG = {
 	SAVE: "SAVE",
 	UPLOAD: "UPLOAD",
 	BULK_UPLOAD: "BULK_UPLOAD",
+	LOCAL_STORAGE: "LOCAL_STORAGE",
+	PRINT: "PRINT",
 	TRASH: "TRASH",
 }
 
@@ -29,13 +31,15 @@ function dataURI(data) {
 export const getRoadList = { type: MSG.ROAD_LIST }
 export const getRoadItem = { type: MSG.ROAD_ITEM }
 export const clearError = { type: MSG.CLEAR_ERROR }
+export const getLocalStorage = { type: MSG.LOCAL_STORAGE }
 export const clearStorage = { type: MSG.TRASH }
+export const printPage = { type: MSG.PRINT }
 
 export function inputRoadName(road) {return {type: MSG.ROAD, road,}}
 export function updateKey(key) {return {type: MSG.KEY, key,}}
 export function deleteLot(id) {return {type: MSG.DELETE_LOT, id,}}
 export function uploadStorage(data, error=null) {return {type: MSG.UPLOAD, data, error}}
-export function bulkUpload(data, error=null) {return {type: MSG.BULK_UPLOAD, data, error}}
+export function bulkUpload(data, name='',error=null) {return {type: MSG.BULK_UPLOAD, data, name, error}}
 const httpSuccessListMsg = curry((roadName, response) => ({
 	type: MSG.HTTP_SUCCESS_LIST,
 	roadName,
@@ -117,12 +121,13 @@ function update(msg, model) {
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))			
 			return newModel
-
 		}
 		case MSG.TRASH: {
 			const newModel = {
 				road: '',
 				waiting: false,
+				territory: '',
+				print: false,
 				error: null,
 				bulkUpload: false,
 				bulkIdArray: [],
@@ -138,16 +143,15 @@ function update(msg, model) {
 			localStorage.clear()
 			localStorage.setItem('model', data)
 			return { ...JSON.parse(data)}
-			// JSON.parse(data)
 		}
 		case MSG.BULK_UPLOAD: {
-			const { data } = msg
+			const { data, name } = msg
 			localStorage.clear()
 			const bulkIdArray = data.replace(/\n|\r\n|\r/gi, '').split(',') // remove newlines, convert to array.
 
 			if (Array.isArray(bulkIdArray)) {
 				return [
-					{...model, bulkUpload: true, waiting: true, bulkIdArray, error: null},
+					{...model, bulkUpload: true, waiting: true, bulkIdArray, territory: name, error: null,  owners: [],},
 					{
 						request: { 
 							url: roadItemUrl(model.key),
@@ -161,8 +165,20 @@ function update(msg, model) {
 			} else {
 				return {...model, error: 'There was a problem with data. Please upload again.'}
 			}
-			// JSON.parse(data)
 		}
+		case MSG.LOCAL_STORAGE: {
+			if (!!localStorage.getItem('model')) {
+				return { ...JSON.parse(localStorage.getItem('model')) }
+			}
+		}
+		case MSG.PRINT: {
+			localStorage.clear()
+			const newModel = {...model, print: true}
+			localStorage.setItem('model', newModel)
+			return newModel
+		}
+
+
 	}
 	return model
 }
