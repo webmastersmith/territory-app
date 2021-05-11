@@ -11,11 +11,6 @@ import Print from './Print'
 
 const { div, input, img, a, span } = hh(h)
 
-function getPlainText(owners) {
-    return owners.map(owner => {
-        return (`Property ID: ${owner.landId}\r\nName: ${owner.name}\nAddress: ${owner.physicalAddress} ${owner.physicalCity} ${owner.physicalState} ${owner.physicalZip}\r\n-----------------------------------------------\r\n\r\n`)
-    })
-}
 
 
 export default function (dispatch, model) {
@@ -83,7 +78,7 @@ export default function (dispatch, model) {
         div({className: `has-tooltip relative ml-8`}, [
             span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 left-0`}, `Print`),
             a({className: ``, 
-                href: URL.createObjectURL(new Blob(getPlainText(model.owners), {type: 'text/plain'})),
+                href: URL.createObjectURL(new Blob(Print(model.owners), {type: 'text/plain'})),
                 target: '_blank',
                 download: `Territory_${model.territory}.txt`,
             }, 

@@ -46,7 +46,7 @@ export default function card(dispatch, owner) {
 			]),
 			// deed
 			div({className: `flex space-x-4 space-x-reverse my-4 has-tooltip relative`}, [
-                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `Deed. ${owner.name} owns ${parseInt(owner.ownership)}% of property ID: ${owner.landId}.`),
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `Deed. ${owner.name} owns ${parseInt(owner.ownership)}% of property ID: ${owner.landId}`),
 				img({className: `w-8 h-6`, src: deedSVG},),
 				p({className: `flex-grow flex-shrink-0 ${owner.nameDeedSame ? 'text-gray-500' : 'text-red-500'}`}, [
                     owner.deed,
@@ -64,11 +64,11 @@ export default function card(dispatch, owner) {
                     owner.physicalAddress,
                     span({className: `text-sm ml-4 uppercase italic ${owner.physicalCity === "LUFKIN" ? 'text-gray-400' : 'text-red-400'}`}, `${owner.physicalCity} ${owner.physicalState} ${owner.physicalZip}`)
                 ]),
-                img({className: `w-8 h-4 relative top-1`, src: checkMarkGreenSVG},),
+                img({className: `w-8 h-4 relative top-1`, src: owner.addressSame ? checkMarkGreenSVG : xSVG},),
 			]),
             // Mailing Address
 			div({className: `flex space-x-4 space-x-reverse my-4 has-tooltip relative`}, [
-                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `Mailing address of ${owner.name}.`),
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `Mailing address of ${owner.name}`),
 				img({className: `w-8 h-6`, src: homeSVG},),
 				p({className: `flex-grow flex-shrink-0 ${owner.addressSame ? 'text-gray-500' : 'text-red-500'}`},[
                     owner.mailingAddress,

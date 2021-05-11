@@ -147,15 +147,31 @@ function update(msg, model) {
 		case MSG.BULK_UPLOAD: {
 			const { data, name } = msg
 			localStorage.clear()
-			const bulkIdArray = data.replace(/\n|\r\n|\r/gi, '').split(',') // remove newlines, convert to array.
+			const bulkIdArray = data
+				.replace(/\n|\r\n|\r/gi, '')
+				.split(',') // remove newlines, convert to array.
+				.filter(id => id !== '')
 
+			// clear any old ids from model
 			if (Array.isArray(bulkIdArray)) {
+				const newModel = {
+					...model,
+					road: '',
+					waiting: true,
+					territory: name,
+					print: false,
+					error: null,
+					bulkUpload: true,
+					bulkIdArray,
+					roadIds: [],
+					owners: []
+				}
 				return [
-					{...model, bulkUpload: true, waiting: true, bulkIdArray, territory: name, error: null,  owners: [],},
+					newModel,
 					{
 						request: { 
-							url: roadItemUrl(model.key),
-							params: { roadIds: model.bulkIdArray },
+							url: roadItemUrl(newModel.key),
+							params: { roadIds: newModel.bulkIdArray },
 							method: 'get'
 						},
 						successMsg: httpSuccessItemMsg,

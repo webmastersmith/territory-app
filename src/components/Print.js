@@ -1,17 +1,7 @@
-import hh from "hyperscript-helpers"
-import { h } from "virtual-dom"
 
 
-const { div, img, a, span } = hh(h)
-
-
-export default function(dispatch, model, textInput) {
-    console.log('data:text/plain;charset=utf-8, ' + textInput);
-    return a({className: ``, 
-        href: URL.createObjectURL(new Blob([textInput], {type: 'text/plain'})),
-        target: '_blank',
-        download: `Territory_${model.territory}.txt`,
+export default function(owners) {
+    return owners.map(owner => {
+        return (`Property ID: ${owner.landId}\r\nName: ${owner.name}\nAddress: ${owner.physicalAddress} ${owner.physicalCity} ${owner.physicalState} ${owner.physicalZip}\r\n-----------------------------------------------\r\n\r\n`)
     })
-    // if (model.owners.length > 0) {
-    // }
 }
