@@ -19,7 +19,9 @@ const widthPercentage = {
 	"70%": "70%",
 	"75%": "75%",
 	"80%": "80%",
+	"85%": "85%",
 	"90%": "90%",
+	"95%": "95%",
 	"100%": "100%",
 	"100": "100%",
 }
@@ -76,6 +78,7 @@ module.exports = {
 			},
 			gridTemplateColumns: {
 				'auto': 'repeat(auto-fill, minmax(0, 1fr))',
+				'auto-310': 'repeat(auto-fill, minmax(310px, 1fr))',
 				'auto-415': 'repeat(auto-fill, minmax(415px, 1fr))',
 				'auto-430': 'repeat(auto-fill, minmax(430px, 1fr))'
 			},
@@ -88,7 +91,10 @@ module.exports = {
 				...widthPercentage,
 				...defaultTheme.spacing,
 			},
-			width: widthPercentage,
+			width: {
+				...widthPercentage,
+				'84': '21rem',
+			}
 		}, // end extend
 	},
 	variants: {
