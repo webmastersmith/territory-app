@@ -73,7 +73,7 @@ function view(dispatch, model) {
 			p({className: `text-3xl text-blue-700`}, [
 				`Territory `,
 				span({className: `relative`},[
-					`${model.territory}`,
+					`${model.territory.replace(/\.\w+$/i, '')}`,
 					span({className: `bg-red-500 flex justify-center items-center rounded-full text-white text-sm absolute ${getNumSize(model.owners.length)}`}, `${model.owners.length}`),
 				]),
 			]),

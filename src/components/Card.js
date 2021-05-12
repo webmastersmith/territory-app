@@ -40,9 +40,9 @@ export default function card(dispatch, owner) {
 		// main content div
 		div({className: `mt-8`},[
 			// name
-			div({className: `has-tooltip relative flex space-x-2 sm:space-x-4 space-x-reverse`}, [
+			div({className: `has-tooltip relative flex`}, [
 				span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-16`}, `Last Name, First Name, Spouse. ID: ${owner.ownerId}`),
-				img({className: `w-6 h-6 sm:w-8 sm:h-8 flex-none`, src: personSVG},),
+				img({className: `w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-4 flex-none`, src: personSVG},),
 				p({className: ` flex-grow flex-shrink text-base sm:text-xl font-semibold relative top-1`}, owner.name),
 			]),
 			// deed

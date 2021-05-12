@@ -54,7 +54,6 @@ export default function (dispatch, model) {
                 span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -left-4`}, `Bulk Upload From Territory Servant`),
                 input({className: `hidden`, id:'bulkUploadElem', type:'file', accept:'.txt', name:'bulkArray',
                     onchange: e => {
-                        console.log(e.srcElement.files[0].name)
                         if (e.srcElement.files[0]) {
                             e.srcElement.files[0].text().then(data => dispatch(bulkUpload(data, e.srcElement.files[0].name || '')))
                         }
