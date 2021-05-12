@@ -29,7 +29,7 @@ function error(dispatch, model) {
 
 // get property cards
 function getCards(dispatch, model) {
-	return model.owners.map(owner => Card(dispatch, owner))
+	return model.owners.map(owner => Card(dispatch, model, owner))
 }
 
 // correct the size on the number of property's icon.
@@ -73,7 +73,7 @@ function view(dispatch, model) {
 			p({className: `text-3xl text-blue-700`}, [
 				`Territory `,
 				span({className: `relative`},[
-					`${model.territory.replace(/\.\w+$/i, '')}`,
+					`${model.territory}`,
 					span({className: `bg-red-500 flex justify-center items-center rounded-full text-white text-sm absolute ${getNumSize(model.owners.length)}`}, `${model.owners.length}`),
 				]),
 			]),

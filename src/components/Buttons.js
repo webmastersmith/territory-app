@@ -6,7 +6,8 @@ import uploadSVG from "../images/upload.svg"
 import bulkUploadSVG from "../images/bulk-upload.svg"
 import localStorageSVG from "../images/localStorage.svg"
 import printerSVG from "../images/printer.svg"
-import { clearStorage, uploadStorage, bulkUpload, getLocalStorage } from '../Controller'
+import propertySVG from '../images/property.svg'
+import { clearStorage, uploadStorage, bulkUpload, getOwnerProperty, getLocalStorage } from '../Controller'
 import Print from './Print'
 
 const { div, input, img, a, span } = hh(h)
@@ -24,7 +25,7 @@ export default function (dispatch, model) {
                 a({className: ``, 
                     href: URL.createObjectURL(new Blob([localStorage.getItem('model')], {type: 'text/json'})),
                     target: '_blank',
-                    download: model.bulkUpload ? `Territory_${model.territory.replace(/\.\w+$/i, '')}.json` : model.road + '.json',
+                    download: model.bulkUpload ? `Territory_${model.territory}.json` : model.road + '.json',
                 },
                     img({className: `w-10 h-10 cursor-pointer`, src: saveSVG,},),
                 ),
@@ -75,6 +76,15 @@ export default function (dispatch, model) {
                     onclick: () => dispatch(getLocalStorage),
                 },)
             ]),
+
+            // person's property
+            div({className: `has-tooltip relative ${model.bulkUpload ? 'block' : 'hidden'}`}, [
+                span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -left-4`}, `Get Owner Properties`),
+                img({className: `w-10 h-10 cursor-pointer`, 
+                    src: propertySVG,
+                    onclick: () => dispatch(getOwnerProperty),
+                },)
+            ]),
     
             // printer
             div({className: `has-tooltip relative`}, [
@@ -82,7 +92,7 @@ export default function (dispatch, model) {
                 a({className: ``, 
                     href: URL.createObjectURL(new Blob(Print(model.owners), {type: 'text/plain'})),
                     target: '_blank',
-                    download: `Territory_${model.territory.replace(/\.\w+$/i, '')}.txt`,
+                    download: `Territory_${model.territory}.txt`,
                 }, 
                     img({className: `w-10 h-10 cursor-pointer`, src: printerSVG})
                 ),

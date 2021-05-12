@@ -17,9 +17,15 @@ import { deleteLot } from "../Controller"
 import exemptCodes from './exemptionCodes'
 const { div, p, img, span, button, a, wbr} = hh(h)
 
+function getSize(num) {
+    if (num > 9) {
+        return '-right-8 -top-2 w-9 h- p-1'
+    } else {
+        return '-right-6 -top-2 w-6 h-6'
+    }
+}
 
-
-export default function card(dispatch, owner) {
+export default function card(dispatch, model, owner) {
     return div({ className: `flex mx-2 sm:mx-auto relative bg-white my-6 py-6 px-6 rounded-3xl shadow-xl max-w-max` }, [
         // top circle img
         div({className: `flex-shrink flex items-center absolute rounded-full py-4 px-4 shadow-xl ${owner.allTrue ? 'bg-green-500' : 'bg-yellow-1'} left-4 -top-6`}, [
@@ -37,13 +43,21 @@ export default function card(dispatch, owner) {
                 img({className: `w-3 h-3`, src: xWhiteSVG})
             ]),          
         ]),
+
         // main content div -equal bottom alignment needs flex-col
         div({className: `mt-8 flex flex-col`},[
             // name
             div({className: `has-tooltip relative flex my-2`}, [
                 span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-16`}, `Last Name, First Name, Spouse. ID: ${owner.ownerId}`),
                 img({className: `w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-4 flex-none`, src: personSVG},),
-                p({className: ` flex-grow flex-shrink text-base sm:text-xl font-semibold relative top-1`}, owner.name),
+                p({className: ` flex-grow flex-shrink text-base sm:text-xl font-semibold relative top-1`}, [
+                    span({className: `relative`}, [
+                        owner.name,
+                        span({className: `${model.showOwnerProperty ? 'flex' : 'hidden'} items-center justify-center absolute bg-green-200 rounded-full cursor-pointer text-sm ${getSize(model.ownerProperty[owner.ownerId].length??0)}`, 
+                        onclick: () => console.log('hi bryon'),
+                        }, model.ownerProperty[owner.ownerId].length??0),
+                    ]),
+                ]),
             ]),
             // deed
             div({className: `flex space-x-4 space-x-reverse my-2 has-tooltip relative`}, [
@@ -112,7 +126,7 @@ export default function card(dispatch, owner) {
                 ]),
             ]),
 
-        ]) // main content
+        ]) // main content flex-col
     ])  // end flex card div
 }
 

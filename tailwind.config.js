@@ -1,4 +1,3 @@
-const { all } = require("ramda")
 const colors = require("tailwindcss/colors")
 const { boxShadow } = require('tailwindcss/defaultTheme')
 const defaultTheme = require('tailwindcss/defaultTheme')
