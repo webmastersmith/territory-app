@@ -15,7 +15,7 @@ import eStopSVG from '../images/estop.svg'
 import { btnCSS } from './button'
 import { deleteLot } from "../Controller"
 import exemptCodes from './exemptionCodes'
-const { div, p, img, span, button, a, href} = hh(h)
+const { div, p, img, span, button, a, wbr} = hh(h)
 
 
 
@@ -37,16 +37,16 @@ export default function card(dispatch, owner) {
                 img({className: `w-3 h-3`, src: xWhiteSVG})
             ]),          
         ]),
-        // main content div
+        // main content div -equal bottom alignment needs flex-col
         div({className: `mt-8 flex flex-col`},[
             // name
-            div({className: `has-tooltip relative flex`}, [
+            div({className: `has-tooltip relative flex my-2`}, [
                 span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-16`}, `Last Name, First Name, Spouse. ID: ${owner.ownerId}`),
                 img({className: `w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-4 flex-none`, src: personSVG},),
                 p({className: ` flex-grow flex-shrink text-base sm:text-xl font-semibold relative top-1`}, owner.name),
             ]),
             // deed
-            div({className: `flex space-x-4 space-x-reverse my-4 has-tooltip relative`}, [
+            div({className: `flex space-x-4 space-x-reverse my-2 has-tooltip relative`}, [
                 span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `Deed. ${owner.name} owns ${parseInt(owner.ownership)}% of property ID: ${owner.landId}`),
                 img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: deedSVG},),
                 p({className: `flex-grow flex-shrink text-sm sm:text-base ${owner.nameDeedSame ? 'text-gray-500' : 'text-red-500'}`}, owner.deed),
@@ -55,29 +55,29 @@ export default function card(dispatch, owner) {
                 },),
             ]),
             // Physical Address
-            div({className: `flex space-x-4 space-x-reverse my-4 has-tooltip relative`}, [
+            div({className: `flex space-x-4 space-x-reverse my-2 has-tooltip relative`}, [
                 span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-16`}, `Physical address of the property. ID: ${owner.landId}`),
                 img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: addressSVG},),
                 p({className: `flex-grow flex-shrink text-sm sm:text-base text-gray-500`}, [
-                    owner.physicalAddress,
-                    span({className: `text-sm ml-4 uppercase italic ${owner.physicalCity === "LUFKIN" ? 'text-gray-400' : 'text-red-400'}`}, `${owner.physicalCity} ${owner.physicalState} ${owner.physicalZip}`)
+                    span({className: `mr-2`}, owner.physicalAddress),
+                    span({className: `text-sm uppercase italic inline-block ${owner.physicalCity === "LUFKIN" ? 'text-gray-400' : 'text-red-400'}`}, `${owner.physicalCity} ${owner.physicalState} ${owner.physicalZip}`)
                 ]),
                 img({className: `w-6 h-3 sm:w-8 sm:h-4 relative top-1 flex-none`, src: owner.addressSame ? checkMarkGreenSVG : xSVG},),
             ]),
             // Mailing Address
-            div({className: `flex space-x-4 space-x-reverse my-4 has-tooltip relative`}, [
+            div({className: `flex space-x-4 space-x-reverse my-2 has-tooltip relative`}, [
                 span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `Mailing address of ${owner.name}`),
                 img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: homeSVG},),
-                p({className: `flex-grow flex-shrink text-sm sm:text-base ${owner.addressSame ? 'text-gray-500' : 'text-red-500'}`},[
-                    owner.mailingAddress,
-                    span({className: `text-sm ml-4 uppercase italic ${owner.mailingCity === "LUFKIN" ? 'text-gray-400' : 'text-red-400'} ${owner.addressSame ? 'text-gray-400' : 'text-red-400'}`},`${owner.mailingCity}&nbsp;${owner.mailingState}&nbsp;${owner.mailingZip}`)
+                p({className: `flex-grow flex-shrink text-sm sm:text-base pr-2 ${owner.addressSame ? 'text-gray-500' : 'text-red-500'}`},[
+                    span({className: `mr-2`}, owner.mailingAddress),
+                    span({className: `text-sm uppercase italic inline-block ${owner.mailingCity === "LUFKIN" ? 'text-gray-400' : 'text-red-400'} ${owner.addressSame ? 'text-gray-400' : 'text-red-400'}`},`${owner.mailingCity} ${owner.mailingState} ${owner.mailingZip}`)
                 ]),
                 img({className: `w-6 h-3 sm:w-8 sm:h-4 relative top-1 flex-none`, 
                     src: owner.addressSame ? checkMarkGreenSVG : xSVG
                 }),
             ]),
             // exemptions
-            div({className: `space-x-4 space-x-reverse my-4 has-tooltip relative ${owner.exemptions.length === 0 ? 'hidden' : 'flex'}`}, [
+            div({className: `space-x-4 space-x-reverse my-2 has-tooltip relative ${owner.exemptions.length === 0 ? 'hidden' : 'flex'}`}, [
                 span({className: `tooltip whitespace-pre-line rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `EXEMPTION CODES:\n${owner.exemptions.map(code => `${code}: ${exemptCodes[code]}\n`).join('')}`
                 ),
                 img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: eStopSVG},),
@@ -89,7 +89,7 @@ export default function card(dispatch, owner) {
             // grow div
             div({className: `flex-grow flex-shrink`},),
             // horizontal rule
-            div({className: `flex justify-center w-100 my-8`}, [
+            div({className: `flex justify-center w-100 mt-4 mb-8`}, [
                 div({className: `border-gray-500 border w-90%`},)
             ]),
             // buttons color:hover-color:text-color:text-size
