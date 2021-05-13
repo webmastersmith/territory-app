@@ -16,6 +16,7 @@ const MSG = {
 	BULK_UPLOAD: "BULK_UPLOAD",
 	OWNER_PROPERTY_ARRAY: "OWNER_PROPERTY_ARRAY",
 	HTTP_SUCCESS_OWNERS: "HTTP_SUCCESS_OWNERS",
+	SHOW_OWNER_PROPERTY: "SHOW_OWNER_PROPERTY",
 	LOCAL_STORAGE: "LOCAL_STORAGE",
 	TRASH: "TRASH",
 }
@@ -38,6 +39,7 @@ export const clearError = { type: MSG.CLEAR_ERROR }
 export const getLocalStorage = { type: MSG.LOCAL_STORAGE }
 export const clearStorage = { type: MSG.TRASH }
 
+export function showOwnerProperty(ownerId) { return {type: MSG.SHOW_OWNER_PROPERTY, ownerId} }
 export function inputRoadName(road) {return {type: MSG.ROAD, road,}}
 export function updateKey(key) {return {type: MSG.KEY, key,}}
 export function deleteLot(id) {return {type: MSG.DELETE_LOT, id,}}
@@ -211,14 +213,32 @@ function update(msg, model) {
 				...model,
 				waiting: false,
 				ownerProperty: data,
-				showOwnerProperty: true
+				showOwnerPropertyIcon: true
 			}
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))
 			return newModel
 		}
-
-
+		case MSG.SHOW_OWNER_PROPERTY: {
+			const { ownerId } = msg
+			// extract owner from owners
+			const owners = model.owners.filter(owner => owner.ownerId !== ownerId)
+			const [owner] = model.owners.filter(owner => owner.ownerId === ownerId)
+			// find index of owner id
+			const i = model.owners.findIndex(owner => owner.ownerId === ownerId)
+			
+			const toggle = owner.showOwnerProperty ? false : true
+			const newOwner = {...owner, showOwnerProperty: toggle}
+			// insert back into array.
+			const junk = owners.splice(i, 0, newOwner) // destructive
+			const newModel = {
+				...model,
+				owners,
+			}
+			localStorage.clear()
+			localStorage.setItem('model', JSON.stringify(newModel))
+			return newModel
+		}
 		case MSG.LOCAL_STORAGE: {
 			if (!!localStorage.getItem('model')) {
 				return { ...JSON.parse(localStorage.getItem('model')) }

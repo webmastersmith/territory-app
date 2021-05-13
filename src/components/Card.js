@@ -13,17 +13,32 @@ import xSVG from '../images/x.svg'
 import xWhiteSVG from '../images/x-white.svg'
 import eStopSVG from '../images/estop.svg'
 import { btnCSS } from './button'
-import { deleteLot } from "../Controller"
+import { deleteLot, showOwnerProperty } from "../Controller"
+import getOwnerProperty from "./AllProperty"
 import exemptCodes from './exemptionCodes'
-const { div, p, img, span, button, a, wbr} = hh(h)
+const { div, p, img, span, button, a } = hh(h)
 
 function getSize(num) {
-    if (num > 9) {
-        return '-right-8 -top-2 w-9 h- p-1'
-    } else {
-        return '-right-6 -top-2 w-6 h-6'
+    try {
+        if (num > 9) {
+            return '-right-8 -top-2 w-9 h- p-1'
+        } else {
+            return '-right-6 -top-2 w-6 h-6'
+        }
+    } catch(e) {
+        return ''
     }
 }
+
+// before ownerProperty can be populated this error out if inside div.
+function getOwnerLength(model, owner) {
+    try {
+        return model.ownerProperty[owner.ownerId].length
+    } catch(e) {
+        return 0
+    }
+}
+
 
 export default function card(dispatch, model, owner) {
     return div({ className: `flex mx-2 sm:mx-auto relative bg-white my-6 py-6 px-6 rounded-3xl shadow-xl max-w-max` }, [
@@ -48,14 +63,14 @@ export default function card(dispatch, model, owner) {
         div({className: `mt-8 flex flex-col`},[
             // name
             div({className: `has-tooltip relative flex my-2`}, [
-                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-16`}, `Last Name, First Name, Spouse. ID: ${owner.ownerId}`),
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-12 left-8`}, `Last Name, First Name, Spouse. ID: ${owner.ownerId}`),
                 img({className: `w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-4 flex-none`, src: personSVG},),
                 p({className: ` flex-grow flex-shrink text-base sm:text-xl font-semibold relative top-1`}, [
                     span({className: `relative`}, [
                         owner.name,
-                        span({className: `${model.showOwnerProperty ? 'flex' : 'hidden'} items-center justify-center absolute bg-green-200 rounded-full cursor-pointer text-sm ${getSize(model.ownerProperty[owner.ownerId].length??0)}`, 
-                        onclick: () => console.log('hi bryon'),
-                        }, model.ownerProperty[owner.ownerId].length??0),
+                        span({className: `${model.showOwnerPropertyIcon ? 'flex' : 'hidden'} items-center justify-center absolute bg-green-200 rounded-full cursor-pointer text-sm ${getSize(getOwnerLength(model, owner))}`, 
+                        onclick: () => dispatch(showOwnerProperty(owner.ownerId)),
+                        }, getOwnerLength(model, owner)),
                     ]),
                 ]),
             ]),
@@ -70,7 +85,7 @@ export default function card(dispatch, model, owner) {
             ]),
             // Physical Address
             div({className: `flex space-x-4 space-x-reverse my-2 has-tooltip relative`}, [
-                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-16`}, `Physical address of the property. ID: ${owner.landId}`),
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `Physical address of the property. ID: ${owner.landId}`),
                 img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: addressSVG},),
                 p({className: `flex-grow flex-shrink text-sm sm:text-base text-gray-500`}, [
                     span({className: `mr-2`}, owner.physicalAddress),
@@ -92,13 +107,24 @@ export default function card(dispatch, model, owner) {
             ]),
             // exemptions
             div({className: `space-x-4 space-x-reverse my-2 has-tooltip relative ${owner.exemptions.length === 0 ? 'hidden' : 'flex'}`}, [
-                span({className: `tooltip whitespace-pre-line rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `EXEMPTION CODES:\n${owner.exemptions.map(code => `${code}: ${exemptCodes[code]}\n`).join('')}`
+                span({className: `tooltip whitespace-pre-line rounded shadow-lg p-2 bg-green-100 text-red-500 -top-24 left-16`}, `EXEMPTION CODES:\n${owner.exemptions.map(code => `${code}: ${exemptCodes[code]}\n`).join('')}`
                 ),
                 img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: eStopSVG},),
                 p({className: `text-sm sm:text-base flex-grow flex-shrink text-green-500`},[
                     owner.exemptions.map(code => code + ' ')
                 ]),
-            ]),    
+            ]), 
+            
+            //hidden owner property's
+            div({className: `${owner.showOwnerProperty ? 'flex flex-col' : 'hidden'} `}, [
+                // horizontal rule
+                div({className: `flex justify-center w-100 my-4`}, [
+                    div({className: `border-gray-500 border w-90%`},)
+                ]),
+                // owner container
+                getOwnerProperty(model, owner)
+
+            ]),
 
             // grow div
             div({className: `flex-grow flex-shrink`},),
