@@ -103,6 +103,7 @@ module.exports = {
 			// transform: ['first', 'last'],
 			// rotate: ['first', 'last'],
 			boxShadow: ['active'],
+			textColor: ['visited', 'active']
 
 		},
 	},

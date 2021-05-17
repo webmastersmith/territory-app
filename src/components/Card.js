@@ -62,21 +62,21 @@ export default function card(dispatch, model, owner) {
         // main content div -equal bottom alignment needs flex-col
         div({className: `mt-8 flex flex-col`},[
             // name
-            div({className: `has-tooltip relative flex my-2`}, [
-                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-12 left-8`}, `Last Name, First Name, Spouse. ID: ${owner.ownerId}`),
+            div({className: `has-tooltip flex my-2`}, [
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 top-4 left-1/2 w-80%`, style:{transform: 'translate(-50%, -50%)'}}, `Last Name, First Name, Spouse. ID: ${owner.ownerId}`),
                 img({className: `w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-4 flex-none`, src: personSVG},),
-                p({className: ` flex-grow flex-shrink text-base sm:text-xl font-semibold relative top-1`}, [
+                p({className: ` flex-grow flex-shrink text-base sm:text-xl font-semibold relative top-0.5 sm:top-1`}, [
                     span({className: `relative`}, [
                         owner.name,
-                        span({className: `${model.showOwnerPropertyIcon ? 'flex' : 'hidden'} items-center justify-center absolute bg-green-200 rounded-full cursor-pointer text-sm ${getSize(getOwnerLength(model, owner))}`, 
+                        span({className: `${model.showOwnerPropertyIcon ? 'flex' : 'hidden'} items-center justify-center absolute bg-green-200 rounded-full cursor-pointer text-sm ${getSize(owner.ownerProperty.length)}`, 
                         onclick: () => dispatch(showOwnerProperty(owner.ownerId)),
-                        }, getOwnerLength(model, owner)),
+                        }, owner.ownerProperty.length),
                     ]),
                 ]),
             ]),
             // deed
-            div({className: `flex space-x-4 space-x-reverse my-2 has-tooltip relative`}, [
-                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `Deed. ${owner.name} owns ${parseInt(owner.ownership)}% of property ID: ${owner.landId}`),
+            div({className: `flex space-x-4 space-x-reverse my-2 has-tooltip`}, [
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 top-4 left-1/2 w-80%`, style:{transform: 'translate(-50%, -50%)'}}, `Deed. ${owner.name} owns ${parseInt(owner.ownership)}% of property ID: ${owner.landId}`),
                 img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: deedSVG},),
                 p({className: `flex-grow flex-shrink text-sm sm:text-base ${owner.nameDeedSame ? 'text-gray-500' : 'text-red-500'}`}, owner.deed),
                 img({className: `w-6 h-3 sm:w-8 sm:h-4 relative top-1 ml-auto flex-none`, 
@@ -84,8 +84,8 @@ export default function card(dispatch, model, owner) {
                 },),
             ]),
             // Physical Address
-            div({className: `flex space-x-4 space-x-reverse my-2 has-tooltip relative`}, [
-                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `Physical address of the property. ID: ${owner.landId}`),
+            div({className: `flex space-x-4 space-x-reverse my-2 has-tooltip`}, [
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 top-4 left-1/2 w-80%`, style:{transform: 'translate(-50%, -50%)'}}, `Physical address of the property. ID: ${owner.landId}`),
                 img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: addressSVG},),
                 p({className: `flex-grow flex-shrink text-sm sm:text-base text-gray-500`}, [
                     span({className: `mr-2`}, owner.physicalAddress),
@@ -94,8 +94,8 @@ export default function card(dispatch, model, owner) {
                 img({className: `w-6 h-3 sm:w-8 sm:h-4 relative top-1 flex-none`, src: owner.addressSame ? checkMarkGreenSVG : xSVG},),
             ]),
             // Mailing Address
-            div({className: `flex space-x-4 space-x-reverse my-2 has-tooltip relative`}, [
-                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-16 left-16`}, `Mailing address of ${owner.name}`),
+            div({className: `flex space-x-4 space-x-reverse my-2 has-tooltip`}, [
+                span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 top-4 left-1/2 w-80%`, style:{transform: 'translate(-50%, -50%)'}}, `Mailing address of ${owner.name}`),
                 img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: homeSVG},),
                 p({className: `flex-grow flex-shrink text-sm sm:text-base pr-2 ${owner.addressSame ? 'text-gray-500' : 'text-red-500'}`},[
                     span({className: `mr-2`}, owner.mailingAddress),
@@ -106,8 +106,8 @@ export default function card(dispatch, model, owner) {
                 }),
             ]),
             // exemptions
-            div({className: `space-x-4 space-x-reverse my-2 has-tooltip relative ${owner.exemptions.length === 0 ? 'hidden' : 'flex'}`}, [
-                span({className: `tooltip whitespace-pre-line rounded shadow-lg p-2 bg-green-100 text-red-500 -top-24 left-16`}, `EXEMPTION CODES:\n${owner.exemptions.map(code => `${code}: ${exemptCodes[code]}\n`).join('')}`
+            div({className: `space-x-4 space-x-reverse my-2 has-tooltip ${owner.exemptions.length === 0 ? 'hidden' : 'flex'}`}, [
+                span({className: `tooltip whitespace-pre-line rounded shadow-lg p-2 bg-green-100 text-red-500 top-4 left-1/2 w-80%`, style:{transform: 'translate(-50%, -50%)'}}, `EXEMPTION CODES:\n${owner.exemptions.map(code => `${code}: ${exemptCodes[code]}\n`).join('')}`
                 ),
                 img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: eStopSVG},),
                 p({className: `text-sm sm:text-base flex-grow flex-shrink text-green-500`},[
@@ -118,7 +118,7 @@ export default function card(dispatch, model, owner) {
             //hidden owner property's
             div({className: `${owner.showOwnerProperty ? 'flex flex-col' : 'hidden'} `}, [
                 // horizontal rule
-                div({className: `flex justify-center w-100 my-4`}, [
+                div({className: `${owner.ownerProperty.length === 1 ? 'hidden' : 'flex'} justify-center w-100 my-4`}, [
                     div({className: `border-gray-500 border w-90%`},)
                 ]),
                 // owner container

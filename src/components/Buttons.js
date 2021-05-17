@@ -20,7 +20,7 @@ export default function (dispatch, model) {
         // left buttons group
         div({className: `flex justify-between w-85% sm:w-84`}, [
             // save button
-            div({className: `has-tooltip relative`}, [
+            div({className: `${localStorage.getItem('model') ? 'block': 'hidden'} has-tooltip relative`}, [
                 span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -bottom-12`}, `Save`),
                 a({className: ``, 
                     href: URL.createObjectURL(new Blob([localStorage.getItem('model')], {type: 'text/json'})),
@@ -69,7 +69,7 @@ export default function (dispatch, model) {
             ]),
     
             // local storage upload
-            div({className: `has-tooltip relative`}, [
+            div({className: `${localStorage.getItem('model') ? 'block': 'hidden'} has-tooltip relative`}, [
                 span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -left-4`}, `${localStorage.getItem('model') ? 'Local Storage' : 'Local Storage is Empty'}`),
                 img({className: `w-10 h-10 cursor-pointer`, 
                     src: localStorageSVG,
@@ -87,7 +87,7 @@ export default function (dispatch, model) {
             ]),
     
             // printer
-            div({className: `has-tooltip relative`}, [
+            div({className: `${localStorage.getItem('model') ? 'block': 'hidden'} has-tooltip relative`}, [
                 span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 left-0`}, `Print`),
                 a({className: ``, 
                     href: URL.createObjectURL(new Blob(Print(model.owners), {type: 'text/plain'})),
@@ -101,7 +101,7 @@ export default function (dispatch, model) {
 
 
         // trash button
-        div({className: `has-tooltip relative ml-auto`}, [
+        div({className: `${localStorage.getItem('model') ? 'block': 'hidden'} has-tooltip relative ml-auto`}, [
             span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -right-7`}, `Start Over`),
             img({className: `w-10 h-10 cursor-pointer`, 
                 src: trashSVG,

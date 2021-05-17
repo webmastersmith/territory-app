@@ -179,18 +179,22 @@ function update(msg, model) {
 			}
 		}
 		case MSG.OWNER_PROPERTY_ARRAY: {
-			// get all the owner id's and names.
+			// The initial get owners properties request.
+			// create object from all the owner id's and names.
 			const ownersArr = model.owners.map(owner => {
 				return {ownerId: owner.ownerId, name: owner.name}
 			})
-			// find unique
+			// return only the unique, complete object.
 			function uniqObjArr(a, prop) {
 				const arr1 = a.map((obj) => obj[prop])
 				return a.filter((v, i) => arr1.indexOf(v[prop]) === i)
 			}
+			// get all unique owners by id.
 			const uniqOwnersArr = uniqObjArr(ownersArr, 'ownerId')
 
-			const newModel = {...model, waiting: true, ownerProperty: {}}
+			// reset model
+			const newModel = {...model, waiting: true }
+			
 			// send initial get request
 			return [
 				newModel,
@@ -206,20 +210,34 @@ function update(msg, model) {
 			]
 		}
 		case MSG.HTTP_SUCCESS_OWNERS: {
-			// do something with returned data.
+			// When owner_property_array has returned, add data to each individual owner.
 			const { response: {data} } = msg
 			console.log('data', data);
+			// add returned data object to owner object.
+			// loop through owners, add there owned properties to owner object.
+			const ownersArr = model.owners.map(owner => {
+				// match ownerId with obj id.
+				if (data[owner.ownerId] ) {
+					return {...owner, ownerProperty: data[owner.ownerId]}
+				}
+				return owner
+			})
+
+			console.log('ownersArr', ownersArr);
+			// create new model
 			const newModel = {
 				...model,
 				waiting: false,
-				ownerProperty: data,
-				showOwnerPropertyIcon: true
+				showOwnerPropertyIcon: true,
+				owners: ownersArr
 			}
+			console.log('newModel', newModel);
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))
 			return newModel
 		}
 		case MSG.SHOW_OWNER_PROPERTY: {
+			// show/hide owner properties button clicked.
 			const { ownerId } = msg
 			// extract owner from owners
 			const owners = model.owners.filter(owner => owner.ownerId !== ownerId)
