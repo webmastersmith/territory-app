@@ -4,10 +4,8 @@ import personSVG from '../images/person.svg'
 import deedSVG from '../images/deed.svg'
 import addressSVG from '../images/address.svg'
 import propertySVG from '../images/property.svg'
-
-import addressBlackSVG from '../images/address-black.svg'
-import homeSVG from '../images/home.svg'
-import homeBlackSVG from '../images/home-black.svg'
+import xWhiteSVG from '../images/x-white.svg'
+import { deleteLot } from "../Controller"
 
 const { div, p, img, span, button, a } = hh(h)
 
@@ -15,7 +13,8 @@ const { div, p, img, span, button, a } = hh(h)
 // `https://propaccess.trueautomation.com/mapSearch/?cid=71&p=${owner.landId}`
 // details
 // `https://propaccess.trueautomation.com/clientdb/Property.aspx?cid=71&prop_${owner.landId}}`
-export default function getOwnerProperty(model, owner) {
+
+export default function getOwnerProperty(dispatch, model, owner) {
     // if only 1 property, data is repeated so just show price.
     if (owner.ownerProperty.length === 1) {
         return div({className: ``}, [
@@ -28,11 +27,41 @@ export default function getOwnerProperty(model, owner) {
         ])
         
     }
+
+    // ownerProperty match card landId, move property to top of list
+    const singleOwnerProperty = owner.ownerProperty.filter(property => property.propertyId === owner.landId)
+    const otherOwnerProperty = owner.ownerProperty.filter(property => property.propertyId !== owner.landId)
+    const ownerProperty = [...singleOwnerProperty, ...otherOwnerProperty]
+
     // get the properties owned by ownerId
-    return owner.ownerProperty.map( (prop, i) => {
-       return div({className: ``}, [
+    return ownerProperty.map( (prop, i) => {
+        // 1st property is same as card so just show price.
+        if (prop.propertyId === owner.landId) {
+            return div({className: ``}, [
+                div({className: `flex justify-center`},
+                 p({className: `relative font-semibold text-green-500`},  `This Territory`),
+                ),
+                // Price
+                div({className: `flex my-2`}, [
+                    img({className: `w-4 h-4 sm:w-5 sm:h-5 flex-none mr-2 sm:mr-3`, src: propertySVG},),
+                    p({className: `flex-grow flex-shrink text-xs sm:text-sm text-green-500 relative top-px sm:top-px`}, prop.price),
+                ]),
+            ])     
+        }
+        return div({className: ``}, [
            div({className: `flex justify-center`},
-            p({className: `font-semibold ${model.territory === prop.territory ? 'text-red-500' : 'text-green-500'}`}, `Territory ${prop.territory}`),
+            p({className: `relative font-semibold ${prop.inTerritory ? 'text-red-500' : 'text-blue-500'}`}, [
+                `${prop.propertyId === owner.landId ? 'This Territory' : `Territory ${prop.territory}`}`,
+                div({className: `absolute has-tooltip -top-2 -right-4 shadow-xl`}, [
+                    span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 right-0`}, `Delete property. ID: ${prop.propertyId}`),
+                    button({className: `p-1 bg-red-500 rounded-full`,
+                        onclick: e => dispatch(deleteLot(prop.propertyId)),
+                    }, [
+                        img({className: `w-2 h-2`, src: xWhiteSVG})
+                    ]),          
+                ]),
+        
+            ]),
            ),
             // name
             div({className: ``}, [

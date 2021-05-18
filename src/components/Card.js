@@ -122,7 +122,7 @@ export default function card(dispatch, model, owner) {
                     div({className: `border-gray-500 border w-90%`},)
                 ]),
                 // owner container
-                getOwnerProperty(model, owner)
+                getOwnerProperty(dispatch, model, owner)
 
             ]),
 

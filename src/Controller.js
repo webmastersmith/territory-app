@@ -127,7 +127,17 @@ function update(msg, model) {
 		}
 		case MSG.DELETE_LOT: {
 			const id = msg.id
-			const owners = model.owners.filter( owner => id !== owner.landId)
+			// remove card from owners, remove land from each ownerProperty
+			const owners = model.owners.reduce( (acc, owner) => {
+				const ownerProperty = owner.ownerProperty.filter(prop => prop.propertyId !== id)	
+				const newOwner = { ...owner, ownerProperty }
+				if (id !== newOwner.landId) {
+					return [...acc, newOwner]
+				}
+				return acc
+			}, [])
+
+			// console.log('owners', owners);
 			const newModel = {...model, owners }
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))			
@@ -147,7 +157,6 @@ function update(msg, model) {
 			const { data, name } = msg
 			localStorage.clear()
 
-
 			// transform file into array of id's.
 			const bulkIdArray = data
 				.replace(/\n|\r\n|\r/gi, '') // remove newlines
@@ -156,13 +165,12 @@ function update(msg, model) {
 
 			var newBulkIdArray = []
 				try {
-					newBulkIdArray = bulkIdArray.map(id => JSON.parse(id) ? JSON.parse(id) : id) // check if JSON values.
+					// check if JSON values.
+					newBulkIdArray = bulkIdArray.map(id => JSON.parse(id) ? JSON.parse(id) : id)
 				} catch(e) {
 					newBulkIdArray = bulkIdArray
 				}
-
-				// console.log('bulkIdArray', bulkIdArray);
-				
+			
 			if (Array.isArray(newBulkIdArray)) {			
 				// clear any existing data from model.
 				const newModel = {
@@ -193,7 +201,7 @@ function update(msg, model) {
 			// The initial get owners properties request.
 			// create object from all the owner id's and names.
 			const ownersArr = model.owners.map(owner => {
-				return {ownerId: owner.ownerId, name: owner.name}
+				return {ownerId: owner.ownerId, name: owner.name, territory: model.territory}
 			})
 			// return only the unique, complete object.
 			function uniqObjArr(a, prop) {

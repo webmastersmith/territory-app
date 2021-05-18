@@ -1,5 +1,4 @@
 const initModel = {
-	road: import.meta.env.VITE_ROAD,
 	waiting: false,
 	territory: '',
 	territoryServant: false,
