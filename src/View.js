@@ -10,7 +10,7 @@ import { updateKey, clearError } from './Controller'
 import Buttons from './components/Buttons'
 
 
-const { div, p, h1, input, button, img, a, span } = hh(h)
+const { pre, div, p, h1, input, button, img, a, span } = hh(h)
 
 // error function display
 function error(dispatch, model) { 
@@ -55,7 +55,7 @@ function view(dispatch, model) {
 		// top row of buttons
 		Buttons(dispatch, model),
 
-		// Angelina County Territory
+		// Territory Address Finder
 		div({className: `sm:flex border-b-2 border-black`}, [
 			h1({ className: `text-center sm: text-left text-normal sm:text-2xl md:text-3xl font-bold` },
 				'Territory Address Finder'),
@@ -67,7 +67,7 @@ function view(dispatch, model) {
 				oninput: (e) => dispatch(updateKey(e.target.value))
 			},)
 		]),
-		InputBox(dispatch, model),
+		// InputBox(dispatch, model),
 		// Territory ID Message
 		div({className: `font-bold ${model.bulkUpload ? 'my-4 flex justify-center' : 'hidden'}`}, [
 			p({className: `text-3xl text-blue-700`}, [
@@ -83,7 +83,7 @@ function view(dispatch, model) {
 		div({className: `grid grid-cols-auto-310 gap-6 justify-items-center`}, [
 				getCards(dispatch, model),
 			]),
-			// pre(JSON.stringify(model, null, 2))
+			pre(JSON.stringify(model, null, 2))
 	])
 }
 

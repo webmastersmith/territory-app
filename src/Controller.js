@@ -146,13 +146,24 @@ function update(msg, model) {
 		case MSG.BULK_UPLOAD: {
 			const { data, name } = msg
 			localStorage.clear()
+
+
 			// transform file into array of id's.
 			const bulkIdArray = data
 				.replace(/\n|\r\n|\r/gi, '') // remove newlines
 				.split(',') // convert to array.
 				.filter(id => id !== '') // remove blank items
 
-			if (Array.isArray(bulkIdArray)) {			
+			var newBulkIdArray = []
+				try {
+					newBulkIdArray = bulkIdArray.map(id => JSON.parse(id) ? JSON.parse(id) : id) // check if JSON values.
+				} catch(e) {
+					newBulkIdArray = bulkIdArray
+				}
+
+				// console.log('bulkIdArray', bulkIdArray);
+				
+			if (Array.isArray(newBulkIdArray)) {			
 				// clear any existing data from model.
 				const newModel = {
 					...initModel,
@@ -160,15 +171,15 @@ function update(msg, model) {
 					waiting: true,
 					territory: name.replace(/\.\w+$/i, ''),
 					bulkUpload: true,
-					bulkIdArray,
+					// bulkIdArray,
 				}
 				return [
 					newModel,
 					{
 						request: { 
 							url: roadItemUrl(newModel.key),
-							params: { roadIds: newModel.bulkIdArray }, //already JSON.stringify
-							method: 'get'
+							data: { landIds: newBulkIdArray }, //already JSON.stringify
+							method: 'post'
 						},
 						successMsg: httpSuccessItemMsg,
 						errorMsg: httpErrorMsg
@@ -201,8 +212,8 @@ function update(msg, model) {
 				{
 					request: { 
 						url: ownerPropertyUrl(model.key),
-						params: { owners: JSON.stringify(uniqOwnersArr) },
-						method: 'get'
+						data: { owners: JSON.stringify(uniqOwnersArr) },
+						method: 'post'
 					},
 					successMsg: httpSuccessOwnersMsg,
 					errorMsg: httpErrorMsg
@@ -212,7 +223,7 @@ function update(msg, model) {
 		case MSG.HTTP_SUCCESS_OWNERS: {
 			// When owner_property_array has returned, add data to each individual owner.
 			const { response: {data} } = msg
-			console.log('data', data);
+
 			// add returned data object to owner object.
 			// loop through owners, add there owned properties to owner object.
 			const ownersArr = model.owners.map(owner => {
@@ -223,7 +234,6 @@ function update(msg, model) {
 				return owner
 			})
 
-			console.log('ownersArr', ownersArr);
 			// create new model
 			const newModel = {
 				...model,
@@ -231,7 +241,7 @@ function update(msg, model) {
 				showOwnerPropertyIcon: true,
 				owners: ownersArr
 			}
-			console.log('newModel', newModel);
+
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))
 			return newModel

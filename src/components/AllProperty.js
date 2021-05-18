@@ -32,7 +32,7 @@ export default function getOwnerProperty(model, owner) {
     return owner.ownerProperty.map( (prop, i) => {
        return div({className: ``}, [
            div({className: `flex justify-center`},
-            p({className: `font-semibold text-red-500`}, `PROPERTY ${prop.propertyId}`),
+            p({className: `font-semibold ${model.territory === prop.territory ? 'text-red-500' : 'text-green-500'}`}, `Territory ${prop.territory}`),
            ),
             // name
             div({className: ``}, [
