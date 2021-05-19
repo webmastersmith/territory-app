@@ -21,14 +21,11 @@ const MSG = {
 	TRASH: "TRASH",
 }
 
-function roadListUrl(key) {
-	return `${import.meta.env.VITE_HTTP}/${key}`
-}
 function roadItemUrl(key) {
-	return `${import.meta.env.VITE_HTTP}/lots/${key}`
+	return `${import.meta.env.VITE_HTTP}/lots`
 }
 function ownerPropertyUrl(key) {
-	return `${import.meta.env.VITE_HTTP}/owners/${key}`
+	return `${import.meta.env.VITE_HTTP}/owners`
 }
 // submit button on road name.
 export const getRoadList = { type: MSG.ROAD_LIST }

@@ -51,7 +51,7 @@ export default function (dispatch, model) {
             ]),
             
             // bulk upload
-            div({className: `${model.key.length > 5 ? 'block': 'hidden'} has-tooltip relative`}, [
+            div({className: `${model.key ? 'block': 'hidden'} has-tooltip relative`}, [
                 span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -left-4`}, `Bulk Upload From Territory Servant`),
                 input({className: `hidden`, id:'bulkUploadElem', type:'file', accept:'.txt', name:'bulkArray',
                     onchange: e => {
@@ -77,8 +77,8 @@ export default function (dispatch, model) {
                 },)
             ]),
 
-            // person's property
-            div({className: `has-tooltip relative ${model.bulkUpload && model.key.length > 5 ? 'block' : 'hidden'}`}, [
+            // person's property upload
+            div({className: `has-tooltip relative ${model.bulkUpload && model.key ? 'block' : 'hidden'}`}, [
                 span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -left-4`}, `Get Owner Properties`),
                 img({className: `w-10 h-10 cursor-pointer`, 
                     src: propertySVG,

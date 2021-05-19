@@ -1,4 +1,5 @@
 const initModel = {
+	key: false,
 	waiting: false,
 	territory: '',
 	territoryServant: false,
@@ -6,7 +7,6 @@ const initModel = {
 	showOwnerProperty: true,
 	error: null,
 	bulkUpload: false,
-	key: import.meta.env.VITE_KEY,
 	roadIds: [],
 	owners: [],
 }

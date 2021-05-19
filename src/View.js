@@ -5,7 +5,7 @@ import Card from './components/Card'
 import {} from './Controller'
 import spinner from './components/spinner'
 import xSVG from "./images/x.svg"
-import { updateKey, clearError } from './Controller'
+import { clearError } from './Controller'
 import Buttons from './components/Buttons'
 
 
@@ -58,13 +58,13 @@ function view(dispatch, model) {
 		div({className: `sm:flex border-b-2 border-black`}, [
 			h1({ className: `text-center sm: text-left text-normal sm:text-2xl md:text-3xl font-bold` },
 				'Territory Address Finder'),
-				// key input box
-			input({
-				className: `w-100 mt-2 sm:mt-auto sm:w-48 md:w-52 border-2 border-green-500 mb-1 ml-auto rounded-md px-2 border-collapse `,
-				type: 'text',
-				value: model.key,
-				oninput: (e) => dispatch(updateKey(e.target.value))
-			},)
+			// 	// key input box
+			// input({
+			// 	className: `w-100 mt-2 sm:mt-auto sm:w-48 md:w-52 border-2 border-green-500 mb-1 ml-auto rounded-md px-2 border-collapse `,
+			// 	type: 'text',
+			// 	value: model.key,
+			// 	oninput: (e) => dispatch(updateKey(e.target.value))
+			// },)
 		]),
 		// Territory ID Message
 		div({className: `font-bold ${model.bulkUpload ? 'my-4 flex justify-center' : 'hidden'}`}, [
