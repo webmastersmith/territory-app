@@ -39,7 +39,7 @@ export default function getOwnerProperty(dispatch, model, owner) {
         if (prop.propertyId === owner.landId) {
             return div({className: ``}, [
                 div({className: `flex justify-center`},
-                 p({className: `relative font-semibold text-green-500`},  `This Territory`),
+                 p({className: `relative font-semibold text-green-500`},  `This Property`),
                 ),
                 // Price
                 div({className: `flex my-2`}, [
