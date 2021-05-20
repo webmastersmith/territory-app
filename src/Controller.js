@@ -106,11 +106,11 @@ function update(msg, model) {
 			return newModel
 		}
 		case MSG.HTTP_SUCCESS_ITEM: {
-			const { response } = msg
-			const [removedId, ...roadIds] = model.roadIds // remove 1st block and return.
-			const ownersArr = response.data // array of owners
+			const { response: {data} } = msg
+			console.log('data', data);
+			const ownersArr = data // array of owners
 			const owners = [ ...model.owners, ...ownersArr ]
-			const newModel = { ...model, waiting: false, owners, roadIds }
+			const newModel = { ...model, waiting: false, owners }
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))
 			return newModel
@@ -172,7 +172,7 @@ function update(msg, model) {
 				// clear any existing data from model.
 				const newModel = {
 					...initModel,
-					key: model.key,
+					key: false,
 					waiting: true,
 					territory: name.replace(/\.\w+$/i, ''),
 					bulkUpload: true,
@@ -183,7 +183,7 @@ function update(msg, model) {
 					{
 						request: { 
 							url: roadItemUrl(newModel.key),
-							data: { landIds: newBulkIdArray }, //already JSON.stringify
+							data: { landIds: newBulkIdArray, territory: name.replace(/\.\w+$/i, ''), }, //already JSON.stringify
 							method: 'post'
 						},
 						successMsg: httpSuccessItemMsg,

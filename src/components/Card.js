@@ -68,7 +68,7 @@ export default function card(dispatch, model, owner) {
                 p({className: ` flex-grow flex-shrink text-base sm:text-xl font-semibold relative top-0.5 sm:top-1`}, [
                     span({className: `relative`}, [
                         owner.name,
-                        span({className: `${model.showOwnerPropertyIcon ? 'flex' : 'hidden'} items-center justify-center absolute bg-green-200 rounded-full cursor-pointer text-sm ${getSize(owner.ownerProperty.length)}`, 
+                        span({className: `flex items-center justify-center absolute bg-green-200 rounded-full cursor-pointer text-sm ${getSize(owner.ownerProperty.length)}`, 
                         onclick: () => dispatch(showOwnerProperty(owner.ownerId)),
                         }, owner.ownerProperty.length),
                     ]),

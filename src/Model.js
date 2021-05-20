@@ -3,7 +3,6 @@ const initModel = {
 	waiting: false,
 	territory: '',
 	territoryServant: false,
-	showOwnerPropertyIcon: false,
 	showOwnerProperty: true,
 	error: null,
 	bulkUpload: false,
