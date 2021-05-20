@@ -48,6 +48,8 @@ export default function getOwnerProperty(dispatch, model, owner) {
                 ]),
             ])     
         }
+        
+        // if multiple properties, show them.
         return div({className: ``}, [
            div({className: `flex justify-center`},
             p({className: `relative font-semibold ${prop.inTerritory ? 'text-red-500' : 'text-blue-500'}`}, [
@@ -63,6 +65,7 @@ export default function getOwnerProperty(dispatch, model, owner) {
         
             ]),
            ),
+
             // name
             div({className: ``}, [
                 a({className: `flex relative`,
@@ -84,16 +87,12 @@ export default function getOwnerProperty(dispatch, model, owner) {
             // Physical Address
             div({className: `flex my-2`}, [
                 a({className: `flex relative`,
-                href: `https://propaccess.trueautomation.com/mapSearch/?cid=71&p=${owner.landId}`,
-                target: '_blank',
-            }, [
-                img({className: `w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-none`, src: addressSVG},),
-                p({className: ` flex-grow flex-shrink text-xs sm:text-sm top-0.5 sm:top-0.5 relative  text-blue-500 focus:ring-2 focus:ring-blue-600 visited:text-purple-500 active:text-red-500 underline cursor-pointer `}, prop.propertyAddress),
-            ]),
-
-
-                // img({className: `w-4 h-4 sm:w-5 sm:h-5 flex-none mr-2 sm:mr-3`, src: addressSVG},),
-                // p({className: `flex-grow flex-shrink text-xs sm:text-sm text-gray-500 relative top-px sm:top-px`}, prop.propertyAddress),
+                    href: `https://propaccess.trueautomation.com/mapSearch/?cid=71&p=${owner.landId}`,
+                    target: '_blank',
+                }, [
+                    img({className: `w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-none`, src: addressSVG},),
+                    p({className: ` flex-grow flex-shrink text-xs sm:text-sm top-0.5 sm:top-0.5 relative  text-blue-500 focus:ring-2 focus:ring-blue-600 visited:text-purple-500 active:text-red-500 underline cursor-pointer `}, prop.propertyAddress),
+                ]),
             ]),
 
             // Price

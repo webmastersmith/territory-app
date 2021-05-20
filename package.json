@@ -18,9 +18,5 @@
     "tailwindcss": "^2.1.2",
     "virtual-dom": "^2.1.1",
     "vite": "^2.1.5"
-  },
-  "dependencies": {
-    "axios": "^0.21.1",
-    "ramda": "^0.27.1"
   }
 }

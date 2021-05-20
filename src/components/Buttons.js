@@ -7,7 +7,7 @@ import bulkUploadSVG from "../images/bulk-upload.svg"
 import localStorageSVG from "../images/localStorage.svg"
 import printerSVG from "../images/printer.svg"
 import propertySVG from '../images/property.svg'
-import { clearStorage, uploadStorage, bulkUpload, getOwnerProperty, getLocalStorage } from '../Controller'
+import { clearStorage, uploadStorage, bulkUpload, getLocalStorage } from '../Controller'
 import Print from './Print'
 
 const { div, input, img, a, span } = hh(h)
@@ -25,7 +25,7 @@ export default function (dispatch, model) {
                 a({className: ``, 
                     href: URL.createObjectURL(new Blob([localStorage.getItem('model')], {type: 'text/json'})),
                     target: '_blank',
-                    download: model.bulkUpload ? `Territory_${model.territory}.json` : model.road + '.json',
+                    download: `Territory_${model.territory}.json`,
                 },
                     img({className: `w-10 h-10 cursor-pointer`, src: saveSVG,},),
                 ),
@@ -52,7 +52,7 @@ export default function (dispatch, model) {
             
             // bulk upload
             div({className: `${model.key ? 'block': 'hidden'} has-tooltip relative`}, [
-                span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -left-4`}, `Bulk Upload From Territory Servant`),
+                span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -left-4`}, `Bulk Upload For Territory Servant`),
                 input({className: `hidden`, id:'bulkUploadElem', type:'file', accept:'.txt', name:'bulkArray',
                     onchange: e => {
                         if (e.srcElement.files[0]) {
@@ -74,15 +74,6 @@ export default function (dispatch, model) {
                 img({className: `w-10 h-10 cursor-pointer`, 
                     src: localStorageSVG,
                     onclick: () => dispatch(getLocalStorage),
-                },)
-            ]),
-
-            // person's property upload
-            div({className: `has-tooltip relative ${model.bulkUpload && model.key ? 'block' : 'hidden'}`}, [
-                span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -left-4`}, `Get Owner Properties`),
-                img({className: `w-10 h-10 cursor-pointer`, 
-                    src: propertySVG,
-                    onclick: () => dispatch(getOwnerProperty),
                 },)
             ]),
     

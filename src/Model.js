@@ -1,12 +1,10 @@
 const initModel = {
-	key: true,
+	key: false,
 	waiting: false,
 	territory: '',
-	territoryServant: false,
 	showOwnerProperty: true,
 	error: null,
 	bulkUpload: false,
-	roadIds: [],
 	owners: [],
 }
 

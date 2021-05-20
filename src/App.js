@@ -1,7 +1,5 @@
 import { diff, patch } from "virtual-dom"
 import createElement from "virtual-dom/create-element"
-import axios from 'axios';
-import type from 'ramda/src/type'
 
 // impure code below
 function app(initModel, update, view, node) {
@@ -15,7 +13,7 @@ function app(initModel, update, view, node) {
 	function dispatch(msg) {
 		// what i added.
 		const updates = update(msg, model);
-		const isArray = type(updates) === 'Array';
+		const isArray = Array.isArray(updates);
 		model = isArray ? updates[0] : updates;
 		const command = isArray ? updates[1] : null;
 		httpEffects(dispatch, command);
@@ -33,16 +31,21 @@ function httpEffects(dispatch, command) {
 	
 	const { request, successMsg, errorMsg } = command;
 	
-	axios(request)
-		.then(response => dispatch(successMsg(response)))
-		.catch(err => {
-			if (err.response) {
-				// console.log(`axios response error: ${err.response.data} ${err.response.status} ${JSON.stringify(err.response.headers)}`);
-				dispatch(errorMsg(err.response.data))
-			} else {
-				dispatch(errorMsg(JSON.stringify(err)))
-			}
-		})
+	try {
+		const url = request.url
+		fetch(url, request)
+			.then(response => response.json())
+			.then(result => dispatch(successMsg(result)))
+			.catch(err => {
+				if (err.response) {
+					dispatch(errorMsg(err.response.data))
+				} else {
+					dispatch(errorMsg(JSON.stringify(err)))
+				}
+			})
+	} catch(e) {
+		console.log('Fetch request error:', e);
+	}
 		
 }
 
