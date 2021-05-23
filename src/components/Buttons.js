@@ -6,8 +6,8 @@ import uploadSVG from "../images/upload.svg"
 import bulkUploadSVG from "../images/bulk-upload.svg"
 import localStorageSVG from "../images/localStorage.svg"
 import printerSVG from "../images/printer.svg"
-import propertySVG from '../images/property.svg'
-import { clearStorage, uploadStorage, bulkUpload, getLocalStorage } from '../Controller'
+import missingPropertySVG from "../images/missing.svg"
+import { clearStorage, uploadStorage, bulkUpload, getLocalStorage, showMissingProperty } from '../Controller'
 import Print from './Print'
 
 const { div, input, img, a, span } = hh(h)
@@ -18,7 +18,7 @@ export default function (dispatch, model) {
     return div({className: `flex my-2 `}, [
         
         // left buttons group
-        div({className: `flex justify-between w-85% sm:w-84`}, [
+        div({className: `flex justify-between w-100`}, [
             // save button
             div({className: `${localStorage.getItem('model') ? 'block': 'hidden'} has-tooltip relative`}, [
                 span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -bottom-12`}, `Save`),
@@ -88,17 +88,27 @@ export default function (dispatch, model) {
                     img({className: `w-10 h-10 cursor-pointer`, src: printerSVG})
                 ),
             ]),			
-        ]), // end left buttons
 
-
-        // trash button
-        div({className: `${localStorage.getItem('model') ? 'block': 'hidden'} has-tooltip relative ml-auto`}, [
+            // show missing territory button
+            div({className: `${model.missingProperty.length > 0 ? 'block': 'hidden'} has-tooltip relative`}, [
+                span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -right-7`}, `Show Missing Properties`),
+                img({className: `w-10 h-10 cursor-pointer`, 
+                    src: missingPropertySVG,
+                    onclick: () => dispatch(showMissingProperty),
+                },)
+            ]), // end trash        
+            
+            
+            
+            // trash button
+        div({className: `${localStorage.getItem('model') ? 'block': 'hidden'} has-tooltip relative`}, [
             span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -right-7`}, `Start Over`),
             img({className: `w-10 h-10 cursor-pointer`, 
                 src: trashSVG,
                 onclick: () => dispatch(clearStorage),
             },)
-        ]),
+        ]), // end trash
+    ]), // end left buttons
     ])
 
 }

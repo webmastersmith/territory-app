@@ -1216,6 +1216,10 @@ video {
   white-space: pre-line;
 }
 
+.whitespace-pre-wrap {
+  white-space: pre-wrap;
+}
+
 .w-2 {
   width: 0.5rem;
 }
@@ -1274,10 +1278,6 @@ video {
 
 .w-80\% {
   width: 80%;
-}
-
-.w-85\% {
-  width: 85%;
 }
 
 .w-90\% {
@@ -1675,10 +1675,6 @@ video {
 
   .sm\:w-48 {
     width: 12rem;
-  }
-
-  .sm\:w-84 {
-    width: 21rem;
   }
 
   .sm\:w-auto {

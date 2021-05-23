@@ -1,7 +1,6 @@
 import initModel from './Model'
 
 const MSG = {
-	KEY: "KEY",
 	HTTP_SUCCESS_ITEM: "HTTP_SUCCESS_ITEM",
 	HTTP_ERROR: "HTTP_ERROR",
 	CLEAR_ERROR: "CLEAR_ERROR",
@@ -11,6 +10,7 @@ const MSG = {
 	BULK_UPLOAD: "BULK_UPLOAD",
 	SHOW_OWNER_PROPERTY: "SHOW_OWNER_PROPERTY",
 	LOCAL_STORAGE: "LOCAL_STORAGE",
+	SHOW_MISSING_PROPERTY: "SHOW_MISSING_PROPERTY",
 	TRASH: "TRASH",
 }
 
@@ -21,10 +21,10 @@ function roadItemUrl() {
 // make changes to model and wait for response form server.
 export const clearError = { type: MSG.CLEAR_ERROR }
 export const getLocalStorage = { type: MSG.LOCAL_STORAGE }
+export const showMissingProperty = { type: MSG.SHOW_MISSING_PROPERTY }
 export const clearStorage = { type: MSG.TRASH }
 
 export function showOwnerProperty(ownerId) { return {type: MSG.SHOW_OWNER_PROPERTY, ownerId} }
-export function updateKey(key) {return {type: MSG.KEY, key,}}
 export function deleteLot(id) {return {type: MSG.DELETE_LOT, id,}}
 export function uploadStorage(data, error=null) {return {type: MSG.UPLOAD, data, error}}
 export function bulkUpload(data, name='',error=null) {return {type: MSG.BULK_UPLOAD, data, name, error}}
@@ -35,28 +35,45 @@ const httpSuccessItemMsg = (response) => ({
 })
 const httpErrorMsg = (error) => ({ type: MSG.HTTP_ERROR, error})
 
+function findMissingLandIds(owners) {
+	let missingLandIds = []
+	// loop through owners array 
+	for (const owner of owners) {
+	  // filter ownersProperty with 'empty' territory values.
+	  missingLandIds.push(...owner.ownerProperty.filter(prop => prop.territory === 'empty')) 
+  	}
+	 // loop thorugh array and extract propertyId.
+	return missingLandIds.map(prop => prop.propertyId) 
+}
+
+
 
 // update function start
 function update(msg, model) {
 	switch (msg.type) {
-		case MSG.KEY: {
-			const { key } = msg
-			return { ...model, key }
-		}
-		case MSG.HTTP_SUCCESS_ITEM: {
-			const { response } = msg // array of owner objects. -each object is complete model.
-			const ownersArr = response // array of owners
-			const owners = [ ...model.owners, ...ownersArr ]
-			const newModel = { ...model, waiting: false, owners }
-			localStorage.clear()
-			localStorage.setItem('model', JSON.stringify(newModel))
-			return newModel
-		}
 		case MSG.UPLOAD: {
 			const { data } = msg
+			// if older datafile, is missing missingProperty array.  Needed on bulk upload as well.
+			const modelTemp = { ...JSON.parse(data)}
+			const newModel = modelTemp.showMissingProperty ? modelTemp : { ...modelTemp, showMissingProperty:false }
+
+			// find missing  properties, insert into model.
+			const missingProperty = findMissingLandIds(newModel.owners)
+			missingProperty.sort()
+			newModel.missingProperty = missingProperty
+			const {owners} = newModel
+			owners.sort((a, b) => {
+				a = a.name
+				b = b.name
+				if (a < b) return -1
+				if (b < a) return 1
+				return 0
+			})
+
+			newModel.owners = owners
 			localStorage.clear()
-			localStorage.setItem('model', data)
-			return { ...JSON.parse(data)}
+			localStorage.setItem('model', newModel)
+			return newModel
 		}
 		case MSG.BULK_UPLOAD: {
 			const { data, name } = msg
@@ -103,6 +120,29 @@ function update(msg, model) {
 				return {...model, error: 'There was a problem with file. Please upload again.'}
 			}
 		}
+		case MSG.HTTP_SUCCESS_ITEM: {
+			// return of bulk upload if successfull.
+
+			const { response: owners } = msg // array of owner objects. -each object is complete model.
+			// const ownersArr = response // array of owners
+			// const owners = [ ...model.owners, ...ownersArr ]
+
+			const missingProperty = findMissingLandIds(owners)
+			missingProperty.sort()
+			model.missingProperty = missingProperty
+
+			owners.sort((a, b) => {
+				a = a.name
+				b = b.name
+				if (a < b) return -1
+				if (b < a) return 1
+				return 0
+				})
+			const newModel = { ...model, waiting: false, owners }
+			localStorage.clear()
+			localStorage.setItem('model', JSON.stringify(newModel))
+			return newModel
+		}
 		case MSG.HTTP_ERROR: {
 			const { error } = msg
 			return {...model, waiting: false, error}
@@ -125,6 +165,14 @@ function update(msg, model) {
 			const newModel = {...model, owners }
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))			
+			return newModel
+		}
+		case MSG.SHOW_MISSING_PROPERTY: {
+			const showMissingProperty = model.showMissingProperty ? false : true
+			const newModel = {...model, showMissingProperty}
+			localStorage.clear()
+			localStorage.setItem('model', JSON.stringify(newModel))
+
 			return newModel
 		}
 		case MSG.TRASH: {
@@ -154,8 +202,11 @@ function update(msg, model) {
 		}
 		case MSG.LOCAL_STORAGE: {
 			if (!!localStorage.getItem('model')) {
-				return { ...JSON.parse(localStorage.getItem('model')) }
+				const modelTemp = { ...JSON.parse(localStorage.getItem('model')) }
+				const newModel = modelTemp.missingProperty ? modelTemp : { ...modelTemp, missingProperty: [] }
+				return newModel
 			}
+			return model
 		}
 	}
 	return model

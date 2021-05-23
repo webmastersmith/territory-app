@@ -5,6 +5,7 @@ import deedSVG from '../images/deed.svg'
 import addressSVG from '../images/address.svg'
 import propertySVG from '../images/property.svg'
 import xWhiteSVG from '../images/x-white.svg'
+import googleMapSVG from '../images/google-maps.svg'
 import { deleteLot } from "../Controller"
 
 const { div, p, img, span, button, a } = hh(h)
@@ -85,14 +86,24 @@ export default function getOwnerProperty(dispatch, model, owner) {
             ]),
 
             // Physical Address
-            div({className: `flex my-2`}, [
-                a({className: `flex relative`,
+            div({className: `flex my-2 relative`}, [
+                a({className: `flex `,
                     href: `https://propaccess.trueautomation.com/mapSearch/?cid=71&p=${owner.landId}`,
                     target: '_blank',
                 }, [
                     img({className: `w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-none`, src: addressSVG},),
-                    p({className: ` flex-grow flex-shrink text-xs sm:text-sm top-0.5 sm:top-0.5 relative  text-blue-500 focus:ring-2 focus:ring-blue-600 visited:text-purple-500 active:text-red-500 underline cursor-pointer `}, prop.propertyAddress),
+                    p({className: ` flex-grow flex-shrink text-xs sm:text-sm top-0.5 sm:top-0.5 relative  text-blue-500 focus:ring-2 focus:ring-blue-600 visited:text-purple-500 active:text-red-500 underline cursor-pointer `}, [
+                        prop.propertyAddress,
+                    ],),
+                    ]),
+                    span({className: `whitespace-pre-wrap`}, ' '),
+                a({className: `${prop.propertyAddress === 'empty' ? 'hidden' : 'inline-block'}`, 
+                    href: `https://www.google.com/maps/search/${prop.propertyAddress.replace(/,/, '').replace(/\s/g, '+')}`,
+                    target: '_blank'
+                }, [
+                    img({className: `w-5 h-5 inline-block absolute top-0`, src: googleMapSVG}),
                 ]),
+
             ]),
 
             // Price

@@ -9,7 +9,7 @@ import { clearError } from './Controller'
 import Buttons from './components/Buttons'
 
 
-const { div, p, h1, input, button, img, span } = hh(h)
+const { div, p, h1, button, img, span, a } = hh(h)
 
 // error function display
 function error(dispatch, model) { 
@@ -66,6 +66,7 @@ function view(dispatch, model) {
 			// 	oninput: (e) => dispatch(updateKey(e.target.value))
 			// },)
 		]),
+
 		// Territory ID Message
 		div({className: `font-bold ${model.bulkUpload ? 'my-4 flex justify-center' : 'hidden'}`}, [
 			p({className: `text-3xl text-blue-700`}, [
@@ -75,8 +76,20 @@ function view(dispatch, model) {
 					span({className: `bg-red-500 flex justify-center items-center rounded-full text-white text-sm absolute ${getNumSize(model.owners.length)}`}, `${model.owners.length}`),
 				]),
 			]),
-		]),
+		]), // end territory header
+
 		error(dispatch, model),
+		
+		// Missing Property
+		div({className: `${model.showMissingProperty ? 'block' : 'hidden'} mb-10`}, [
+			model.missingProperty.map(landId => a({className: ``,
+				href: `https://propaccess.trueautomation.com/mapSearch/?cid=71&p=${landId}`,
+				target: '_blank',
+			}, [
+				p({className: ` flex-grow flex-shrink text-xs sm:text-sm top-0.5 sm:top-0.5 relative  text-blue-500 focus:ring-2 focus:ring-blue-600 visited:text-purple-500 active:text-red-500 underline cursor-pointer `}, landId),
+			]),) // end map
+		]),
+
 		// cards -check if empty
 		div({className: `grid grid-cols-auto-310 gap-6 justify-items-center`}, [
 				getCards(dispatch, model),

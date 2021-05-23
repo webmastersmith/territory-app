@@ -5,6 +5,8 @@ const initModel = {
 	showOwnerProperty: true,
 	error: null,
 	bulkUpload: false,
+	missingProperty: [],
+	showMissingProperty: false,
 	owners: [],
 }
 

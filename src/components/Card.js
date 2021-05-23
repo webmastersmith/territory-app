@@ -12,6 +12,8 @@ import homeBlackSVG from '../images/home-black.svg'
 import xSVG from '../images/x.svg'
 import xWhiteSVG from '../images/x-white.svg'
 import eStopSVG from '../images/estop.svg'
+import googleMapSVG from '../images/google-maps.svg'
+import distanceSVG from '../images/distance.svg'
 import { btnCSS } from './button'
 import { deleteLot, showOwnerProperty } from "../Controller"
 import getOwnerProperty from "./AllProperty"
@@ -81,7 +83,15 @@ export default function card(dispatch, model, owner) {
                 img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: addressSVG},),
                 p({className: `flex-grow flex-shrink text-sm sm:text-base text-gray-500`}, [
                     span({className: `mr-2`}, owner.physicalAddress),
-                    span({className: `text-sm uppercase italic inline-block ${owner.physicalCity === "LUFKIN" ? 'text-gray-400' : 'text-red-400'}`}, `${owner.physicalCity} ${owner.physicalState} ${owner.physicalZip}`)
+                    span({className: `text-sm uppercase italic inline-block relative ${owner.physicalCity === "LUFKIN" ? 'text-gray-400' : 'text-red-400'}`}, [
+                        `${owner.physicalCity} ${owner.physicalState} ${owner.physicalZip}`,
+                        a({className: ``, 
+                            href: `https://www.google.com/maps/search/${owner.physicalAddress.replace(/\s/g, '+')}+${owner.physicalCity}+${owner.physicalState}+${owner.physicalZip}`,
+                            target: '_blank'
+                        }, [
+                            img({className: `w-5 h-5 inline-block absolute -top-1 -right-5`, src: googleMapSVG},),
+                        ])
+                    ])
                 ]),
                 img({className: `w-6 h-3 sm:w-8 sm:h-4 relative top-1 flex-none`, src: owner.addressSame ? checkMarkGreenSVG : xSVG},),
             ]),
@@ -91,12 +101,34 @@ export default function card(dispatch, model, owner) {
                 img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: homeSVG},),
                 p({className: `flex-grow flex-shrink text-sm sm:text-base pr-2 ${owner.addressSame ? 'text-gray-500' : 'text-red-500'}`},[
                     span({className: `mr-2`}, owner.mailingAddress),
-                    span({className: `text-sm uppercase italic inline-block ${owner.mailingCity === "LUFKIN" ? 'text-gray-400' : 'text-red-400'} ${owner.addressSame ? 'text-gray-400' : 'text-red-400'}`},`${owner.mailingCity} ${owner.mailingState} ${owner.mailingZip}`)
+                    span({className: `text-sm uppercase italic inline-block relative ${owner.mailingCity === "LUFKIN" ? 'text-gray-400' : 'text-red-400'} ${owner.addressSame ? 'text-gray-400' : 'text-red-400'}`},[
+                        `${owner.mailingCity} ${owner.mailingState} ${owner.mailingZip}`,
+                        // google maps link
+                        a({className: `${(/PO BOX/).test(owner.mailingAddress) ? 'hidden':'inline-block'}`, 
+                            href: `https://www.google.com/maps/search/${owner.mailingAddress.replace(/\s/g, '+')}+${owner.mailingCity}+${owner.mailingState}+${owner.mailingZip}`,
+                            target: '_blank'
+                        }, [
+                            img({className: `w-5 h-5 inline-block absolute -top-1 -right-5`, src: googleMapSVG},),
+                        ])
+                    ])
                 ]),
                 img({className: `w-6 h-3 sm:w-8 sm:h-4 relative top-1 flex-none`, 
                     src: owner.addressSame ? checkMarkGreenSVG : xSVG
                 }),
             ]),
+            // show distance image
+            div({className: `flex justify-center ${(/PO BOX/).test(owner.mailingAddress) ? 'hidden': 'block' }`}, [
+                a({className: `w-5 h-5 ${owner.addressSame ? 'hidden':'flex'}`, 
+                    href: `https://www.google.com/maps/dir/${owner.physicalAddress.replace(/\s/, '+')}+${owner.physicalCity}+${owner.physicalState}+${owner.physicalZip}/${owner.mailingAddress.replace(/\s/, '+')}+${owner.mailingCity}+${owner.mailingState}+${owner.mailingZip}`,
+                    target: '_blank'
+                }, [
+                    img({className: ``, src: googleMapSVG},),
+                    img({className: ``, src: distanceSVG},),
+                    img({className: ``, src: googleMapSVG},),
+    
+                ]),
+            ]), // end distance div
+
             // exemptions
             div({className: `space-x-4 space-x-reverse my-2 has-tooltip ${owner.exemptions.length === 0 ? 'hidden' : 'flex'}`}, [
                 span({className: `tooltip whitespace-pre-line rounded shadow-lg p-2 bg-green-100 text-red-500 top-4 left-1/2 w-80%`, style:{transform: 'translate(-50%, -50%)'}}, `EXEMPTION CODES:\n${owner.exemptions.map(code => `${code}: ${exemptCodes[code]}\n`).join('')}`
