@@ -1,5 +1,5 @@
 const initModel = {
-	key: false,
+	key: true,
 	waiting: false,
 	territory: '',
 	showOwnerProperty: true,

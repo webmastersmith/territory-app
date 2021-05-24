@@ -60,12 +60,11 @@ export default function card(dispatch, model, owner) {
                 span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 top-4 left-1/2 w-80%`, style:{transform: 'translate(-50%, -50%)'}}, `Last Name, First Name, Spouse. ID: ${owner.ownerId}`),
                 img({className: `w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-4 flex-none`, src: personSVG},),
                 p({className: ` flex-grow flex-shrink text-base sm:text-xl font-semibold relative top-0.5 sm:top-1`}, [
-                    span({className: `relative`}, [
-                        owner.name,
-                        span({className: `flex items-center justify-center absolute bg-green-200 rounded-full cursor-pointer text-sm ${getSize(owner.ownerProperty.length)}`, 
+                    // show all property owned
+                    owner.name,
+                    span({className: `inline-flex items-center justify-center bg-green-200 rounded-full cursor-pointer text-sm relative top-2 left-0 ${getSize(owner.ownerProperty.length)}`, 
                         onclick: () => dispatch(showOwnerProperty(owner.ownerId)),
-                        }, owner.ownerProperty.length),
-                    ]),
+                    }, owner.ownerProperty.length),
                 ]),
             ]),
             // deed
