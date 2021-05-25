@@ -34,6 +34,14 @@ export default function getOwnerProperty(dispatch, model, owner) {
     const otherOwnerProperty = owner.ownerProperty.filter(property => property.propertyId !== owner.landId)
     const ownerProperty = [...singleOwnerProperty, ...otherOwnerProperty]
 
+    // ownerArr: {
+    //     propertyId: any;
+    //     propertyAddress: any;
+    //     name: any;
+    //     price: any;
+    //     territory: String;
+    //     inTerritory: Boolean;
+    // }
     // get the properties owned by ownerId
     return ownerProperty.map( (prop, i) => {
         // 1st property is same as card so just show price.
@@ -70,7 +78,7 @@ export default function getOwnerProperty(dispatch, model, owner) {
             // name
             div({className: ``}, [
                 a({className: `flex relative`,
-                    href: `https://propaccess.trueautomation.com/clientdb/Property.aspx?cid=71&prop_id=${owner.landId}`,
+                    href: `https://propaccess.trueautomation.com/clientdb/Property.aspx?cid=71&prop_id=${prop.propertyId}`,
                     target: '_blank',
                 }, [
                     img({className: `w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-none`, src: personSVG},),
@@ -88,7 +96,7 @@ export default function getOwnerProperty(dispatch, model, owner) {
             // Physical Address
             div({className: `flex my-2 relative`}, [
                 a({className: `flex `,
-                    href: `https://propaccess.trueautomation.com/mapSearch/?cid=71&p=${owner.landId}`,
+                    href: `https://propaccess.trueautomation.com/mapSearch/?cid=71&p=${prop.propertyId}`,
                     target: '_blank',
                 }, [
                     img({className: `w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 flex-none`, src: addressSVG},),
