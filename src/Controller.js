@@ -72,7 +72,7 @@ function update(msg, model) {
 
 			newModel.owners = owners
 			localStorage.clear()
-			localStorage.setItem('model', newModel)
+			localStorage.setItem('model', JSON.stringify(newModel))
 			return newModel
 		}
 		case MSG.BULK_UPLOAD: {
@@ -202,8 +202,26 @@ function update(msg, model) {
 		}
 		case MSG.LOCAL_STORAGE: {
 			if (!!localStorage.getItem('model')) {
-				const modelTemp = { ...JSON.parse(localStorage.getItem('model')) }
-				const newModel = modelTemp.missingProperty ? modelTemp : { ...modelTemp, missingProperty: [] }
+				const modelTemp = JSON.parse(localStorage.getItem('model')) 
+				const newModel = modelTemp.showMissingProperty ? modelTemp : { ...modelTemp, showMissingProperty:false }
+	
+				// find missing  properties, insert into model.
+				const missingProperty = findMissingLandIds(newModel.owners)
+				missingProperty.sort()
+				newModel.missingProperty = missingProperty
+				const {owners} = newModel
+				owners.sort((a, b) => {
+					a = a.name
+					b = b.name
+					if (a < b) return -1
+					if (b < a) return 1
+					return 0
+				})
+	
+				newModel.owners = owners
+				localStorage.clear()
+				localStorage.setItem('model', JSON.stringify(newModel))
+	
 				return newModel
 			}
 			return model
