@@ -42,6 +42,9 @@ export default function getOwnerProperty(dispatch, model, owner) {
     //     territory: String;
     //     inTerritory: Boolean;
     // }
+    // improvements : [{improvements: '', stateCode: '', sqft: '', value: ''}]
+    // lands = lands.length > 0 ? lands : [{landType: '', acres: '', sqft: '', marketValue: '', prodValue: ''}]
+
     // get the properties owned by ownerId
     return ownerProperty.map( (prop, i) => {
         // 1st property is same as card so just show price.

@@ -24,7 +24,7 @@ export const getLocalStorage = { type: MSG.LOCAL_STORAGE }
 export const showMissingProperty = { type: MSG.SHOW_MISSING_PROPERTY }
 export const clearStorage = { type: MSG.TRASH }
 
-export function showOwnerProperty(ownerId) { return {type: MSG.SHOW_OWNER_PROPERTY, ownerId} }
+export function showOwnerProperty(landId) { return {type: MSG.SHOW_OWNER_PROPERTY, landId} }
 export function deleteLot(id) {return {type: MSG.DELETE_LOT, id,}}
 export function uploadStorage(data, error=null) {return {type: MSG.UPLOAD, data, error}}
 export function bulkUpload(data, name='',error=null) {return {type: MSG.BULK_UPLOAD, data, name, error}}
@@ -181,15 +181,15 @@ function update(msg, model) {
 		}
 		case MSG.SHOW_OWNER_PROPERTY: {
 			// show/hide owner properties button clicked.
-			const { ownerId } = msg
+			const { landId } = msg
 			// extract owner from owners
-			const owners = model.owners.filter(owner => owner.ownerId !== ownerId)
-			const [owner] = model.owners.filter(owner => owner.ownerId === ownerId)
+			const owners = model.owners.filter(owner => owner.landId !== landId)
+			const [owner] = model.owners.filter(owner => owner.landId === landId)
 			// find index of owner id
-			const i = model.owners.findIndex(owner => owner.ownerId === ownerId)
+			const i = model.owners.findIndex(owner => owner.landId === landId)
 			
-			const toggle = owner.showOwnerProperty ? false : true
-			const newOwner = {...owner, showOwnerProperty: toggle}
+			const showOwnerProperty = owner.showOwnerProperty ? false : true
+			const newOwner = {...owner, showOwnerProperty}
 			// insert back into array.
 			const junk = owners.splice(i, 0, newOwner) // destructive
 			const newModel = {

@@ -63,7 +63,7 @@ export default function card(dispatch, model, owner) {
                     // show all property owned
                     owner.name,
                     span({className: `inline-flex items-center justify-center bg-green-200 rounded-full cursor-pointer text-sm relative top-2 left-0 ${getSize(owner.ownerProperty.length)}`, 
-                        onclick: () => dispatch(showOwnerProperty(owner.ownerId)),
+                        onclick: () => dispatch(showOwnerProperty(owner.landId)),
                     }, owner.ownerProperty.length),
                 ]),
             ]),
