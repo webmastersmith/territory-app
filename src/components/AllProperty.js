@@ -44,7 +44,7 @@ export default function getOwnerProperty(dispatch, model, owner) {
     ]) // end improvements + lands div
 
 
-    // // if only 1 property, data is repeated so just show price.
+    // // if only 1 property, data is repeated so just show price and land improvements.
     if (owner.ownerProperty.length === 1) {
         return div({className: ``}, [
             // improvements + lands

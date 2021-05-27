@@ -222,8 +222,8 @@ function update(msg, model) {
 				// fix missing features
 				// const newModel = newFeaturesRepair(modelTemp)			
 
-				localStorage.clear()
-				localStorage.setItem('model', JSON.stringify(newModel))
+				// localStorage.clear()
+				// localStorage.setItem('model', JSON.stringify(newModel))
 	
 				return newModel
 			}

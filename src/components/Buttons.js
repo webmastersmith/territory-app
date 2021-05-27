@@ -91,7 +91,7 @@ export default function (dispatch, model) {
 
             // show missing territory button
             div({className: `${model.missingProperty.length > 0 ? 'block': 'hidden'} has-tooltip relative`}, [
-                span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -right-7`}, `Show Missing Properties`),
+                span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -right-7`}, `${model.showMissingProperty ? 'Hide': 'Show'} Missing Properties`),
                 img({className: `w-10 h-10 cursor-pointer`, 
                     src: missingPropertySVG,
                     onclick: () => dispatch(showMissingProperty),

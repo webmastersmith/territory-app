@@ -9,7 +9,7 @@ import { clearError } from './Controller'
 import Buttons from './components/Buttons'
 
 
-const { pre, div, p, h1, button, img, span, a } = hh(h)
+const { div, p, h1, button, img, span, a } = hh(h)
 
 // error function display
 function error(dispatch, model) { 
@@ -94,7 +94,7 @@ function view(dispatch, model) {
 		div({className: `grid grid-cols-auto-310 gap-6 justify-items-center`}, [
 				getCards(dispatch, model),
 			]),
-			pre(JSON.stringify(model, null, 2))
+			// pre(JSON.stringify(model, null, 2))
 	])
 }
 
