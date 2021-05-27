@@ -46,6 +46,32 @@ function findMissingLandIds(owners) {
 	return missingLandIds.map(prop => prop.propertyId) 
 }
 
+function newFeaturesRepair(modelTemp) {
+	// find missing  properties, insert into model.
+	
+	const newModel = modelTemp.showMissingProperty 
+	? modelTemp 
+	: { ...modelTemp, showMissingProperty:false }
+	// will return empty array if no properties listed.
+	const missingProperty = findMissingLandIds(newModel.owners)
+	missingProperty.sort()
+	newModel.missingProperty = missingProperty
+	
+	// extract owners array and sort. The owners array is inside an object.
+	const {owners} = newModel
+	
+	// fix missing improvements and lands
+	const newOwners = owners.map(owner => {
+		owner.improvements = owner.improvements ? owner.improvements : [{improvement: '', stateCode: '', sqft: '', value: ''}]
+
+		owner.lands = owner.lands ? owner.lands : [{landType: '', acres: '', sqft: '', marketValue: '', prodValue: ''}]
+		return owner
+	})
+
+	newModel.owners = newOwners
+
+	return newModel	
+} // end newFeatureRepair
 
 
 // update function start
@@ -54,23 +80,11 @@ function update(msg, model) {
 		case MSG.UPLOAD: {
 			const { data } = msg
 			// if older datafile, is missing missingProperty array.  Needed on bulk upload as well.
-			const modelTemp = { ...JSON.parse(data)}
-			const newModel = modelTemp.showMissingProperty ? modelTemp : { ...modelTemp, showMissingProperty:false }
+			const newModel = JSON.parse(data)
 
-			// find missing  properties, insert into model.
-			const missingProperty = findMissingLandIds(newModel.owners)
-			missingProperty.sort()
-			newModel.missingProperty = missingProperty
-			const {owners} = newModel
-			owners.sort((a, b) => {
-				a = a.name
-				b = b.name
-				if (a < b) return -1
-				if (b < a) return 1
-				return 0
-			})
+			// fix addon features
+			// const newModel = newFeaturesRepair(modelTemp)			
 
-			newModel.owners = owners
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))
 			return newModel
@@ -90,6 +104,7 @@ function update(msg, model) {
 					// check if JSON values.
 					newBulkIdArray = bulkIdArray.map(id => JSON.parse(id) ? JSON.parse(id) : id)
 				} catch(e) {
+					// if catch, means was not JSON format, so just add it to variable.
 					newBulkIdArray = bulkIdArray
 				}
 			
@@ -202,23 +217,11 @@ function update(msg, model) {
 		}
 		case MSG.LOCAL_STORAGE: {
 			if (!!localStorage.getItem('model')) {
-				const modelTemp = JSON.parse(localStorage.getItem('model')) 
-				const newModel = modelTemp.showMissingProperty ? modelTemp : { ...modelTemp, showMissingProperty:false }
-	
-				// find missing  properties, insert into model.
-				const missingProperty = findMissingLandIds(newModel.owners)
-				missingProperty.sort()
-				newModel.missingProperty = missingProperty
-				const {owners} = newModel
-				owners.sort((a, b) => {
-					a = a.name
-					b = b.name
-					if (a < b) return -1
-					if (b < a) return 1
-					return 0
-				})
-	
-				newModel.owners = owners
+				const newModel = JSON.parse(localStorage.getItem('model')) 
+				
+				// fix missing features
+				// const newModel = newFeaturesRepair(modelTemp)			
+
 				localStorage.clear()
 				localStorage.setItem('model', JSON.stringify(newModel))
 	

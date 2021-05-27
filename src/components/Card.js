@@ -141,7 +141,7 @@ export default function card(dispatch, model, owner) {
             //hidden owner property's
             div({className: `${owner.showOwnerProperty ? 'flex flex-col' : 'hidden'} `}, [
                 // horizontal rule
-                div({className: `${owner.ownerProperty.length === 1 ? 'hidden' : 'flex'} justify-center w-100 my-4`}, [
+                div({className: `flex justify-center w-100 my-2`}, [
                     div({className: `border-gray-500 border w-90%`},)
                 ]),
                 // owner container
