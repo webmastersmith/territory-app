@@ -2,12 +2,14 @@ import initModel from './Model'
 
 const MSG = {
 	HTTP_SUCCESS_ITEM: "HTTP_SUCCESS_ITEM",
+	HTTP_SUCCESS_BULK_UPLOAD_PLUS: "HTTP_SUCCESS_BULK_UPLOAD_PLUS",
 	HTTP_ERROR: "HTTP_ERROR",
 	CLEAR_ERROR: "CLEAR_ERROR",
 	DELETE_LOT: "DELETE_LOT",
 	SAVE: "SAVE",
 	UPLOAD: "UPLOAD",
 	BULK_UPLOAD: "BULK_UPLOAD",
+	BULK_UPLOAD_PLUS: "BULK_UPLOAD_PLUS",
 	SHOW_OWNER_PROPERTY: "SHOW_OWNER_PROPERTY",
 	LOCAL_STORAGE: "LOCAL_STORAGE",
 	SHOW_MISSING_PROPERTY: "SHOW_MISSING_PROPERTY",
@@ -28,9 +30,14 @@ export function showOwnerProperty(landId) { return {type: MSG.SHOW_OWNER_PROPERT
 export function deleteLot(id) {return {type: MSG.DELETE_LOT, id,}}
 export function uploadStorage(data, error=null) {return {type: MSG.UPLOAD, data, error}}
 export function bulkUpload(data, name='',error=null) {return {type: MSG.BULK_UPLOAD, data, name, error}}
+export function bulkUploadPlus(data, error=null) {return {type: MSG.BULK_UPLOAD_PLUS, data, error}}
 // response make changes to data.
 const httpSuccessItemMsg = (response) => ({
 	type: MSG.HTTP_SUCCESS_ITEM,
+	response
+})
+const httpSuccessBulkUploadPlusMsg = (response) => ({
+	type: MSG.HTTP_SUCCESS_BULK_UPLOAD_PLUS,
 	response
 })
 const httpErrorMsg = (error) => ({ type: MSG.HTTP_ERROR, error})
@@ -42,7 +49,7 @@ function findMissingLandIds(owners) {
 	  // filter ownersProperty with 'empty' territory values.
 	  missingLandIds.push(...owner.ownerProperty.filter(prop => prop.territory === 'empty')) 
   	}
-	 // loop thorugh array and extract propertyId.
+	 // loop thorugh array and extract propertyId of all empty territory's.
 	return missingLandIds.map(prop => prop.propertyId) 
 }
 
@@ -135,6 +142,48 @@ function update(msg, model) {
 				return {...model, error: 'There was a problem with file. Please upload again.'}
 			}
 		}
+		case MSG.BULK_UPLOAD_PLUS: {
+			const { data } = msg
+			localStorage.clear()
+
+			// transform file into array of id's.
+			const bulkIdArray = data
+				.replace(/\n|\r\n|\r/gi, '') // remove newlines
+				.split(',') // convert to array.
+				.filter(id => id !== '') // remove blank items
+
+			var newBulkIdArray = []
+				try {
+					// check if JSON values.
+					newBulkIdArray = bulkIdArray.map(id => JSON.parse(id) ? JSON.parse(id) : id)
+				} catch(e) {
+					// if catch, means was not JSON format, so just add it to variable.
+					newBulkIdArray = bulkIdArray
+				}
+			
+			if (Array.isArray(newBulkIdArray)) {			
+				// clear any existing data from model.
+				const newModel = {
+					...model,
+					waiting: true,
+				}
+				return [
+					newModel,
+					{
+						request: { 
+							url: roadItemUrl(),
+							body: JSON.stringify({ landIds: newBulkIdArray, territory: model.territory }), //already JSON.stringify
+							method: 'post',
+							headers: {'Content-Type': 'application/json;charset=utf-8'},
+						},
+						successMsg: httpSuccessBulkUploadPlusMsg,
+						errorMsg: httpErrorMsg
+					}
+				]
+			} else {
+				return {...model, error: 'There was a problem with Plus file. Please upload again.'}
+			}
+		}
 		case MSG.HTTP_SUCCESS_ITEM: {
 			// return of bulk upload if successfull.
 
@@ -154,6 +203,32 @@ function update(msg, model) {
 				return 0
 				})
 			const newModel = { ...model, waiting: false, owners }
+			localStorage.clear()
+			localStorage.setItem('model', JSON.stringify(newModel))
+			return newModel
+		}
+		case MSG.HTTP_SUCCESS_BULK_UPLOAD_PLUS: {
+			// return of bulk upload if successfull.
+
+			const { response: owners } = msg // array of owner objects. -each object is complete model.
+			// const ownersArr = response // array of owners
+			// const owners = [ ...model.owners, ...ownersArr ]
+
+			const newOwners = [...model.owners, ...owners ]
+			console.log('newOwners', newOwners);
+			// const missingProperty = findMissingLandIds(newOwners)
+			const missingProperty = [ ...findMissingLandIds(owners), ...model.missingProperty]
+			missingProperty.sort()
+			model.missingProperty = missingProperty
+
+			newOwners.sort((a, b) => {
+				a = a.name
+				b = b.name
+				if (a < b) return -1
+				if (b < a) return 1
+				return 0
+				})
+			const newModel = { ...model, waiting: false, owners: newOwners }
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))
 			return newModel

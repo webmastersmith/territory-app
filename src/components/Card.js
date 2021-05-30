@@ -43,6 +43,16 @@ export default function card(dispatch, model, owner) {
                 src: owner.allTrue ? checkMarkSVG : handSVG,
             }), // end img svg
         ]), // end img div
+
+        // landId
+        div({className: `absolute w-100 -top-2 left-0 text-center has-tooltip`}, [
+            // tooltip
+            span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-red-500 -top-14 mx-auto left-0 right-0`}, `Property ID: ${owner.landId}`),
+
+            p({className: `px-2 bg-red-500 rounded text-white text-xl shadow-lg inline`}, owner.landId),
+
+        ]),
+
         // closing x
         div({className: `absolute has-tooltip -top-0 -right-0 shadow-xl`}, [
             span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 right-0`}, `Delete property. ID: ${owner.landId}`),

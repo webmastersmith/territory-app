@@ -4,10 +4,12 @@ import trashSVG from "../images/trash.svg"
 import saveSVG from "../images/save.svg"
 import uploadSVG from "../images/upload.svg"
 import bulkUploadSVG from "../images/bulk-upload.svg"
+import bulkUploadPlusSVG from "../images/plus.svg"
 import localStorageSVG from "../images/localStorage.svg"
 import printerSVG from "../images/printer.svg"
 import missingPropertySVG from "../images/missing.svg"
-import { clearStorage, uploadStorage, bulkUpload, getLocalStorage, showMissingProperty } from '../Controller'
+
+import { clearStorage, uploadStorage, bulkUpload, bulkUploadPlus, getLocalStorage, showMissingProperty } from '../Controller'
 import Print from './Print'
 
 const { div, input, img, a, span } = hh(h)
@@ -67,6 +69,25 @@ export default function (dispatch, model) {
                     }
                 },),
             ]),
+
+            // bulk upload plus -add any missing territories
+            div({className: `${model.key ? 'block': 'hidden'} has-tooltip relative`}, [
+                span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 -left-4`}, `Bulk Upload Plus For Territory Servant`),
+                input({className: `hidden`, id:'bulkUploadPlusElem', type:'file', accept:'.txt', name:'bulkArray',
+                    onchange: e => {
+                        if (e.srcElement.files[0]) {
+                            e.srcElement.files[0].text().then(data => dispatch(bulkUploadPlus(data)))
+                        }
+                    }
+                }),
+                img({className: `w-10 h-10 cursor-pointer`,
+                    src: bulkUploadPlusSVG,
+                    onclick: e => {
+                        document.getElementById('bulkUploadPlusElem').click()
+                    }
+                },),
+            ]),  // end bulkUploadPlus
+
     
             // local storage upload
             div({className: `${localStorage.getItem('model') ? 'block': 'hidden'} has-tooltip relative`}, [
