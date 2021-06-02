@@ -23,7 +23,7 @@ export default function getOwnerProperty(dispatch, model, owner) {
         owner.improvements[0].improvement 
             ? owner.improvements.map(el => {
                 return div({className: `flex text-xs mx-2`}, [
-                    span({className: `flex-shrink`}, el.improvement),
+                    span({className: `flex-shrink`}, `${el.improvement} `),
                     span({className: `flex-1 whitespace-nowrap text-center`}, el.improvementDetails),
                     span({className: `${el.sqft ? 'flex-1' : 'hidden'}`}, el.sqft),
                     span({className: `flex-shrink text-right`}, `${el.value}`)

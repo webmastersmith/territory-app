@@ -67,6 +67,7 @@ function view(dispatch, model) {
 			// },)
 		]),
 
+		// img({className: ``, src: `https://maps.googleapis.com/maps/api/streetview?size=400x400&location=154%20PRESTON%20ST%20LUFKIN,%20TX%2075901-4681&key=AIzaSyBxRyE3Nm70Fq_yKRhGGk1zumsX_wCXkjM&signature=l2nQvgPUl4LCKgSnuOdzfvxF5X0=`},),
 		// Territory ID Message
 		div({className: `font-bold ${model.bulkUpload ? 'my-4 flex justify-center' : 'hidden'}`}, [
 			p({className: `text-3xl text-blue-700`}, [
