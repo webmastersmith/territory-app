@@ -1,5 +1,6 @@
 const initModel = {
 	key: true,
+	sortAtoZ: true,
 	waiting: false,
 	territory: '',
 	showOwnerProperty: true,

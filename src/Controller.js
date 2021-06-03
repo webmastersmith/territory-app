@@ -14,6 +14,7 @@ const MSG = {
 	LOCAL_STORAGE: "LOCAL_STORAGE",
 	SHOW_MISSING_PROPERTY: "SHOW_MISSING_PROPERTY",
 	TRASH: "TRASH",
+	SORT_A_Z: "SORT_A_Z",
 }
 
 function roadItemUrl() {
@@ -22,6 +23,7 @@ function roadItemUrl() {
 // submit button on road name.
 // make changes to model and wait for response form server.
 export const clearError = { type: MSG.CLEAR_ERROR }
+export const sortA_Z = { type: MSG.SORT_A_Z }
 export const getLocalStorage = { type: MSG.LOCAL_STORAGE }
 export const showMissingProperty = { type: MSG.SHOW_MISSING_PROPERTY }
 export const clearStorage = { type: MSG.TRASH }
@@ -54,28 +56,11 @@ function findMissingLandIds(owners) {
 }
 
 function newFeaturesRepair(modelTemp) {
-	// find missing  properties, insert into model.
-	
-	const newModel = modelTemp.showMissingProperty 
-	? modelTemp 
-	: { ...modelTemp, showMissingProperty:false }
-	// will return empty array if no properties listed.
-	const missingProperty = findMissingLandIds(newModel.owners)
-	missingProperty.sort()
-	newModel.missingProperty = missingProperty
-	
-	// extract owners array and sort. The owners array is inside an object.
-	const {owners} = newModel
-	
-	// fix missing improvements and lands
-	const newOwners = owners.map(owner => {
-		owner.improvements = owner.improvements ? owner.improvements : [{improvement: '', stateCode: '', sqft: '', value: ''}]
-
-		owner.lands = owner.lands ? owner.lands : [{landType: '', acres: '', sqft: '', marketValue: '', prodValue: ''}]
-		return owner
-	})
-
-	newModel.owners = newOwners
+	let newModel = modelTemp
+	// check for missing sortAtoZ property.
+	if (!modelTemp.hasOwnProperty('sortAtoZ') ) {
+		newModel = {...modelTemp, sortAtoZ: true}
+	}
 
 	return newModel	
 } // end newFeatureRepair
@@ -84,13 +69,44 @@ function newFeaturesRepair(modelTemp) {
 // update function start
 function update(msg, model) {
 	switch (msg.type) {
+		case MSG.SORT_A_Z: {
+			const owners = model.owners
+			const sortAtoZTemp = model.sortAtoZ
+			const sortAtoZ = sortAtoZTemp ? false : true
+
+			if (sortAtoZ) {
+				owners.sort((a, b) => {
+					a = a.name
+					b = b.name
+					if (a < b) return -1
+					if (b < a) return 1
+					return 0
+					})
+				} else {
+					// sort by land id
+					owners.sort((a, b) => {
+						a = parseInt(a.landId)
+						b = parseInt(b.landId)
+						if (a < b) return -1
+						if (b < a) return 1
+						return 0
+						})
+				}
+
+
+			const newModel = {...model, owners, sortAtoZ}
+
+			localStorage.clear()
+			localStorage.setItem('model', JSON.stringify(newModel))
+			return newModel
+		}
 		case MSG.UPLOAD: {
 			const { data } = msg
 			// if older datafile, is missing missingProperty array.  Needed on bulk upload as well.
-			const newModel = JSON.parse(data)
+			const modelTemp = JSON.parse(data)
 
 			// fix addon features
-			// const newModel = newFeaturesRepair(modelTemp)			
+			const newModel = newFeaturesRepair(modelTemp)			
 
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))
@@ -292,10 +308,10 @@ function update(msg, model) {
 		}
 		case MSG.LOCAL_STORAGE: {
 			if (!!localStorage.getItem('model')) {
-				const newModel = JSON.parse(localStorage.getItem('model')) 
+				const modelTemp = JSON.parse(localStorage.getItem('model')) 
 				
 				// fix missing features
-				// const newModel = newFeaturesRepair(modelTemp)			
+				const newModel = newFeaturesRepair(modelTemp)			
 
 				// localStorage.clear()
 				// localStorage.setItem('model', JSON.stringify(newModel))

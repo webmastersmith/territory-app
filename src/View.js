@@ -5,11 +5,11 @@ import Card from './components/Card'
 import {} from './Controller'
 import spinner from './components/spinner'
 import xSVG from "./images/x.svg"
-import { clearError } from './Controller'
+import { clearError, sortA_Z } from './Controller'
 import Buttons from './components/Buttons'
 
 
-const { div, p, h1, button, img, span, a } = hh(h)
+const { pre, div, p, h1, button, img, span, a, label, input } = hh(h)
 
 // error function display
 function error(dispatch, model) { 
@@ -55,19 +55,44 @@ function view(dispatch, model) {
 		Buttons(dispatch, model),
 
 		// Territory Address Finder
-		div({className: `sm:flex border-b-2 border-black`}, [
-			h1({ className: `text-center sm: text-left text-normal sm:text-2xl md:text-3xl font-bold` },
+		div({className: `mx-2 sm:mx-0 flex border-b-2 border-black`}, [
+			h1({ className: `text-xl sm:text-2xl md:text-3xl font-bold` },
 				'Territory Address Finder'),
-			// 	// key input box
-			// input({
-			// 	className: `w-100 mt-2 sm:mt-auto sm:w-48 md:w-52 border-2 border-green-500 mb-1 ml-auto rounded-md px-2 border-collapse `,
-			// 	type: 'text',
-			// 	value: model.key,
-			// 	oninput: (e) => dispatch(updateKey(e.target.value))
-			// },)
-		]),
+			
+			// sort button
+			div({className: `ml-auto`}, [
+				label({className: `flex items-center cursor-pointer`, for:"sortAtoZ" }, [
+					// label
+					div({className: `hidden sm:inline mr-3 text-gray-700 font-medium`}, [
+						'A-Z'
+					]),						
+					// toggle
+					div({className: `relative`}, [
+						// checkbox
+						input({
+							className: `sr-only`,
+							type:"checkbox",
+							id:"sortAtoZ",
+							checked: !model?.sortAtoZ || false,
+							onclick: () => dispatch(sortA_Z)
+						},),
+						// background container
+						div({className: `block bg-gray-600 w-14 h-8 rounded-full`},),
+						// dot
+						div({className: `dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition`},),
+					]), // end toggle
+					// label
+					div({className: `hidden sm:inline ml-3 text-gray-700 font-medium`}, [
+						'Property ID'
+					]),					
+				]) // end label
+			]), // end sort div
+  
+		]), // end border Territory Address Finder
+
 
 		// img({className: ``, src: `https://maps.googleapis.com/maps/api/streetview?size=400x400&location=154%20PRESTON%20ST%20LUFKIN,%20TX%2075901-4681&key=AIzaSyBxRyE3Nm70Fq_yKRhGGk1zumsX_wCXkjM&signature=l2nQvgPUl4LCKgSnuOdzfvxF5X0=`},),
+
 		// Territory ID Message
 		div({className: `font-bold ${model.bulkUpload ? 'my-4 flex justify-center' : 'hidden'}`}, [
 			p({className: `text-3xl text-blue-700`}, [
@@ -95,7 +120,7 @@ function view(dispatch, model) {
 		div({className: `grid grid-cols-auto-310 gap-6 justify-items-center`}, [
 				getCards(dispatch, model),
 			]),
-			// pre(JSON.stringify(model, null, 2))
+			pre(JSON.stringify(model, null, 2))
 	])
 }
 
