@@ -230,6 +230,9 @@ function update(msg, model) {
 			// const ownersArr = response // array of owners
 			// const owners = [ ...model.owners, ...ownersArr ]
 
+			// remove the returned owners from the old owners
+			// owners.landId.filter(id => model.owners.landId.filter(oldId => oldId !== id ))
+
 			const newOwners = [...model.owners, ...owners ]
 			console.log('newOwners', newOwners);
 			// const missingProperty = findMissingLandIds(newOwners)

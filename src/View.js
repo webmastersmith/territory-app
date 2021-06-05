@@ -62,10 +62,6 @@ function view(dispatch, model) {
 			// sort button
 			div({className: `ml-auto`}, [
 				label({className: `flex items-center cursor-pointer`, for:"sortAtoZ" }, [
-					// label
-					div({className: `hidden sm:inline mr-3 text-gray-700 font-medium`}, [
-						'A-Z'
-					]),						
 					// toggle
 					div({className: `relative`}, [
 						// checkbox
@@ -83,15 +79,13 @@ function view(dispatch, model) {
 					]), // end toggle
 					// label
 					div({className: `hidden sm:inline ml-3 text-gray-700 font-medium`}, [
-						'Property ID'
+						'Sort by Property ID'
 					]),					
 				]) // end label
 			]), // end sort div
   
 		]), // end border Territory Address Finder
 
-
-		// img({className: ``, src: `https://maps.googleapis.com/maps/api/streetview?size=400x400&location=154%20PRESTON%20ST%20LUFKIN,%20TX%2075901-4681&key=wCXkjM&signature=l2nQvgPUl4LCKgSnuOdzfvxF5X0=`},),
 
 		// Territory ID Message
 		div({className: `font-bold ${model.bulkUpload ? 'my-4 flex justify-center' : 'hidden'}`}, [
