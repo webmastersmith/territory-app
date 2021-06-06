@@ -9,6 +9,7 @@ import addressSVG from '../images/address.svg'
 import addressBlackSVG from '../images/address-black.svg'
 import homeSVG from '../images/home.svg'
 import homeBlackSVG from '../images/home-black.svg'
+import plusSVG from '../images/plus.svg'
 import xSVG from '../images/x.svg'
 // import xWhiteSVG from '../images/x-white.svg'
 import eStopSVG from '../images/estop.svg'
@@ -16,7 +17,7 @@ import trashSVG from '../images/trash.svg'
 import googleMapSVG from '../images/google-maps.svg'
 import distanceSVG from '../images/distance.svg'
 import { btnCSS } from './button'
-import { deleteLot, showOwnerProperty } from "../Controller"
+import { deleteLot, showOwnerProperty, singleUpload } from "../Controller"
 import getOwnerProperty from "./AllProperty"
 import exemptCodes from './exemptionCodes'
 const { div, p, img, span, button, a } = hh(h)
@@ -36,8 +37,8 @@ function getSize(num) {
 
 
 export default function card(dispatch, model, owner) {
-    return div({ className: `mx-2 sm:mx-auto relative bg-white my-6 rounded-3xl shadow-xl max-w-max` }, [
-        // thumbnail
+    return div({ className: `flex flex-col mx-2 sm:mx-auto relative bg-white my-6 rounded-3xl shadow-xl max-w-max` }, [
+        // thumbnail image
         a({className: ``,
             href: owner.coordinates.lat
                 ? `https://www.google.com/maps/search/${owner.coordinates.lat},${owner.coordinates.lng}`
@@ -55,7 +56,7 @@ export default function card(dispatch, model, owner) {
         ]),
 
         // mx div provide padding for all content except image
-        div({className: `py-6 px-6`}, [
+        div({className: `py-6 px-6 flex-grow flex flex-col`}, [
             // top circle img
             div({className: `flex-shrink flex items-center absolute rounded-full py-4 px-4 shadow-xl ${owner.allTrue ? 'bg-green-500' : 'bg-yellow-1'} left-4 -top-6`}, [
                 img({
@@ -72,6 +73,14 @@ export default function card(dispatch, model, owner) {
                 p({className: `px-2 bg-red-500 rounded text-white text-xl shadow-lg inline`}, owner.landId),
     
             ]),
+
+            // single card redo plus svg.
+            div({className: `${model.key ? 'inline' : 'hidden'} absolute w-100 -top-2 left-0 text-center`},
+                button({className: ``,
+                   onclick: e => dispatch(singleUpload(owner.landId)),
+            }, [
+                img({className: `w-8 h-8 inline ml-28`, src: plusSVG})
+            ])),
     
             // closing x
             div({className: `absolute has-tooltip -top-0 -right-0 shadow-xl`}, [
@@ -84,7 +93,7 @@ export default function card(dispatch, model, owner) {
             ]),
     
             // main content div -equal bottom alignment needs flex-col
-            div({className: `mt-200px flex flex-col`},[
+            div({className: `flex-grow flex flex-col`},[
                 // name
                 div({className: `has-tooltip flex my-2`}, [
                     span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 top-4 left-1/2 w-80%`, style:{transform: 'translate(-50%, -50%)'}}, `Last Name, First Name, Spouse. ID: ${owner.ownerId}`),

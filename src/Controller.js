@@ -3,11 +3,13 @@ import initModel from './Model'
 const MSG = {
 	HTTP_SUCCESS_ITEM: "HTTP_SUCCESS_ITEM",
 	HTTP_SUCCESS_BULK_UPLOAD_PLUS: "HTTP_SUCCESS_BULK_UPLOAD_PLUS",
+	HTTP_SUCCESS_SINGLE_UPLOAD: "HTTP_SUCCESS_SINGLE_UPLOAD",
 	HTTP_ERROR: "HTTP_ERROR",
 	CLEAR_ERROR: "CLEAR_ERROR",
 	DELETE_LOT: "DELETE_LOT",
 	SAVE: "SAVE",
 	UPLOAD: "UPLOAD",
+	SINGLE_UPLOAD: "SINGLE_UPLOAD",
 	BULK_UPLOAD: "BULK_UPLOAD",
 	BULK_UPLOAD_PLUS: "BULK_UPLOAD_PLUS",
 	SHOW_OWNER_PROPERTY: "SHOW_OWNER_PROPERTY",
@@ -33,6 +35,7 @@ export function deleteLot(id) {return {type: MSG.DELETE_LOT, id,}}
 export function uploadStorage(data, error=null) {return {type: MSG.UPLOAD, data, error}}
 export function bulkUpload(data, name='',error=null) {return {type: MSG.BULK_UPLOAD, data, name, error}}
 export function bulkUploadPlus(data, error=null) {return {type: MSG.BULK_UPLOAD_PLUS, data, error}}
+export function singleUpload(landId) {return {type: MSG.SINGLE_UPLOAD, landId }}
 // response make changes to data.
 const httpSuccessItemMsg = (response) => ({
 	type: MSG.HTTP_SUCCESS_ITEM,
@@ -40,6 +43,10 @@ const httpSuccessItemMsg = (response) => ({
 })
 const httpSuccessBulkUploadPlusMsg = (response) => ({
 	type: MSG.HTTP_SUCCESS_BULK_UPLOAD_PLUS,
+	response
+})
+const httpSuccessSingleUploadMsg = (response) => ({
+	type: MSG.HTTP_SUCCESS_SINGLE_UPLOAD,
 	response
 })
 const httpErrorMsg = (error) => ({ type: MSG.HTTP_ERROR, error})
@@ -61,10 +68,32 @@ function newFeaturesRepair(modelTemp) {
 	if (!modelTemp.hasOwnProperty('sortAtoZ') ) {
 		newModel = {...modelTemp, sortAtoZ: true}
 	}
-
 	return newModel	
 } // end newFeatureRepair
 
+function sorter(bool, arr) {
+	if (bool) {
+		// sort by name
+		arr.sort((a, b) => {
+			a = a.name
+			b = b.name
+			if (a < b) return -1
+			if (b < a) return 1
+			return 0
+		})
+		return arr
+	} else {
+		// sort by land id
+		arr.sort((a, b) => {
+			a = parseInt(a.landId)
+			b = parseInt(b.landId)
+			if (a < b) return -1
+			if (b < a) return 1
+			return 0
+		})
+		return arr
+	}
+}
 
 // update function start
 function update(msg, model) {
@@ -74,27 +103,7 @@ function update(msg, model) {
 			const sortAtoZTemp = model.sortAtoZ
 			const sortAtoZ = sortAtoZTemp ? false : true
 
-			if (sortAtoZ) {
-				owners.sort((a, b) => {
-					a = a.name
-					b = b.name
-					if (a < b) return -1
-					if (b < a) return 1
-					return 0
-					})
-				} else {
-					// sort by land id
-					owners.sort((a, b) => {
-						a = parseInt(a.landId)
-						b = parseInt(b.landId)
-						if (a < b) return -1
-						if (b < a) return 1
-						return 0
-						})
-				}
-
-
-			const newModel = {...model, owners, sortAtoZ}
+			const newModel = {...model, owners: sorter(sortAtoZ, owners), sortAtoZ}
 
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))
@@ -200,9 +209,31 @@ function update(msg, model) {
 				return {...model, error: 'There was a problem with Plus file. Please upload again.'}
 			}
 		}
+		case MSG.SINGLE_UPLOAD: {
+			const { landId } = msg
+			localStorage.clear()
+
+			const newModel = {
+				...model,
+				waiting: true,
+			}
+
+			return [
+				newModel,
+				{
+					request: { 
+						url: roadItemUrl(),
+						body: JSON.stringify({ landIds: [landId], territory: model.territory }), //already JSON.stringify
+						method: 'post',
+						headers: {'Content-Type': 'application/json;charset=utf-8'},
+					},
+					successMsg: httpSuccessSingleUploadMsg,
+					errorMsg: httpErrorMsg
+				}
+			]
+		}
 		case MSG.HTTP_SUCCESS_ITEM: {
 			// return of bulk upload if successfull.
-
 			const { response: owners } = msg // array of owner objects. -each object is complete model.
 			// const ownersArr = response // array of owners
 			// const owners = [ ...model.owners, ...ownersArr ]
@@ -211,14 +242,7 @@ function update(msg, model) {
 			missingProperty.sort()
 			model.missingProperty = missingProperty
 
-			owners.sort((a, b) => {
-				a = a.name
-				b = b.name
-				if (a < b) return -1
-				if (b < a) return 1
-				return 0
-				})
-			const newModel = { ...model, waiting: false, owners }
+			const newModel = { ...model, waiting: false, owners: sorter(model.sortAtoZ, owners) }
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))
 			return newModel
@@ -227,27 +251,39 @@ function update(msg, model) {
 			// return of bulk upload if successfull.
 
 			const { response: owners } = msg // array of owner objects. -each object is complete model.
-			// const ownersArr = response // array of owners
-			// const owners = [ ...model.owners, ...ownersArr ]
+			console.log('owners', owners)
 
 			// remove the returned owners from the old owners
-			// owners.landId.filter(id => model.owners.landId.filter(oldId => oldId !== id ))
-
-			const newOwners = [...model.owners, ...owners ]
-			console.log('newOwners', newOwners);
+			// extract owners landIds into a reduce -filter and remove any land ids
+			const filteredOwners = owners.map(obj => obj.landId).reduce((a, v) => a.filter(obj => v !== obj.landId), model.owners)
+			const newOwners = [ ...filteredOwners, ...owners ]
+			
 			// const missingProperty = findMissingLandIds(newOwners)
 			const missingProperty = [ ...findMissingLandIds(owners), ...model.missingProperty]
 			missingProperty.sort()
 			model.missingProperty = missingProperty
 
-			newOwners.sort((a, b) => {
-				a = a.name
-				b = b.name
-				if (a < b) return -1
-				if (b < a) return 1
-				return 0
-				})
-			const newModel = { ...model, waiting: false, owners: newOwners }
+			const newModel = { ...model, waiting: false, owners: sorter(model.sortAtoZ, newOwners) }
+			localStorage.clear()
+			localStorage.setItem('model', JSON.stringify(newModel))
+			return newModel
+		}
+		case MSG.HTTP_SUCCESS_SINGLE_UPLOAD: {
+			// return of single card.
+			const { response: owners } = msg // array of owner objects. -each object is complete model.
+			console.log('owners', owners)
+
+			// remove the returned owners from the old owners
+			// extract owners landIds into a reduce -filter and remove any land ids
+			const filteredOwners = owners.map(obj => obj.landId).reduce((a, v) => a.filter(obj => v !== obj.landId), model.owners)
+			const newOwners = [ ...filteredOwners, ...owners ]
+			
+			// const missingProperty = findMissingLandIds(newOwners)
+			const missingProperty = [ ...findMissingLandIds(owners), ...model.missingProperty]
+			missingProperty.sort()
+			model.missingProperty = missingProperty
+
+			const newModel = { ...model, waiting: false, owners: sorter(model.sortAtoZ, newOwners) }
 			localStorage.clear()
 			localStorage.setItem('model', JSON.stringify(newModel))
 			return newModel

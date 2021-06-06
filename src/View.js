@@ -2,7 +2,6 @@ import hh from "hyperscript-helpers"
 import { h } from "virtual-dom"
 import './styles/index.css'
 import Card from './components/Card'
-import {} from './Controller'
 import spinner from './components/spinner'
 import xSVG from "./images/x.svg"
 import { clearError, sortA_Z } from './Controller'
