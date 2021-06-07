@@ -144,7 +144,7 @@ export default function card(dispatch, model, owner) {
                         span({className: `text-sm uppercase italic inline-block relative ${owner.mailingCity === "LUFKIN" ? 'text-gray-400' : 'text-red-400'} ${owner.addressSame ? 'text-gray-400' : 'text-red-400'}`},[
                             `${owner.mailingCity} ${owner.mailingState} ${owner.mailingZip}`,
                             // google maps link
-                            a({className: `${(/PO BOX/).test(owner.mailingAddress) ? 'hidden':'inline-block'}`, 
+                            a({className: `${(/P\s?O BOX/).test(owner.mailingAddress) ? 'hidden':'inline-block'}`, 
                                 href: `https://www.google.com/maps/search/${owner.mailingAddress.replace(/\s/g, '+')}+${owner.mailingCity}+${owner.mailingState}+${owner.mailingZip}`,
                                 target: '_blank'
                             }, [
@@ -158,7 +158,7 @@ export default function card(dispatch, model, owner) {
                 ]),
                 // show distance image
                 div({className: `flex justify-center ${(/PO BOX/).test(owner.mailingAddress) ? 'hidden': 'block' }`}, [
-                    a({className: `w-5 h-5 ${owner.addressSame ? 'hidden':'flex'}`, 
+                    a({className: `w-5 h-5 ${owner.addressSame ? 'hidden': owner.physicalAddress === 'empty' ? 'hidden' : owner.mailingAddress === 'empty' ? 'hidden' :'flex'}`, 
                         href: `https://www.google.com/maps/dir/${owner.physicalAddress.replace(/\s/, '+')}+${owner.physicalCity}+${owner.physicalState}+${owner.physicalZip}/${owner.mailingAddress.replace(/\s/, '+')}+${owner.mailingCity}+${owner.mailingState}+${owner.mailingZip}`,
                         target: '_blank'
                     }, [

@@ -1,5 +1,5 @@
 const initModel = {
-	key: true,
+	key: false,
 	sortAtoZ: true,
 	waiting: false,
 	territory: '',

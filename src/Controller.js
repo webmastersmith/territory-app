@@ -106,7 +106,9 @@ function update(msg, model) {
 			const newModel = {...model, owners: sorter(sortAtoZ, owners), sortAtoZ}
 
 			localStorage.clear()
-			localStorage.setItem('model', JSON.stringify(newModel))
+			try {
+				localStorage.setItem('model', JSON.stringify(newModel))
+			} catch(e) {console.log('Storage Problem: ', e);}
 			return newModel
 		}
 		case MSG.UPLOAD: {
@@ -118,7 +120,9 @@ function update(msg, model) {
 			const newModel = newFeaturesRepair(modelTemp)			
 
 			localStorage.clear()
-			localStorage.setItem('model', JSON.stringify(newModel))
+			try {
+				localStorage.setItem('model', JSON.stringify(newModel))
+			} catch(e) {console.log('Storage Problem: ', e);}
 			return newModel
 		}
 		case MSG.BULK_UPLOAD: {
@@ -244,7 +248,9 @@ function update(msg, model) {
 
 			const newModel = { ...model, waiting: false, owners: sorter(model.sortAtoZ, owners) }
 			localStorage.clear()
-			localStorage.setItem('model', JSON.stringify(newModel))
+			try {
+				localStorage.setItem('model', JSON.stringify(newModel))
+			} catch(e) {console.log('Storage Problem: ', e);}
 			return newModel
 		}
 		case MSG.HTTP_SUCCESS_BULK_UPLOAD_PLUS: {
@@ -265,7 +271,9 @@ function update(msg, model) {
 
 			const newModel = { ...model, waiting: false, owners: sorter(model.sortAtoZ, newOwners) }
 			localStorage.clear()
-			localStorage.setItem('model', JSON.stringify(newModel))
+			try {
+				localStorage.setItem('model', JSON.stringify(newModel))
+			} catch(e) {console.log('Storage Problem: ', e);}
 			return newModel
 		}
 		case MSG.HTTP_SUCCESS_SINGLE_UPLOAD: {
@@ -285,7 +293,9 @@ function update(msg, model) {
 
 			const newModel = { ...model, waiting: false, owners: sorter(model.sortAtoZ, newOwners) }
 			localStorage.clear()
-			localStorage.setItem('model', JSON.stringify(newModel))
+			try {
+				localStorage.setItem('model', JSON.stringify(newModel))
+			} catch(e) {console.log('Storage Problem: ', e);}
 			return newModel
 		}
 		case MSG.HTTP_ERROR: {
@@ -309,15 +319,18 @@ function update(msg, model) {
 
 			const newModel = {...model, owners }
 			localStorage.clear()
-			localStorage.setItem('model', JSON.stringify(newModel))			
+			try {
+				localStorage.setItem('model', JSON.stringify(newModel))
+			} catch(e) {console.log('Storage Problem: ', e);}
 			return newModel
 		}
 		case MSG.SHOW_MISSING_PROPERTY: {
 			const showMissingProperty = model.showMissingProperty ? false : true
 			const newModel = {...model, showMissingProperty}
 			localStorage.clear()
-			localStorage.setItem('model', JSON.stringify(newModel))
-
+			try {
+				localStorage.setItem('model', JSON.stringify(newModel))
+			} catch(e) {console.log('Storage Problem: ', e);}
 			return newModel
 		}
 		case MSG.TRASH: {
@@ -342,7 +355,9 @@ function update(msg, model) {
 				owners,
 			}
 			localStorage.clear()
-			localStorage.setItem('model', JSON.stringify(newModel))
+			try {
+				localStorage.setItem('model', JSON.stringify(newModel))
+			} catch(e) {console.log('Storage Problem: ', e);}
 			return newModel
 		}
 		case MSG.LOCAL_STORAGE: {
@@ -351,9 +366,6 @@ function update(msg, model) {
 				
 				// fix missing features
 				const newModel = newFeaturesRepair(modelTemp)			
-
-				// localStorage.clear()
-				// localStorage.setItem('model', JSON.stringify(newModel))
 	
 				return newModel
 			}
