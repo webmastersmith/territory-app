@@ -59,7 +59,7 @@ function view(dispatch, model) {
 				'Territory Address Finder'),
 			
 			// sort button
-			div({className: `ml-auto`}, [
+			div({className: `${model.owners.length > 0 ? 'block' : 'hidden'} ml-auto`}, [
 				label({className: `flex items-center cursor-pointer`, for:"sortAtoZ" }, [
 					// toggle
 					div({className: `relative`}, [
@@ -92,7 +92,7 @@ function view(dispatch, model) {
 				`Territory `,
 				span({className: `relative`},[
 					`${model.territory}`,
-					span({className: `bg-red-500 flex justify-center items-center rounded-full text-white text-sm absolute ${getNumSize(model.owners.length)}`}, `${model.owners.length}`),
+					span({className: `bg-green-500 flex justify-center items-center rounded-full text-white text-sm absolute ${getNumSize(model.owners.length)}`}, `${model.owners.length}`),
 				]),
 			]),
 		]), // end territory header

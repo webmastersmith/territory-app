@@ -22,7 +22,7 @@ export default function (dispatch, model) {
         // left buttons group
         div({className: `flex justify-between w-100`}, [
             // save button
-            div({className: `block has-tooltip relative`}, [
+            div({className: `${model.bulkUpload?'block':'hidden'} has-tooltip relative`}, [
                 span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -bottom-12`}, `Save`),
                 a({className: ``, 
                     href: URL.createObjectURL(new Blob([JSON.stringify(model)], {type: 'text/json'})),
@@ -99,7 +99,7 @@ export default function (dispatch, model) {
             ]),
     
             // printer
-            div({className: `block has-tooltip relative`}, [
+            div({className: `${model.bulkUpload?'block':'hidden'} has-tooltip relative`}, [
                 span({className: `tooltip rounded whitespace-nowrap shadow-lg p-2 bg-green-100 text-red-500 -bottom-12 left-0`}, `Print`),
                 a({className: ``, 
                     href: URL.createObjectURL(new Blob(Print(model.owners), {type: 'text/plain'})),

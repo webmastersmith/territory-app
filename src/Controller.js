@@ -257,7 +257,7 @@ function update(msg, model) {
 			// return of bulk upload if successfull.
 
 			const { response: owners } = msg // array of owner objects. -each object is complete model.
-			console.log('owners', owners)
+			// console.log('owners', owners)
 
 			// remove the returned owners from the old owners
 			// extract owners landIds into a reduce -filter and remove any land ids
