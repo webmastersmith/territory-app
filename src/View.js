@@ -8,7 +8,7 @@ import { clearError, sortA_Z } from './Controller'
 import Buttons from './components/Buttons'
 
 
-const { div, p, h1, button, img, span, a, label, input } = hh(h)
+const { pre, div, p, h1, button, img, span, a, label, input } = hh(h)
 
 // error function display
 function error(dispatch, model) { 
@@ -55,8 +55,17 @@ function view(dispatch, model) {
 
 		// Territory Address Finder
 		div({className: `mx-2 sm:mx-0 flex border-b-2 border-black`}, [
-			h1({ className: `text-xl sm:text-2xl md:text-3xl font-bold` },
-				'Territory Address Finder'),
+			h1({ className: `text-xl sm:text-2xl md:text-3xl font-bold` }, [
+				model.bulkUpload
+					? p({className: ``}, [
+						`Lufkin Territory `,
+							span({className: `relative`},[
+								`${model.territory}`,
+								span({className: `bg-green-500 flex justify-center items-center rounded-full text-white text-sm absolute ${getNumSize(model.owners.length)}`}, `${model.owners.length}`),
+							])
+					]) // end p
+					: `Lufkin Address Viewer`
+			]), // end h1
 			
 			// sort button
 			div({className: `${model.owners.length > 0 ? 'block' : 'hidden'} ml-auto`}, [
@@ -78,7 +87,7 @@ function view(dispatch, model) {
 					]), // end toggle
 					// label
 					div({className: `hidden sm:inline ml-3 text-gray-700 font-medium`}, [
-						'Sort by Property ID'
+						'Sort by number'
 					]),					
 				]) // end label
 			]), // end sort div
@@ -86,16 +95,16 @@ function view(dispatch, model) {
 		]), // end border Territory Address Finder
 
 
-		// Territory ID Message
-		div({className: `font-bold ${model.bulkUpload ? 'my-4 flex justify-center' : 'hidden'}`}, [
-			p({className: `text-3xl text-blue-700`}, [
-				`Territory `,
-				span({className: `relative`},[
-					`${model.territory}`,
-					span({className: `bg-green-500 flex justify-center items-center rounded-full text-white text-sm absolute ${getNumSize(model.owners.length)}`}, `${model.owners.length}`),
-				]),
-			]),
-		]), // end territory header
+		// // Territory ID Message
+		// div({className: `font-bold ${model.bulkUpload ? 'my-4 flex justify-center' : 'hidden'}`}, [
+		// 	p({className: `text-3xl text-blue-700`}, [
+		// 		`Territory `,
+		// 		span({className: `relative`},[
+		// 			`${model.territory}`,
+		// 			span({className: `bg-green-500 flex justify-center items-center rounded-full text-white text-sm absolute ${getNumSize(model.owners.length)}`}, `${model.owners.length}`),
+		// 		]),
+		// 	]),
+		// ]), // end territory header
 
 		error(dispatch, model),
 		
@@ -113,7 +122,7 @@ function view(dispatch, model) {
 		div({className: `grid grid-cols-auto-310 gap-6 justify-items-center`}, [
 				getCards(dispatch, model),
 			]),
-			// pre(JSON.stringify(model, null, 2))
+			pre(JSON.stringify(model, null, 2))
 	])
 }
 

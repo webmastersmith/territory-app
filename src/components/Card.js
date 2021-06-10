@@ -15,8 +15,10 @@ import xSVG from '../images/x.svg'
 import eStopSVG from '../images/estop.svg'
 import trashSVG from '../images/trash.svg'
 import googleMapSVG from '../images/google-maps.svg'
+import arrowDownSVG from '../images/arrow-down.svg'
+import arrowUpSVG from '../images/arrow-up.svg'
 import distanceSVG from '../images/distance.svg'
-import { btnCSS } from './button'
+import { btnCSS, btnShowMore, btn } from './button'
 import { deleteLot, showOwnerProperty, singleUpload } from "../Controller"
 import getOwnerProperty from "./AllProperty"
 import exemptCodes from './exemptionCodes'
@@ -56,24 +58,15 @@ export default function card(dispatch, model, owner) {
         ]),
 
         // mx div provide padding for all content except image
-        div({className: `py-6 px-6 flex-grow flex flex-col`}, [
+        div({className: `px-6 pt-6 pb-1 flex-grow flex flex-col`}, [
             // top circle img
-            div({className: `flex-shrink flex items-center absolute rounded-full py-4 px-4 shadow-xl ${owner.allTrue ? 'bg-green-500' : 'bg-yellow-1'} left-4 -top-6`}, [
+            div({className: `flex-shrink flex items-center absolute rounded-full py-4 px-4 shadow-xl ${owner.allTrue ? 'bg-green-500' : 'hidden'} left-4 -top-6`}, [
                 img({
-                    className: `w-6 h-6 fill-current`,
-                    src: owner.allTrue ? checkMarkSVG : handSVG,
+                    className: `w-6 h-6 fill-current ${owner.allTrue?'block':'hidden'}`,
+                    src: checkMarkSVG,
                 }), // end img svg
             ]), // end img div
     
-            // landId
-            div({className: `absolute w-100 -top-2 left-0 text-center has-tooltip`}, [
-                // tooltip
-                span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-red-500 -top-14 mx-auto left-0 right-0`}, `Property ID: ${owner.landId}`),
-    
-                p({className: `px-2 bg-red-500 rounded text-white text-xl shadow-lg inline`}, owner.landId),
-    
-            ]),
-
             // single card redo plus svg.
             div({className: `${model.key ? 'inline' : 'hidden'} absolute w-100 -top-2 left-0 text-center`},
                 button({className: ``,
@@ -162,11 +155,10 @@ export default function card(dispatch, model, owner) {
                         href: `https://www.google.com/maps/dir/${owner.physicalAddress.replace(/\s/, '+')}+${owner.physicalCity}+${owner.physicalState}+${owner.physicalZip}/${owner.mailingAddress.replace(/\s/, '+')}+${owner.mailingCity}+${owner.mailingState}+${owner.mailingZip}`,
                         target: '_blank'
                     }, [
-                        img({className: ``, src: googleMapSVG},),
-                        img({className: ``, src: distanceSVG},),
-                        img({className: ``, src: googleMapSVG},),
-        
-                    ]),
+                        img({className: `inline-block`, src: googleMapSVG},),
+                        img({className: `inline-block`, src: distanceSVG},),
+                        img({className: `inline-block`, src: googleMapSVG},),
+                    ]),  // end a
                 ]), // end distance div
     
                 // exemptions
@@ -178,7 +170,29 @@ export default function card(dispatch, model, owner) {
                         owner.exemptions.map(code => code + ' ')
                     ]),
                 ]), 
-                
+                // grow div
+                div({className: `flex-grow flex-shrink ${owner.showOwnerProperty?'hidden':'block'}`},),
+
+                // show/hide more info button
+                div({className: `flex justify-center w-100`}, [
+                    button({
+                        className: `${btn} flex text-sm tracking-tighter`,
+                        onclick: () => dispatch(showOwnerProperty(owner.landId))
+                    }, [
+                        owner.showOwnerProperty? 'Show Less ': 'Show More',
+                        img({className: `w-3 h-3 relative top-1 -right-1.5 `, src:  owner.showOwnerProperty ? arrowUpSVG : arrowDownSVG},)
+                    ]),
+                ]),
+                // div({className: `text-blue-500 flex justify-center w-100`}, [
+                //     button({
+                //         className: `${btnShowMore('bg-gray-300', 'bg-gray-400', 'text-black', 'text-sm')} flex justify-center`,
+                //         onclick: () => dispatch(showOwnerProperty(owner.landId))
+                //     }, [
+                //         owner.showOwnerProperty? 'Show Less ': 'Show More',
+                //         img({className: `w-3 h-3 relative top-1 -right-1.5 `, src:  owner.showOwnerProperty ? arrowUpSVG : arrowDownSVG},)
+                //     ]),
+                // ]),
+
                 //hidden owner property's
                 div({className: `${owner.showOwnerProperty ? 'flex flex-col' : 'hidden'} `}, [
                     // horizontal rule
@@ -187,11 +201,10 @@ export default function card(dispatch, model, owner) {
                     ]),
                     // owner container
                     getOwnerProperty(dispatch, model, owner)
-    
                 ]),
     
                 // grow div
-                div({className: `flex-grow flex-shrink`},),
+                div({className: `flex-grow flex-shrink ${owner.showOwnerProperty?'block':'hidden'}`},),
                 // horizontal rule
                 div({className: `flex justify-center w-100 mt-4 mb-8`}, [
                     div({className: `border-gray-500 border w-90%`},)
@@ -215,8 +228,14 @@ export default function card(dispatch, model, owner) {
                         ),
                     ]),
                 ]),
-    
-            ]) // main content flex-col
+
+                
+                
+            ]), // main content flex-col
         ]), // end mx margin div
+        // landId
+        div({className: `w-100 text-center`}, [
+            p({className: `rounded text-black text-sm inline`}, owner.landId),
+        ]),
     ])  // end flex card div
 }
