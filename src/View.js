@@ -54,14 +54,14 @@ function view(dispatch, model) {
 		Buttons(dispatch, model),
 
 		// Territory Address Finder
-		div({className: `mx-2 sm:mx-0 flex border-b-2 border-black`}, [
+		div({className: `mx-2 mb-2 mt-6 sm:mx-0 flex border-b-2 border-black`}, [
 			h1({ className: `text-xl sm:text-2xl md:text-3xl font-bold` }, [
 				model.bulkUpload
-					? p({className: ``}, [
+					? p({className: `text-textColor`}, [
 						`Lufkin Territory `,
 							span({className: `relative`},[
 								`${model.territory}`,
-								span({className: `bg-green-500 flex justify-center items-center rounded-full text-white text-sm absolute ${getNumSize(model.owners.length)}`}, `${model.owners.length}`),
+								span({className: `bg-accent flex justify-center items-center rounded-full text-accentText text-sm absolute ${getNumSize(model.owners.length)}`}, `${model.owners.length}`),
 							])
 					]) // end p
 					: `Lufkin Address Viewer`

@@ -3,6 +3,52 @@
 @tailwind utilities;
 
 
+/* Custom Root Colors */
+/* https://levelup.gitconnected.com/tailwindcss-with-css-variables-513abe2e9a5 */
+
+:root,
+#root {
+  /* original */
+  --background: #F3F4F6;
+  --cardBackground: #FFF;
+  --accent: #10B981;
+  --accentText: #000;
+  --textColor: #000;
+
+
+  /* --background: #FFFBF6;
+  --cardBackground:#F8EEDF;
+  --accent: #7C7A92;
+  --accentText: #FFF;
+  --textColor: #26251b; */
+
+  /* --background: #FFF;
+  --cardBackground: #F8EEDF;
+  --accent: #7B4B94;
+  --accentText: #FFF;
+  --textColor: #0A3200; */
+
+  --button1: #7B4B94;
+
+
+  --buttonLight1: #26251b;
+  --buttonDark1: #26251b;
+  
+  --buttonDark2: #7c94b4;
+  --button2: #7c94b4;
+  --buttonLight2: #7c94b4;
+
+  /* --primary: #e95136;
+  --secondary: #a0aec0;
+  --accent: #718096;
+  --background: #fff;
+  --main: #0d0106;
+  --header: #2d3748; */
+}
+
+
+
+
 @layer utilities {
   @variants responsive {
       .text-shadow {
@@ -25,18 +71,16 @@
   }
 
 
-
+/* This is for sliding button */
   input:checked ~ .dot {
     transform: translateX(100%);
     background-color: #48bb78;
   }
 
   
-  /* div({className: `has-tooltip relative flex`}, [
-  span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-red-500 -top-10 left-12`}, 'Last Name, First Name, Spouse'),
-  img({className: `w-8 h-8`, src: personSVG},),
-  p({className: `text-xl font-semibold relative top-1`}, owner.name),
-  img({className: `w-4 h-4`, src: checkMarkSVG},),
+/* div({className: `has-tooltip`}, [
+    span({className: `tooltip`}, 'Last Name, First Name, Spouse'),
+    img({className: `w-8 h-8`, src: personSVG},),
 ]), */
 .tooltip {
   visibility: hidden;
@@ -47,12 +91,6 @@
   z-index: 100;
 }
 
-
-  /* @layer components {
-  .btn-blue {
-    @apply px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
-  }
-} */
 
 /* Circle Spinner */
 .lds-spinner {
