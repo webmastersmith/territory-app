@@ -12,15 +12,20 @@
   --background: #F3F4F6;
   --cardBackground: #FFF;
   --accent: #10B981;
+  --accentText: #FFFD98;
+  --textColor: #06070E;
+
+  --button1: #6D6A75;
+  --button2: #DE9E36;
+  --button3: #3F88C5;
+
+  --alert: #EF233C;
+
+  /* --background: #b4ae96;
+  --cardBackground:#828e75;
+  --accent: #F8F4A6;
   --accentText: #000;
-  --textColor: #000;
-
-
-  /* --background: #FFFBF6;
-  --cardBackground:#F8EEDF;
-  --accent: #7C7A92;
-  --accentText: #FFF;
-  --textColor: #26251b; */
+  --textColor: #131200; */
 
   /* --background: #FFF;
   --cardBackground: #F8EEDF;
@@ -28,14 +33,12 @@
   --accentText: #FFF;
   --textColor: #0A3200; */
 
-  --button1: #7B4B94;
 
 
   --buttonLight1: #26251b;
   --buttonDark1: #26251b;
   
   --buttonDark2: #7c94b4;
-  --button2: #7c94b4;
   --buttonLight2: #7c94b4;
 
   /* --primary: #e95136;

@@ -686,11 +686,11 @@ video {
 .-right-0 {
 	right: 0px;
 }
-.top-4 {
-	top: 1rem;
-}
 .left-1\/2 {
 	left: 50%;
+}
+.left-12 {
+	left: 3rem;
 }
 .-top-3\.5 {
 	top: -0.875rem;
@@ -709,6 +709,18 @@ video {
 }
 .left-10 {
 	left: 2.5rem;
+}
+.-top-2\.5 {
+	top: -0.625rem;
+}
+.top-2 {
+	top: 0.5rem;
+}
+.top-4 {
+	top: 1rem;
+}
+.bottom-1 {
+	bottom: 0.25rem;
 }
 .z-10 {
 	z-index: 10;
@@ -732,6 +744,10 @@ video {
 .my-6 {
 	margin-top: 1.5rem;
 	margin-bottom: 1.5rem;
+}
+.my-3 {
+	margin-top: 0.75rem;
+	margin-bottom: 0.75rem;
 }
 .my-10 {
 	margin-top: 2.5rem;
@@ -887,6 +903,9 @@ video {
 .w-100\% {
 	width: 100%;
 }
+.min-w-\[80\%\] {
+	min-width: 80%;
+}
 .max-w-max {
 	max-width: -webkit-max-content;
 	max-width: -moz-max-content;
@@ -958,6 +977,9 @@ video {
 .whitespace-pre-wrap {
 	white-space: pre-wrap;
 }
+.whitespace-pre {
+	white-space: pre;
+}
 .whitespace-pre-line {
 	white-space: pre-line;
 }
@@ -978,10 +1000,6 @@ video {
 }
 .rounded-3xl {
 	border-radius: 1.5rem;
-}
-.rounded-t {
-	border-top-left-radius: 0.25rem;
-	border-top-right-radius: 0.25rem;
 }
 .rounded-t-3xl {
 	border-top-left-radius: 1.5rem;
@@ -1203,9 +1221,15 @@ video {
 	--tw-text-opacity: 1;
 	color: rgba(248, 113, 113, var(--tw-text-opacity));
 }
+.text-accent {
+	color: var(--accent);
+}
 .text-gray-600 {
 	--tw-text-opacity: 1;
 	color: rgba(75, 85, 99, var(--tw-text-opacity));
+}
+.text-alert {
+	color: var(--alert);
 }
 .underline {
 	text-decoration: underline;
@@ -1215,6 +1239,15 @@ video {
 }
 .opacity-60 {
 	opacity: 0.6;
+}
+.opacity-50 {
+	opacity: 0.5;
+}
+.opacity-70 {
+	opacity: 0.7;
+}
+.opacity-80 {
+	opacity: 0.8;
 }
 .shadow-xl {
 	--tw-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -1273,15 +1306,20 @@ video {
   --background: #F3F4F6;
   --cardBackground: #FFF;
   --accent: #10B981;
+  --accentText: #FFFD98;
+  --textColor: #06070E;
+
+  --button1: #6D6A75;
+  --button2: #DE9E36;
+  --button3: #3F88C5;
+
+  --alert: #EF233C;
+
+  /* --background: #b4ae96;
+  --cardBackground:#828e75;
+  --accent: #F8F4A6;
   --accentText: #000;
-  --textColor: #000;
-
-
-  /* --background: #FFFBF6;
-  --cardBackground:#F8EEDF;
-  --accent: #7C7A92;
-  --accentText: #FFF;
-  --textColor: #26251b; */
+  --textColor: #131200; */
 
   /* --background: #FFF;
   --cardBackground: #F8EEDF;
@@ -1289,14 +1327,12 @@ video {
   --accentText: #FFF;
   --textColor: #0A3200; */
 
-  --button1: #7B4B94;
 
 
   --buttonLight1: #26251b;
   --buttonDark1: #26251b;
   
   --buttonDark2: #7c94b4;
-  --button2: #7c94b4;
   --buttonLight2: #7c94b4;
 
   /* --primary: #e95136;

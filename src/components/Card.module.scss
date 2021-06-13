@@ -11,11 +11,9 @@
     transition:0.3s ease all;
     letter-spacing:2px;
     text-transform:uppercase;
+    border-radius: 2px;
     text-align:center;
-    // border-radius: 0.25rem;
-    border-radius: 1.5rem;
     padding: 0.5rem 1rem;
-    border-radius:2px;
     position:relative;
     box-shadow: 0 2px 10px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.1);
 
@@ -57,6 +55,20 @@
     border:2px solid var(--button1);
     &:before {
         background-color:var(--button1);
+    }
+}
+.bttnButton2 {
+    color:var(--button2);
+    border:2px solid var(--button2);
+    &:before {
+        background-color:var(--button2);
+    }
+}
+.bttnButton3 {
+    color:var(--button3);
+    border:2px solid var(--button3);
+    &:before {
+        background-color:var(--button3);
     }
 }
 
