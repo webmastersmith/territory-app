@@ -55,5 +55,6 @@ export default {
     'PC': 'Pollution Control.',
     'LIH': 'Public property for housing indigent persons.',
     'SO': 'Solar.',
-    'OTHER': 'Exemption not listed.'
+    'OTHER': 'Exemption not listed.',
+    'EMPTY': 'No Tax Exemption Listed.'
 }

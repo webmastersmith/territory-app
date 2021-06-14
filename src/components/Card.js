@@ -7,7 +7,7 @@ import deedSVG from '../images/deed.svg'
 import checkMarkGreenSVG from '../images/checkmark-green.svg'
 import addressSVG from '../images/address.svg'
 import addressBlackSVG from '../images/address-black.svg'
-import homeSVG from '../images/home.svg'
+// import homeSVG from '../images/home.svg'
 import mailSVG from '../images/mail.svg'
 import homeBlackSVG from '../images/home-black.svg'
 import plusSVG from '../images/plus.svg'
@@ -18,13 +18,13 @@ import trashSVG from '../images/trash.svg'
 import googleMapSVG from '../images/google-maps.svg'
 import arrowDownSVG from '../images/arrow-down.svg'
 import arrowUpSVG from '../images/arrow-up.svg'
-import distanceSVG from '../images/distance.svg'
+// import distanceSVG from '../images/distance.svg'
 // import { btnCSS, btnShowMore, btn } from './button'
 import { deleteLot, showOwnerProperty, singleUpload } from "../Controller"
 import getOwnerProperty from "./AllProperty"
 import exemptCodes from './exemptionCodes'
 import styles from './Card.module.scss'
-const { div, p, img, span, button, a, svg } = hh(h)
+const { div, p, img, span, button, a } = hh(h)
 
 function getSize(num) {
     try {
@@ -101,8 +101,8 @@ export default function card(dispatch, model, owner) {
                     div({className: `flex space-x-4 space-x-reverse relative`}, [
                         // small text
                         div({className: `text-textColor opacity-50 text-xs absolute -top-2 left-12 whitespace-nowrap`}, `Owner Name`),
-                        img({className: `w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-4 flex-none`, src: personSVG},),
-                        p({className: ` flex-grow flex-shrink text-base text-textColor sm:text-xl font-semibold relative top-0.5 sm:top-1`}, [
+                        img({className: `w-6 h-6 relative left-1.5`, src: personSVG},),
+                        p({className: ` flex-grow flex-shrink text-base text-textColor sm:text-xl font-semibold relative bottom-0 left-2`}, [
                             // show all property owned
                             owner.name,
                             span({className: `inline-flex items-center justify-center bg-accent text-accentText rounded-full cursor-pointer text-sm relative -top-3.5 ${getSize(owner.ownerProperty.length)}`, 
@@ -113,13 +113,13 @@ export default function card(dispatch, model, owner) {
                 ]),
                 // deed
                 div({className: `my-3 has-tooltip`}, [
-                    span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert -top-6 left-1/2 min-w-[80%] whitespace-pre`, style:{transform: 'translate(-50%, -50%)'}}, `Deed:\n ${owner.name} owns ${parseInt(owner.ownership)}% of property.`),
+                    span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert -top-6 left-1/2 min-w-[80%] whitespace-pre`, style:{transform: 'translate(-50%, -50%)'}}, `${owner.nameDeedSame ? `Deed:\n ${owner.name} owns ${parseInt(owner.ownership)}% of property.` :  `Owner Name and Deed do not match.`}`),
                     // small text
                     div({className: `flex space-x-4 space-x-reverse relative`}, [
                         // for small print above deed
                         div({className: `text-textColor opacity-50 text-xs absolute -top-3 left-12 whitespace-nowrap`}, `Deed`),
-                        img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: deedSVG},),
-                        p({className: `flex-grow flex-shrink text-sm sm:text-base opacity-80 ${owner.nameDeedSame ? 'text-textColor' : 'text-alert'}`}, owner.deed),
+                        img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none opacity-65`, src: deedSVG},),
+                        p({className: `flex-grow flex-shrink text-sm sm:text-base opacity-80 ${owner.nameDeedSame ? 'text-textColor' : 'text-alert'}`}, owner.deed !== '' ? owner.deed : 'empty'),
                         img({className: `w-6 h-3 sm:w-8 sm:h-4 relative top-1 ml-auto flex-none`, 
                             src: owner.nameDeedSame ? checkMarkGreenSVG : xSVG
                         },),
@@ -127,11 +127,11 @@ export default function card(dispatch, model, owner) {
                 ]),
                 // Physical Address
                 div({className: `my-3 has-tooltip`}, [
-                    span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert -top-6 left-1/2 w-80%`, style:{transform: 'translate(-50%, -50%)'}}, `Physical address`),
+                    span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert -top-6 left-1/2 w-80%`, style:{transform: 'translate(-50%, -50%)'}}, `${owner.addressSame ? `Physical address` : `Physical Address and Mailing Address do not match`}`),
                     div({className: `flex space-x-4 space-x-reverse relative`}, [
                         // small text
                         div({className: `text-textColor opacity-50 text-xs absolute -top-3 left-12 whitespace-nowrap`}, `Physical Address`),
-                        img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: addressSVG},),
+                        img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none opacity-65`, src: addressSVG},),
                         p({className: `flex-grow flex-shrink text-sm text-textColor opacity-80 sm:text-base relative`}, [
                             span({className: `mr-2`}, owner.physicalAddress),
                             span({className: `text-sm uppercase italic inline-block relative ${owner.physicalCity === "LUFKIN" ? 'text-textColor' : 'text-alert'}`}, [
@@ -189,14 +189,14 @@ export default function card(dispatch, model, owner) {
                 // ]), // end distance div
     
                 // exemptions
-                div({className: `my-2 has-tooltip ${owner.exemptions.length === 0 ? 'hidden' : 'flex'}`}, [
-                    span({className: `tooltip whitespace-pre-line rounded shadow-lg p-2 bg-green-100 text-alert -top-6 left-1/2 w-80%`, style:{transform: 'translate(-50%, -50%)'}}, `EXEMPTION CODES:\n${owner.exemptions.map(code => `${code}: ${exemptCodes[code]}\n`).join('')}`
+                div({className: `my-2 has-tooltip flex`}, [
+                    span({className: `tooltip whitespace-pre-line rounded shadow-lg p-2 bg-green-100 text-alert -top-6 left-1/2 w-80%`, style:{transform: 'translate(-50%, -50%)'}}, `EXEMPTION CODES:\n${owner.exemptions.length > 0 ? owner.exemptions.map(code => `${code}: ${exemptCodes[code]}\n`).join('') : `EMPTY: ${exemptCodes['EMPTY']}`}`
                     ),
                     div({className: `flex space-x-4 space-x-reverse relative`}, [
                         div({className: `text-textColor opacity-50 text-xs absolute -top-2.5 left-12 whitespace-nowrap`}, `Tax Exemptions`),
-                        img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none`, src: eStopSVG},),
+                        img({className: `w-5 h-5 sm:w-8 sm:h-6 flex-none opacity-65`, src: eStopSVG},),
                         p({className: `text-sm sm:text-base flex-grow flex-shrink text-accent`},[
-                            owner.exemptions.map(code => code + ' ')
+                            owner.exemptions.length === 0 ? 'empty' : owner.exemptions.map(code => code + ' ')
                         ]),
                     ]),
                 ]), 
@@ -211,22 +211,9 @@ export default function card(dispatch, model, owner) {
                     }, [
                         owner.showOwnerProperty? 'Show Less ': 'Show More',
                         // img({className: `w-3 h-3 relative top-1 -right-1.5`, src:  owner.showOwnerProperty ? arrowUpSVG : arrowDownSVG},)
-                        svg({className: `w-3 h-3 relative top-1 -right-1.5`,
-                            xmlns:"http://www.w3.org/2000/svg",
-                            viewBox:"0 0 20 20",
-                            path: {d:"M9 16.172l-6.071-6.071-1.414 1.414L10 20l.707-.707 7.778-7.778-1.414-1.414L11 16.172V0H9z"}
-                        }),                        
+                        img({className: `w-3 h-3 relative top-1 -right-1.5 `, src:  owner.showOwnerProperty ? arrowUpSVG : arrowDownSVG},)
                     ]),
                 ]),
-                // div({className: `text-blue-500 flex justify-center w-100`}, [
-                //     button({
-                //         className: `${btnShowMore('bg-gray-300', 'bg-gray-400', 'text-black', 'text-sm')} flex justify-center`,
-                //         onclick: () => dispatch(showOwnerProperty(owner.landId))
-                //     }, [
-                //         owner.showOwnerProperty? 'Show Less ': 'Show More',
-                //         img({className: `w-3 h-3 relative top-1 -right-1.5 `, src:  owner.showOwnerProperty ? arrowUpSVG : arrowDownSVG},)
-                //     ]),
-                // ]),
 
                 //hidden owner property's
                 div({className: `${owner.showOwnerProperty ? 'flex flex-col' : 'hidden'} `}, [
@@ -245,7 +232,7 @@ export default function card(dispatch, model, owner) {
                     div({className: `border-gray-500 border w-90%`},)
                 ]),
 
-                // buttons color:hover-color:text-color:text-size
+                // buttons
                 div({className: `flex justify-around`}, [
                     div({className: `has-tooltip relative w-40%`}, [
                         span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert text-sm whitespace-nowrap -top-10 left-6`}, `Property Details`),

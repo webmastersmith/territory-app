@@ -51,13 +51,15 @@
 
 // show more button
 .bttnButton1 {
-    color:var(--button1);
+    background-color: #F4FFF9;
+    color: var(--button1);
     border:2px solid var(--button1);
     &:before {
         background-color:var(--button1);
     }
 }
 .bttnButton2 {
+    background-color: #FFD289;
     color:var(--button2);
     border:2px solid var(--button2);
     &:before {
@@ -65,6 +67,7 @@
     }
 }
 .bttnButton3 {
+    background-color: #8FBFE7;
     color:var(--button3);
     border:2px solid var(--button3);
     &:before {
