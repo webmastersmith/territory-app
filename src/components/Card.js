@@ -41,7 +41,7 @@ function getSize(num) {
 
 
 export default function card(dispatch, model, owner) {
-    return div({ className: `flex flex-col mx-2 sm:mx-auto relative bg-cardBackground my-6 rounded-3xl shadow-xl max-w-max` }, [
+    return div({ className: `flex flex-col mx-2 sm:mx-auto relative bg-cardBackground my-6 rounded-3xl shadow-xl max-w-max sm:min-w-[400px]` }, [
         // thumbnail image
         a({className: ``,
             href: owner.coordinates.lat
@@ -51,7 +51,7 @@ export default function card(dispatch, model, owner) {
         }, [
             div({className: `w-100 h-200px bg-gray-200 rounded-t-3xl has-tooltip`}, [
                 // tooltip
-                span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-alert -top-14 mx-auto left-0 right-0 text-center`}, `Google Maps: ${owner.physicalAddress}`),
+                span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-alert -top-14 w-100 text-center`}, `Google Maps: ${owner.physicalAddress}`),
                 // image
                 owner.thumbnail 
                 ? img({className: `w-100 h-200px rounded-t-3xl`, src: owner.thumbnail},)
@@ -83,13 +83,15 @@ export default function card(dispatch, model, owner) {
             ])),
     
             // closing x
-            div({className: `absolute has-tooltip -top-0 -right-0 shadow-xl`}, [
-                span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-alert -top-10 right-0`}, `Delete property. ID: ${owner.landId}`),
-                button({className: `relative -top-3 -right-0`,
-                    onclick: e => dispatch(deleteLot(owner.landId)),
-                }, [
-                    img({className: `w-8 h-8`, src: trashSVG})
-                ]),          
+            div({className: `w-80% has-tooltip`}, [
+                span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-alert relative -top-1 left-0 w-100 text-center`}, `Delete property. ID: ${owner.landId}`),
+                div({className: `absolute -top-0 right-0 shadow-xl`}, [
+                    button({className: `relative -top-3 -right-0`,
+                        onclick: e => dispatch(deleteLot(owner.landId)),
+                    }, [
+                        img({className: `w-8 h-8`, src: trashSVG})
+                    ]),          
+                ]),
             ]),
 
     
@@ -97,7 +99,7 @@ export default function card(dispatch, model, owner) {
             div({className: `flex-grow flex flex-col`},[
                 // name
                 div({className: `has-tooltip my-2`}, [
-                    span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert -top-6 left-1/2 w-80% whitespace-pre`, style:{transform: 'translate(-50%, -50%)'}}, `Owner Name:\n Last Name,   First Name,   Spouse.`),
+                    span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert -top-6 left-1/2 w-80% whitespace-pre-line`, style:{transform: 'translate(-50%, -50%)'}}, `Owner Name:\n Last Name,   First Name,   Spouse.`),
                     div({className: `flex space-x-4 space-x-reverse relative`}, [
                         // small text
                         div({className: `text-textColor opacity-50 text-xs absolute -top-2 left-12 whitespace-nowrap`}, `Owner Name`),
@@ -113,7 +115,7 @@ export default function card(dispatch, model, owner) {
                 ]),
                 // deed
                 div({className: `my-3 has-tooltip`}, [
-                    span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert -top-6 left-1/2 min-w-[80%] whitespace-pre`, style:{transform: 'translate(-50%, -50%)'}}, `${owner.nameDeedSame ? `Deed:\n ${owner.name} owns ${parseInt(owner.ownership)}% of property.` :  `Owner Name and Deed do not match.`}`),
+                    span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert -top-6 left-1/2 w-[80%] whitespace-pre-line`, style:{transform: 'translate(-50%, -50%)'}}, `${owner.nameDeedSame ? `Deed:\n ${owner.name} owns ${parseInt(owner.ownership)}% of property.` :  `Owner Name and Deed do not match.`}`),
                     // small text
                     div({className: `flex space-x-4 space-x-reverse relative`}, [
                         // for small print above deed
@@ -153,7 +155,7 @@ export default function card(dispatch, model, owner) {
                 ]),
                 // Mailing Address
                 div({className: `my-3 has-tooltip`}, [
-                    span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert -top-6 left-1/2 w-80% whitespace-pre`, style:{transform: 'translate(-50%, -50%)'}}, `Mailing Address for:\n ${owner.name}`),
+                    span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert -top-6 left-1/2 w-80% whitespace-pre-line`, style:{transform: 'translate(-50%, -50%)'}}, `Mailing Address for:\n ${owner.name}`),
                     // for small text
                     div({className: `flex space-x-4 space-x-reverse relative`}, [
                         div({className: `text-textColor opacity-50 text-xs absolute -top-3 left-12 whitespace-nowrap`}, `Mailing Address`),
@@ -235,7 +237,7 @@ export default function card(dispatch, model, owner) {
                 // buttons
                 div({className: `flex justify-around`}, [
                     div({className: `has-tooltip relative w-40%`}, [
-                        span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert text-sm whitespace-nowrap -top-10 left-6`}, `Property Details`),
+                        span({className: `tooltip rounded shadow-lg py-2 sm:p-2 bg-green-100 text-alert text-sm whitespace-nowrap -top-10 right-0 text-center w-100`}, `Property Details`),
                         a({className: ``, href: owner.urlOwnerDetails, target: '_blank' },
                             button({className: `${styles.bttn} ${styles.bttnButton2} w-100%`}, [
                                 img({className: `w-8 h-8`, src:  homeBlackSVG},)
@@ -243,7 +245,7 @@ export default function card(dispatch, model, owner) {
                         ),
                     ]),
                     div({className: `has-tooltip relative w-40%`}, [
-                        span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert text-sm whitespace-nowrap -top-10 left-10`}, `View Map`),
+                        span({className: `tooltip rounded shadow-lg p-2 bg-green-100 text-alert text-sm whitespace-nowrap -top-10 left-0 text-center w-100`}, `View Map`),
                         a({className: ``, href: owner.urlLandMap, target: '_blank' },
                             button({className: `${styles.bttnButton3} ${styles.bttn} w-100%`}, [
                                 img({className: `w-8 h-8`, src:  addressBlackSVG},)

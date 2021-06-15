@@ -44,7 +44,7 @@ function getNumSize(num) {
 
 // total page view
 function view(dispatch, model) {
-	return div({ className: `h-100% sm:container mx-auto` }, [
+	return div({ className: `h-100% px-1 sm:px-3 md:px-5 lg:container mx-auto` }, [
 		// modal
 		div({className: `bg-gray-300 justify-center items-center w-screen min-h-screen z-10 absolute left-0 top-0 rounded-xl opacity-60 ${model.waiting ? 'flex' : 'hidden'}`}, [
 			spinner('blue'),
@@ -119,7 +119,7 @@ function view(dispatch, model) {
 		]),
 
 		// cards -check if empty
-		div({className: `grid grid-cols-auto-310 gap-6 justify-items-center`}, [
+		div({className: `grid grid-cols-auto-310 sm:grid-cols-auto-415 gap-6 justify-items-center`}, [
 				getCards(dispatch, model),
 			]),
 			// pre(JSON.stringify(model, null, 2))
