@@ -107,7 +107,6 @@ dist
 package-lock.json
 webfonts
 *ignore
-*.config.js
 *.default.js
 babelrc.json
 config/
