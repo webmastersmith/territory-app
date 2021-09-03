@@ -713,23 +713,20 @@ video {
 .-left-4 {
 	left: -1rem;
 }
-.-top-14 {
-	top: -3.5rem;
+.-top-6 {
+	top: -1.5rem;
+}
+.left-1\/2 {
+	left: 50%;
 }
 .left-4 {
 	left: 1rem;
-}
-.-top-6 {
-	top: -1.5rem;
 }
 .-top-0 {
 	top: 0px;
 }
 .-right-0 {
 	right: 0px;
-}
-.left-1\/2 {
-	left: 50%;
 }
 .left-12 {
 	left: 3rem;
@@ -760,9 +757,6 @@ video {
 }
 .-right-1 {
 	right: -0.25rem;
-}
-.-top-12 {
-	top: -3rem;
 }
 .z-10 {
 	z-index: 10;
@@ -924,6 +918,9 @@ video {
 .w-100 {
 	width: 100%;
 }
+.w-100\% {
+	width: 100%;
+}
 .w-80\% {
 	width: 80%;
 }
@@ -944,14 +941,6 @@ video {
 }
 .w-40 {
 	width: 10rem;
-}
-.w-100\% {
-	width: 100%;
-}
-.max-w-max {
-	max-width: -webkit-max-content;
-	max-width: -moz-max-content;
-	max-width: max-content;
 }
 .max-w-\[800px\] {
 	max-width: 800px;
@@ -977,9 +966,6 @@ video {
 .cursor-not-allowed {
 	cursor: not-allowed;
 }
-.grid-cols-auto-310 {
-	grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-}
 .grid-cols-1 {
 	grid-template-columns: repeat(1, minmax(0, 1fr));
 }
@@ -1000,9 +986,6 @@ video {
 }
 .justify-items-center {
 	justify-items: center;
-}
-.gap-6 {
-	gap: 1.5rem;
 }
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
 	--tw-space-x-reverse: 0;
@@ -1557,11 +1540,6 @@ video {
 		margin-right: 0px;
 	}
 
-	.sm\:mx-auto {
-		margin-left: auto;
-		margin-right: auto;
-	}
-
 	.sm\:mr-3 {
 		margin-right: 0.75rem;
 	}
@@ -1598,21 +1576,8 @@ video {
 		width: auto;
 	}
 
-	.sm\:min-w-\[400px\] {
-		min-width: 400px;
-	}
-
-	.sm\:grid-cols-auto-415 {
-		grid-template-columns: repeat(auto-fill, minmax(415px, 1fr));
-	}
-
 	.sm\:p-2 {
 		padding: 0.5rem;
-	}
-
-	.sm\:px-3 {
-		padding-left: 0.75rem;
-		padding-right: 0.75rem;
 	}
 
 	.sm\:text-2xl {
@@ -1646,9 +1611,8 @@ video {
 		margin-top: 0px;
 	}
 
-	.md\:px-5 {
-		padding-left: 1.25rem;
-		padding-right: 1.25rem;
+	.md\:h-\[400px\] {
+		height: 400px;
 	}
 
 	.md\:px-4 {
@@ -1659,51 +1623,6 @@ video {
 	.md\:text-3xl {
 		font-size: 1.875rem;
 		line-height: 2.25rem;
-	}
-}
-@media (min-width: 1024px) {
-
-	.lg\:container {
-		width: 100%;
-		margin-right: auto;
-		margin-left: auto;
-		padding-right: 1.5rem;
-		padding-left: 1.5rem;
-	}
-
-	@media (min-width: 640px) {
-
-		.lg\:container {
-			max-width: 640px;
-		}
-	}
-
-	@media (min-width: 768px) {
-
-		.lg\:container {
-			max-width: 768px;
-		}
-	}
-
-	@media (min-width: 1024px) {
-
-		.lg\:container {
-			max-width: 1024px;
-		}
-	}
-
-	@media (min-width: 1280px) {
-
-		.lg\:container {
-			max-width: 1280px;
-		}
-	}
-
-	@media (min-width: 1536px) {
-
-		.lg\:container {
-			max-width: 1536px;
-		}
 	}
 }
 @media (min-width: 1280px) {

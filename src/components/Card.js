@@ -49,12 +49,12 @@ export default function card(dispatch, model, owner) {
                 : `https://www.google.com/maps/search/${owner.physicalAddress.replace(/\s/g, '+')}+${owner.physicalCity}+${owner.physicalState}+${owner.physicalZip}`,
             target: '_blank'
         }, [
-            div({className: `w-100 h-200px bg-gray-200 rounded-t-3xl has-tooltip`}, [
+            div({className: `w-100 h-200px md:h-[400px] bg-gray-200 rounded-t-3xl has-tooltip`}, [
                 // tooltip
-                span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-alert -top-12 w-100 text-center`}, `Google Maps: ${owner.physicalAddress}`),
+                span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-alert -top-6 left-1/2 w-70% text-center`, style:{transform: 'translate(-50%, -50%)'}}, `Google Maps: ${owner.physicalAddress}`),
                 // image
                 owner.thumbnail 
-                ? img({className: `w-100 h-200px rounded-t-3xl`, src: owner.thumbnail},)
+                ? img({className: `w-100 h-200px md:h-[400px] rounded-t-3xl`, src: owner.thumbnail},)
                 : div({className: `text-center pt-24`}, `image not available`)
             ]),
         ]),
@@ -64,15 +64,15 @@ export default function card(dispatch, model, owner) {
             p({className: `rounded text-textColor text-sm inline`}, owner.landId),
         ]),        
 
-        // mx div provide padding for all content except image
+        // container for everything below image
         div({className: `px-6 pt-1 pb-6 flex-grow flex flex-col`}, [
             // top circle img
             div({className: `flex-shrink flex items-center absolute rounded-full py-4 px-4 shadow-xl ${owner.allTrue ? 'bg-green-500' : 'hidden'} left-4 -top-6`}, [
                 img({
                     className: `w-6 h-6 fill-current ${owner.allTrue?'block':'hidden'}`,
                     src: checkMarkSVG,
-                }), // end img svg
-            ]), // end img div
+                }), // end circle img svg
+            ]), // end circle img div
     
             // single card redo plus svg.
             div({className: `${model.key ? 'inline' : 'hidden'} absolute w-100 -top-2 left-0 text-center`},
@@ -83,8 +83,8 @@ export default function card(dispatch, model, owner) {
             ])),
     
             // closing x -trash can
-            div({className: `w-80% has-tooltip`}, [
-                span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-alert relative -top-12 left-0 w-100 text-center`}, `Delete property. ID: ${owner.landId}`),
+            div({className: `has-tooltip`}, [
+                span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-alert relative -top-6 left-1/2 w-70% text-center`, style:{transform: 'translate(-50%, -50%)'}}, `Delete property. ID: ${owner.landId}`),
                 div({className: `absolute -top-0 right-0 shadow-xl`}, [
                     button({className: `relative -top-3 -right-0`,
                         onclick: e => dispatch(deleteLot(owner.landId)),
@@ -145,7 +145,7 @@ export default function card(dispatch, model, owner) {
                                 target: '_blank'
                                 }, [
                                     // google map
-                                    img({className: `w-5 h-5 inline-block relative bottom-1`, src: googleMapSVG},),
+                                    owner.physicalAddress === 'empty' && owner.coordinates.lat === '' ? '' : img({className: `w-5 h-5 inline-block relative bottom-1`, src: googleMapSVG},),
                                 ]) // end a
                             ]), // end span
                         ]),  // end p
