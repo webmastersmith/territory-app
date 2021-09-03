@@ -1,6 +1,7 @@
 export default {
-    // build: {
-    //     minify: false,
-    //     target: 'es2020'
-    // }
+  base: '/territory-app',
+  // build: {
+  //     minify: false,
+  //     target: 'es2020'
+  // }
 }
