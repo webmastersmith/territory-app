@@ -41,7 +41,7 @@ function getSize(num) {
 
 
 export default function card(dispatch, model, owner) {
-    return div({ className: `flex flex-col mx-2 w-100% max-w-[800px] relative bg-cardBackground my-6 md:my-12 rounded-3xl shadow-xl` }, [
+    return div({ className: `flex flex-col mx-2 sm:mx-auto relative bg-cardBackground my-6 rounded-3xl shadow-xl max-w-max sm:min-w-[400px]` }, [
         // thumbnail image
         a({className: ``,
             href: owner.coordinates.lat
@@ -51,7 +51,7 @@ export default function card(dispatch, model, owner) {
         }, [
             div({className: `w-100 h-200px bg-gray-200 rounded-t-3xl has-tooltip`}, [
                 // tooltip
-                span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-alert -top-12 w-100 text-center`}, `Google Maps: ${owner.physicalAddress}`),
+                span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-alert -top-14 w-100 text-center`}, `Google Maps: ${owner.physicalAddress}`),
                 // image
                 owner.thumbnail 
                 ? img({className: `w-100 h-200px rounded-t-3xl`, src: owner.thumbnail},)
@@ -82,9 +82,9 @@ export default function card(dispatch, model, owner) {
                 img({className: `w-8 h-8 inline ml-28`, src: plusSVG})
             ])),
     
-            // closing x -trash can
+            // closing x
             div({className: `w-80% has-tooltip`}, [
-                span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-alert relative -top-12 left-0 w-100 text-center`}, `Delete property. ID: ${owner.landId}`),
+                span({className: `tooltip text-sm whitespace-nowrap rounded shadow-lg p-2 bg-green-100 text-alert relative -top-14 left-0 w-100 text-center`}, `Delete property. ID: ${owner.landId}`),
                 div({className: `absolute -top-0 right-0 shadow-xl`}, [
                     button({className: `relative -top-3 -right-0`,
                         onclick: e => dispatch(deleteLot(owner.landId)),
